@@ -1,0 +1,11 @@
+import { model, Schema } from 'mongoose'
+import { Devices } from '@/utils/types'
+
+const deviceSchema = new Schema<Devices>({
+  token: { type: String, required: true },
+  role: { type: String, required: true, enum: ['responsable', 'student'] },
+  student: { type: Schema.Types.ObjectId, ref: 'Student', required: false },
+  responsable: { type: Schema.Types.ObjectId, ref: 'ResponsablePerson', required: false }
+})
+
+export const DeviceModel = model('Device', deviceSchema)
