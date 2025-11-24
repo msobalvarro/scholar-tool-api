@@ -1,14 +1,31 @@
+import { InstitutionModel } from '@/models/institution-model'
 import { UserInstitutionModel } from '@/models/user-institution-model'
 import {
   CreateUserInstitutionSchema,
   DeleteUserInstitutionSchema,
   UpdateUserInstitutionSchema
 } from '@/schemas/user-institution-schema'
+import { environments } from '@/utils/constanst'
 import { createHash } from '@/utils/encrypt'
+import { sign } from 'hono/jwt'
 
 class UserInstitution {
   async createUserInstitution(payload: CreateUserInstitutionSchema) {
-    const userInstitution = await UserInstitutionModel.create(payload)
+    const { institutionId, ...rest } = payload
+
+    const userInstitution = new UserInstitutionModel({ ...rest, password: createHash(rest.password) })
+    const institution = await InstitutionModel.findById(institutionId)
+
+    if (!institution) throw new Error('Institucion no encontrada')
+
+    await userInstitution.save()
+
+    await institution.updateOne({
+      $push: {
+        users: userInstitution
+      }
+    })
+
     return userInstitution
   }
 
@@ -28,7 +45,7 @@ class UserInstitution {
     const userInstitution = await UserInstitutionModel.findOne({
       email,
       password: createHash(password)
-    })
+    }).select('-password, -createdAt, -updatedAt')
     return userInstitution
   }
 
@@ -40,7 +57,17 @@ class UserInstitution {
   async login(email: string, password: string) {
     const userInstitution = await this.getUserByEmailAndPassword(email, password)
     if (!userInstitution) throw new Error('Usuario no encontrado')
-    return userInstitution
+
+    const token = sign({
+      ...userInstitution
+    }, environments.JWT_SECRET_USER)
+
+    return { userInstitution, token }
+  }
+
+  async getAllUserInstitutions() {
+    const userInstitutions = await UserInstitutionModel.find()
+    return userInstitutions
   }
 }
 

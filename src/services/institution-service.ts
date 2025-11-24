@@ -14,6 +14,11 @@ class Institution {
     return insitutions
   }
 
+  async getInstitutionById(id: string) {
+    const institution = await InstitutionModel.findById(id)
+    return institution
+  }
+
   async createInstitution(payload: InstitutionSchema) {
     const institution = await InstitutionModel.create({
       name: payload.name,

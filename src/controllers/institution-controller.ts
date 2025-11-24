@@ -24,6 +24,16 @@ class InstitutionController {
     }
   }
 
+  async getInstitutionById(c: Context) {
+    try {
+      const { id } = c.req.param()
+      const institution = await institutionService.getInstitutionById(id)
+      return c.json(institution)
+    } catch (error) {
+      return ErrorValidator(error, c)
+    }
+  }
+
   async createInstitution(c: Context) {
     try {
       const body = await c.req.json()

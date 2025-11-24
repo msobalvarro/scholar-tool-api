@@ -1,6 +1,6 @@
-import { InstitutionModel } from '@/models/institution-model';
-import { TeacherModel } from '@/models/teacher-model';
-import { TeacherSchema, UpdateTeacherSchema } from '@/schemas/teacher-schema';
+import { InstitutionModel } from '@/models/institution-model'
+import { TeacherModel } from '@/models/teacher-model'
+import { DeleteTeacherSchema, TeacherSchema, UpdateTeacherSchema } from '@/schemas/teacher-schema'
 
 class TeacherService {
   async createTeacher(institutionId: string, payload: TeacherSchema) {
@@ -21,6 +21,11 @@ class TeacherService {
   async getAllTeachers() {
     const teachers = await TeacherModel.find()
     return teachers
+  }
+
+  async getTeacherById(id: string) {
+    const teacher = await TeacherModel.findById(id)
+    return teacher
   }
 
   async updateTeacher(payload: UpdateTeacherSchema) {
