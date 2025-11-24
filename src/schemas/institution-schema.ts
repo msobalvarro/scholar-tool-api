@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod"
 
 export const institutionSchema = z.object({
   name: z.string().min(3).max(128),
@@ -26,3 +26,9 @@ export const assignUserToInstitutionSchema = z.object({
 
 export type AssignUserToInstitutionSchema = z.infer<typeof assignUserToInstitutionSchema>
 
+export const removeUserFromInstitutionSchema = z.object({
+  userId: z.string(),
+  institutionId: z.string()
+})
+
+export type RemoveUserFromInstitutionSchema = z.infer<typeof removeUserFromInstitutionSchema>

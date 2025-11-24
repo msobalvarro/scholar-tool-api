@@ -36,6 +36,12 @@ class UserInstitution {
     const userInstitution = await UserInstitutionModel.findById(id)
     return userInstitution
   }
+
+  async login(email: string, password: string) {
+    const userInstitution = await this.getUserByEmailAndPassword(email, password)
+    if (!userInstitution) throw new Error('Usuario no encontrado')
+    return userInstitution
+  }
 }
 
 export const userInstitutionService = new UserInstitution()

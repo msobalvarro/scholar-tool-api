@@ -1,8 +1,19 @@
 import { InstitutionModel } from '@/models/institution-model'
 import { UserInstitutionModel } from '@/models/user-institution-model'
-import { DeleteInstitutionSchema, InstitutionSchema, UpdateInstitutionSchema } from '@/schemas/institution-shcema'
+import {
+  AssignUserToInstitutionSchema,
+  DeleteInstitutionSchema,
+  InstitutionSchema,
+  RemoveUserFromInstitutionSchema,
+  UpdateInstitutionSchema
+} from '@/schemas/institution-schema'
 
 class Institution {
+  async getInstitutions() {
+    const insitutions = await InstitutionModel.find()
+    return insitutions
+  }
+
   async createInstitution(payload: InstitutionSchema) {
     const institution = await InstitutionModel.create({
       name: payload.name,
@@ -26,7 +37,8 @@ class Institution {
     return institution
   }
 
-  async assignUserToInstitution(userId: string, institutionId: string) {
+  async assignUserToInstitution(payload: AssignUserToInstitutionSchema) {
+    const { userId, institutionId } = payload
     const user = await UserInstitutionModel.findById(userId)
     const institution = await InstitutionModel.findById(institutionId)
 
@@ -37,12 +49,13 @@ class Institution {
     return institution
   }
 
-  async removeUserFromInstitution(userId: string, institutionId: string) {
+  async removeUserFromInstitution(payload: RemoveUserFromInstitutionSchema) {
+    const { userId, institutionId } = payload
     const user = await UserInstitutionModel.findById(userId)
     const institution = await InstitutionModel.findById(institutionId)
 
     if (!user) throw new Error('Usuario no encontrado')
-    if (!institution) throw new Error('Institucion no encontrada')
+    if (!institution) throw new Error('Institución no encontrada')
 
     await institution.updateOne({ users: { $pull: { _id: user._id } } })
     return institution
