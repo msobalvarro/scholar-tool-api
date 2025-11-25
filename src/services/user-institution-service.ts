@@ -42,10 +42,16 @@ class UserInstitution {
   }
 
   async getUserByEmailAndPassword(email: string, password: string) {
-    const userInstitution = await UserInstitutionModel.findOne({
-      email,
-      password: createHash(password)
-    }).select('-password, -createdAt, -updatedAt')
+    const userInstitution = await UserInstitutionModel
+      .findOne({
+        email,
+        password: createHash(password)
+      })
+      .select({
+        password: 0,
+        createdAt: 0,
+        updatedAt: 0,
+      })
     return userInstitution
   }
 
@@ -60,7 +66,7 @@ class UserInstitution {
 
     const token = sign({
       ...userInstitution
-    }, environments.JWT_SECRET_USER)
+    }, environments.JWT_SECRET_USER_INSTITUTION)
 
     return { userInstitution, token }
   }

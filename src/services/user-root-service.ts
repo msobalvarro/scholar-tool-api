@@ -1,26 +1,38 @@
-import { RootUserModel } from '@/models/root-user-model'
+import { UserRootModel } from '@/models/root-user-model'
 import { UpdateUserRootSchema, UserRootSchema } from '@/schemas/user-root-schema'
+import { createHash } from '@/utils/encrypt'
 
 class UserRootService {
   createUserRoot = async (payload: UserRootSchema) => {
-    const userRoot = await RootUserModel.create(payload)
+    const userRoot = await UserRootModel.create(payload)
     return userRoot
   }
 
   updateUserRoot = async (payload: UpdateUserRootSchema) => {
     const { _id, ...rest } = payload
-    const userRoot = await RootUserModel.findByIdAndUpdate(_id, rest, { new: true })
+    const userRoot = await UserRootModel.findByIdAndUpdate(_id, rest, { new: true })
     return userRoot
   }
 
   getUserRootById = async (id: string) => {
-    const userRoot = await RootUserModel.findById(id)
+    const userRoot = await UserRootModel.findById(id)
     return userRoot
   }
 
   getAllUserRoots = async () => {
-    const userRoots = await RootUserModel.find()
+    const userRoots = await UserRootModel.find()
     return userRoots
+  }
+
+  login = async (email: string, password: string) => {
+    const userRoot = await UserRootModel
+      .findOne({ email, password: createHash(password) })
+      .select({
+        password: 0,
+        createdAt: 0,
+        updatedAt: 0,
+      })
+    return userRoot
   }
 }
 

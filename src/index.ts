@@ -15,7 +15,7 @@ app.use(logger())
 app.use(cors({ origin: '*' }))
 
 app.get('/', (c) => {
-  return c.text('Bienvenido a la API de Scholar Tool')
+  return c.text(`api running`)
 })
 
 app.route('/', router)
