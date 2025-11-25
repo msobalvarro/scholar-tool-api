@@ -1,3 +1,4 @@
+import { InstitutionModel } from '@/models/institution-model'
 import { UserRootModel } from '@/models/root-user-model'
 import { UserInstitutionModel } from '@/models/user-institution-model'
 import { environments } from '@/utils/constanst'
@@ -31,7 +32,19 @@ class AuthService {
 
     if (!user) throw 'User not found'
 
-    const token = await sign({ ...user.toJSON(), role: 'institution' }, environments.JWT_SECRET_USER_INSTITUTION)
+    const institution = await InstitutionModel.findOne({ users: user })
+    if (!institution) throw 'Institution not found'
+
+
+    const token = await sign(
+      {
+        ...user.toJSON(),
+        institutionId: institution._id,
+        role: 'institution'
+      },
+      environments.JWT_SECRET_USER_INSTITUTION
+    )
+
     return { user, token }
   }
 }
