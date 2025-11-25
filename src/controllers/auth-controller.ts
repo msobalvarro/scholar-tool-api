@@ -1,6 +1,5 @@
 import { AuthSchema, authSchema } from '@/schemas/auth-schema'
-import { userInstitutionService } from '@/services/user-institution-service'
-import { userRootService } from '@/services/user-root-service'
+import { authService } from '@/services/auth-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
 
@@ -9,7 +8,7 @@ class AuthController {
     try {
       const body = await c.req.json()
       const parsedBody = authSchema.parse(body) as AuthSchema
-      const user = await userInstitutionService.login(parsedBody.email, parsedBody.password)
+      const user = await authService.loginUserInstitution(parsedBody.email, parsedBody.password)
       return c.json(user)
     } catch (error) {
       return ErrorValidator(error, c)
@@ -20,7 +19,7 @@ class AuthController {
     try {
       const body = await c.req.json()
       const parsedBody = authSchema.parse(body) as AuthSchema
-      const user = await userRootService.login(parsedBody.email, parsedBody.password)
+      const user = await authService.loginUserRoot(parsedBody.email, parsedBody.password)
       return c.json(user)
     } catch (error) {
       return ErrorValidator(error, c)

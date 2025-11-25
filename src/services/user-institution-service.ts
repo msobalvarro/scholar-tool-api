@@ -60,17 +60,6 @@ class UserInstitution {
     return userInstitution
   }
 
-  async login(email: string, password: string) {
-    const userInstitution = await this.getUserByEmailAndPassword(email, password)
-    if (!userInstitution) throw new Error('Usuario no encontrado')
-
-    const token = sign({
-      ...userInstitution
-    }, environments.JWT_SECRET_USER_INSTITUTION)
-
-    return { userInstitution, token }
-  }
-
   async getAllUserInstitutions() {
     const userInstitutions = await UserInstitutionModel.find()
     return userInstitutions

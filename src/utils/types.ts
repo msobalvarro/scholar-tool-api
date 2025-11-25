@@ -13,7 +13,6 @@ export type Student = {
   firstName: string
   lastName: string
   intitution: Institution
-  course: Course
   status: 'active' | 'inactive'
 }
 
@@ -70,6 +69,7 @@ export type Teacher = {
 
 export type Course = {
   name: string
+  schedules: Schedule[]
   groupName: string
 }
 

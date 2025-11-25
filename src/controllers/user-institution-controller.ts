@@ -1,4 +1,9 @@
-import { CreateUserInstitutionSchema, createUserInstitutionSchema, UpdateUserInstitutionSchema, updateUserInstitutionSchema } from '@/schemas/user-institution-schema'
+import {
+  CreateUserInstitutionSchema,
+  createUserInstitutionSchema,
+  UpdateUserInstitutionSchema,
+  updateUserInstitutionSchema
+} from '@/schemas/user-institution-schema'
 import { userInstitutionService } from '@/services/user-institution-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
@@ -42,17 +47,6 @@ class UserInstitutionController {
     try {
       const userInstitutions = await userInstitutionService.getAllUserInstitutions()
       return c.json(userInstitutions)
-    } catch (error) {
-      return ErrorValidator(error, c)
-    }
-  }
-
-  async login(c: Context) {
-    try {
-      const body = await c.req.json()
-      const { email, password } = body
-      const userInstitution = await userInstitutionService.login(email, password)
-      return c.json(userInstitution)
     } catch (error) {
       return ErrorValidator(error, c)
     }

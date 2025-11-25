@@ -7,5 +7,5 @@ export const ErrorValidator = (err: unknown, c: Context) => {
     return c.json({ message: err.issues[0].message }, 400)
   }
 
-  return c.json({ error: 'Internal Server Error', message: String(err) }, 500)
+  return c.json({ message: String(err) }, 500)
 }
