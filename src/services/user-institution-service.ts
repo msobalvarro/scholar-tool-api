@@ -5,9 +5,7 @@ import {
   DeleteUserInstitutionSchema,
   UpdateUserInstitutionSchema
 } from '@/schemas/user-institution-schema'
-import { environments } from '@/utils/constanst'
 import { createHash } from '@/utils/encrypt'
-import { sign } from 'hono/jwt'
 
 class UserInstitution {
   async createUserInstitution(payload: CreateUserInstitutionSchema) {
@@ -16,10 +14,9 @@ class UserInstitution {
     const userInstitution = new UserInstitutionModel({ ...rest, password: createHash(rest.password) })
     const institution = await InstitutionModel.findById(institutionId)
 
-    if (!institution) throw new Error('Institucion no encontrada')
+    if (!institution) throw 'Institucion no encontrada'
 
     await userInstitution.save()
-
     await institution.updateOne({
       $push: {
         users: userInstitution

@@ -16,6 +16,16 @@ class Institution {
 
   async getInstitutionById(id: string) {
     const institution = await InstitutionModel.findById(id)
+      .populate(
+        [
+          {
+            path: 'users',
+            select: {
+              password: 0
+            }
+          }
+        ]
+      )
     return institution
   }
 
@@ -47,8 +57,8 @@ class Institution {
     const user = await UserInstitutionModel.findById(userId)
     const institution = await InstitutionModel.findById(institutionId)
 
-    if (!user) throw new Error('Usuario no encontrado')
-    if (!institution) throw new Error('Institucion no encontrada')
+    if (!user) throw 'Usuario no encontrado'
+    if (!institution) throw 'Institucion no encontrada'
 
     await institution.updateOne({ users: { $push: { _id: user._id } } })
     return institution
@@ -59,8 +69,8 @@ class Institution {
     const user = await UserInstitutionModel.findById(userId)
     const institution = await InstitutionModel.findById(institutionId)
 
-    if (!user) throw new Error('Usuario no encontrado')
-    if (!institution) throw new Error('Institución no encontrada')
+    if (!user) throw 'Usuario no encontrado'
+    if (!institution) throw 'Institución no encontrada'
 
     await institution.updateOne({ users: { $pull: { _id: user._id } } })
     return institution

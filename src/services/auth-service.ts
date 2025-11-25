@@ -14,9 +14,9 @@ class AuthService {
         updatedAt: 0,
       })
 
-    if (!user) throw new Error('User not found')
+    if (!user) throw 'User not found'
 
-    const token = sign({ ...user, role: 'root' }, environments.JWT_SECRET_ADMIN)
+    const token = await sign({ ...user.toJSON(), role: 'root' }, environments.JWT_SECRET_ADMIN)
     return { user, token }
   }
 
@@ -29,9 +29,9 @@ class AuthService {
         updatedAt: 0,
       })
 
-    if (!user) throw new Error('User not found')
+    if (!user) throw 'User not found'
 
-    const token = sign({ ...user, role: 'institution' }, environments.JWT_SECRET_USER_INSTITUTION)
+    const token = await sign({ ...user.toJSON(), role: 'institution' }, environments.JWT_SECRET_USER_INSTITUTION)
     return { user, token }
   }
 }

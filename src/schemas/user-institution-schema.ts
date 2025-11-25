@@ -4,7 +4,7 @@ export const createUserInstitutionSchema = z.object({
   institutionId: z.string(),
   name: z.string().min(3).max(128),
   email: z.string(),
-  password: z.string().min(8).max(128),
+  password: z.string().min(6).max(128),
 })
 
 export type CreateUserInstitutionSchema = z.infer<typeof createUserInstitutionSchema>

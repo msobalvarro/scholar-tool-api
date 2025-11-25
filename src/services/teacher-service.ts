@@ -5,7 +5,7 @@ import { DeleteTeacherSchema, TeacherSchema, UpdateTeacherSchema } from '@/schem
 class TeacherService {
   async createTeacher(institutionId: string, payload: TeacherSchema) {
     const institution = await InstitutionModel.findById(institutionId)
-    if (!institution) throw new Error('Institucion no encontrada')
+    if (!institution) throw 'Institucion no encontrada'
 
     const teacher = await TeacherModel.create(payload)
 
