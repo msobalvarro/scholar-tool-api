@@ -1,5 +1,6 @@
 import { Hono } from 'hono'
 import { logger } from 'hono/logger'
+import { cors } from 'hono/cors'
 import { connect } from 'mongoose'
 import { environments } from './utils/constanst'
 import { router } from './routes'
@@ -11,6 +12,7 @@ connect(environments.DB, { autoIndex: false })
   .catch((err) => console.log(err))
 
 app.use(logger())
+app.use(cors({ origin: '*' }))
 
 app.get('/', (c) => {
   return c.text('Bienvenido a la API de Scholar Tool')

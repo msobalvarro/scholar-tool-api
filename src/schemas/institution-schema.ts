@@ -1,4 +1,4 @@
-import { z } from "zod"
+import { z } from 'zod'
 
 export const institutionSchema = z.object({
   name: z.string().min(3).max(128),
