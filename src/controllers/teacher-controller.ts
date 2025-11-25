@@ -1,4 +1,9 @@
-import { CreateTeacherSchema, createTeacherSchema, teacherSchema, UpdateTeacherSchema, updateTeacherSchema } from '@/schemas/teacher-schema';
+import {
+  CreateTeacherSchema,
+  createTeacherSchema,
+  UpdateTeacherSchema,
+  updateTeacherSchema
+} from '@/schemas/teacher-schema';
 import { teacherService } from '@/services/teacher-service';
 import { ErrorValidator } from '@/utils/error-validator';
 import { Context } from 'hono';
@@ -17,9 +22,7 @@ class TeacherController {
     try {
       const body = await c.req.json()
       const { institutionId, ...payload } = createTeacherSchema.parse(body) as CreateTeacherSchema
-
       const teacher = await teacherService.createTeacher(institutionId, payload)
-
       return c.json(teacher)
     } catch (error) {
       return ErrorValidator(error, c)
@@ -27,7 +30,7 @@ class TeacherController {
   }
   async getTeacherById(c: Context) {
     try {
-      const { id } = c.req.param() as { id: string }
+      const { id } = c.req.param()
       const teacher = await teacherService.getTeacherById(id)
       return c.json(teacher)
     } catch (error) {
@@ -46,7 +49,7 @@ class TeacherController {
   }
   async deleteTeacher(c: Context) {
     try {
-      const { id } = c.req.param() as { id: string }
+      const { id } = c.req.param()
       const teacher = await teacherService.deleteTeacher(id)
       return c.json(teacher)
     } catch (error) {

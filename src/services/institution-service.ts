@@ -60,7 +60,7 @@ class Institution {
     if (!user) throw 'Usuario no encontrado'
     if (!institution) throw 'Institucion no encontrada'
 
-    await institution.updateOne({ users: { $push: { _id: user._id } } })
+    await InstitutionModel.updateOne({ _id: institutionId }, { $push: { users: { _id: user._id } } })
     return institution
   }
 
@@ -72,7 +72,7 @@ class Institution {
     if (!user) throw 'Usuario no encontrado'
     if (!institution) throw 'Institución no encontrada'
 
-    await institution.updateOne({ users: { $pull: { _id: user._id } } })
+    await InstitutionModel.updateOne({ _id: institutionId }, { $pull: { users: { _id: user._id } } })
     return institution
   }
 }

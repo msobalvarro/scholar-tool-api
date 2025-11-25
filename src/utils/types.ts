@@ -62,7 +62,7 @@ export type Asignature = {
 
 export type Teacher = {
   name: string
-  birthday: Date
+  birthday: string
   phoneNumber: string
   status: 'active' | 'inactive'
 }

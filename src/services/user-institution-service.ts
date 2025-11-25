@@ -17,11 +17,7 @@ class UserInstitution {
     if (!institution) throw 'Institucion no encontrada'
 
     await userInstitution.save()
-    await institution.updateOne({
-      $push: {
-        users: userInstitution
-      }
-    })
+    await InstitutionModel.updateOne({ _id: institutionId }, { $push: { users: userInstitution } })
 
     return userInstitution
   }

@@ -3,10 +3,10 @@ import { Teacher } from '@/utils/types'
 
 const teacherSchema = new Schema<Teacher>(
   {
-    name: { type: String, required: true },
-    birthday: { type: Date, required: true },
+    name: String,
+    birthday: String,
     status: { type: String, enum: ['active', 'inactive'], default: 'active' },
-    phoneNumber: { type: String, required: true },
+    phoneNumber: String,
   },
   {
     versionKey: false,

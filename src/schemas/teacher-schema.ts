@@ -2,8 +2,8 @@ import { z } from 'zod'
 
 export const teacherSchema = z.object({
   name: z.string().min(3).max(128),
-  birthday: z.date(),
-  phoneNumber: z.string().min(10).max(15),
+  birthday: z.string(),
+  phoneNumber: z.string(),
   // status: z.enum(['active', 'inactive'])
 })
 

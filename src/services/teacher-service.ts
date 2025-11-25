@@ -8,8 +8,7 @@ class TeacherService {
     if (!institution) throw 'Institucion no encontrada'
 
     const teacher = await TeacherModel.create(payload)
-
-    await institution.updateOne({ teachers: { $push: teacher } })
+    await InstitutionModel.updateOne({ _id: institutionId }, { $push: { teachers: teacher } })
     return teacher
   }
 
@@ -34,8 +33,7 @@ class TeacherService {
     return teacher
   }
 
-  async deleteTeacher(payload: DeleteTeacherSchema) {
-    const { _id } = payload
+  async deleteTeacher(_id: string) {
     const teacher = await TeacherModel.findByIdAndDelete(_id)
     return teacher
   }
