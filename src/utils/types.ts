@@ -48,8 +48,7 @@ export type UserInstitution = {
 
 export type Schedule = {
   day: 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday'
-  startTime: string
-  endTime: string
+  time: string
   teacher?: Teacher
   asignature?: Asignature
   course: Course
@@ -57,6 +56,7 @@ export type Schedule = {
 
 export type Asignature = {
   name: string
+  institution: Institution
 }
 
 export type Teacher = {

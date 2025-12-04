@@ -3,7 +3,8 @@ import { model, Schema } from 'mongoose'
 
 const asignatureSchema = new Schema<Asignature>(
   {
-    name: { type: String, required: true }
+    name: { type: String, required: true },
+    institution: { type: Schema.Types.ObjectId, ref: 'Institution', required: true },
   },
   {
     versionKey: false,

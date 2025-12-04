@@ -46,7 +46,12 @@ class MatriculeService {
   }
 
   async getAllMatricules(institutionId: string) {
-    const matricules = await MatriculeModel.find({ institution: { _id: institutionId } })
+    const matricules = await MatriculeModel
+      .find({ institution: { _id: institutionId } })
+      .populate('student')
+      .populate('course')
+      .select('-institution')
+
     return matricules
   }
 
