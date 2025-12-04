@@ -77,6 +77,7 @@ export type Matricule = {
   student: Student
   course: Course
   status: 'active' | 'inactive'
+  institution: Institution
   year: number
 }
 
