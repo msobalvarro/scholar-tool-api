@@ -43,7 +43,8 @@ class MatriculeController {
 
   async getAll(c: Context) {
     try {
-      const matricules = await matriculeService.getAllMatricules()
+      const user = c.get('jwtPayload')
+      const matricules = await matriculeService.getAllMatricules(user.institutionId)
       return c.json(matricules)
     } catch (error) {
       return ErrorValidator(error, c)

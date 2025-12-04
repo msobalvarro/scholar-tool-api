@@ -18,7 +18,11 @@ class CourseService {
   async updateCourse(course: CourseUpdate) {
     const { _id, ...rest } = course
 
-    const updatedCourse = await CourseModel.findByIdAndUpdate(_id, rest, { new: true })
+    const teacherLead = await TeacherModel.findById(course.teacherLeadId)
+    if (!teacherLead) throw 'Teacher lead not found'
+
+    const updatedCourse = await CourseModel.updateOne({ _id }, { ...rest, teacherLead })
+
     return updatedCourse
   }
 

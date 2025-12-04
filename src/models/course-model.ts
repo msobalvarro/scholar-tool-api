@@ -9,6 +9,7 @@ const courseSchema = new Schema<Course>(
     institution: { type: Schema.Types.ObjectId, ref: 'Institution', required: true },
     schedules: [{ type: Schema.Types.ObjectId, ref: 'Schedule' }],
     order: { type: Number, required: true },
+    breakTime: String,
   },
   {
     versionKey: false,

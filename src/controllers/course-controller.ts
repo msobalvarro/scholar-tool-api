@@ -1,4 +1,4 @@
-import { Course, courseSchema, CourseUpdate } from '@/schemas/course-schema'
+import { Course, courseSchema, CourseUpdate, courseUpdateSchema } from '@/schemas/course-schema'
 import { courseService } from '@/services/course-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
@@ -21,7 +21,7 @@ class CourseController {
   async update(c: Context) {
     try {
       const body = await c.req.json()
-      const parsedBody = courseSchema.parse(body) as CourseUpdate
+      const parsedBody = courseUpdateSchema.parse(body) as CourseUpdate
       const course = await courseService.updateCourse(parsedBody)
 
       return c.json(course)

@@ -4,7 +4,8 @@ export const courseSchema = z.object({
   name: z.string(),
   groupName: z.string(),
   teacherLeadId: z.string().length(24),
-  order: z.number()
+  order: z.number(),
+  breakTime: z.string()
 })
 
 export type Course = z.infer<typeof courseSchema>

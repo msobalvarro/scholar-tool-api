@@ -16,8 +16,10 @@ router.route('/user-institutions', userInstitutionRoute)
 router.route('/auth', authRoute)
 router.route('/user-root', userRootRoute)
 router.route('/teachers', teacherRoute)
-router.route('/matricule', matriculeRoute)
+router.route('/matricules', matriculeRoute)
 router.route('/responsable', responsableRoute)
 router.route('/students', studentRoute)
 router.route('/courses', courseRoute)
+// router.route('/schedules', scheduleRoute)
+
 

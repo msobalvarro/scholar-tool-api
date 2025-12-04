@@ -53,7 +53,6 @@ export type Schedule = {
   teacher?: Teacher
   asignature?: Asignature
   course: Course
-  isFree: boolean
 }
 
 export type Asignature = {
@@ -75,6 +74,7 @@ export type Course = {
   teacherLead: Teacher
   institution: Institution
   order: number
+  breakTime: string
 }
 
 export type Matricule = {
