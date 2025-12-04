@@ -1,6 +1,8 @@
 import {
   CreateTeacherSchema,
   createTeacherSchema,
+  teacherSchema,
+  TeacherSchema,
   UpdateTeacherSchema,
   updateTeacherSchema
 } from '@/schemas/teacher-schema';
@@ -21,8 +23,9 @@ class TeacherController {
   async createTeacher(c: Context) {
     try {
       const body = await c.req.json()
-      const { institutionId, ...payload } = createTeacherSchema.parse(body) as CreateTeacherSchema
-      const teacher = await teacherService.createTeacher(institutionId, payload)
+      const payload = teacherSchema.parse(body) as TeacherSchema
+      const user = c.get('jwtPayload')
+      const teacher = await teacherService.createTeacher(user.institutionId, payload)
       return c.json(teacher)
     } catch (error) {
       return ErrorValidator(error, c)

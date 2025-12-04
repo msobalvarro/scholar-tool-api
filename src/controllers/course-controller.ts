@@ -1,18 +1,18 @@
-import { Student, studentSchema, StudentUpdate } from '@/schemas/student-schema'
-import { studentService } from '@/services/student-service'
+import { Course, courseSchema, CourseUpdate } from '@/schemas/course-schema'
+import { courseService } from '@/services/course-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
 
-class StudentController {
+class CourseController {
   async create(c: Context) {
     try {
       const body = await c.req.json()
-      const parsedBody = studentSchema.parse(body) as Student
+      const parsedBody = courseSchema.parse(body) as Course
       const user = c.get('jwtPayload')
 
-      const student = await studentService.createStudent(parsedBody, user.institutionId)
+      const course = await courseService.createCourse(parsedBody, user.institutionId)
 
-      return c.json(student)
+      return c.json(course)
     } catch (error) {
       return ErrorValidator(error, c)
     }
@@ -21,11 +21,10 @@ class StudentController {
   async update(c: Context) {
     try {
       const body = await c.req.json()
-      const parsedBody = studentSchema.parse(body) as StudentUpdate
+      const parsedBody = courseSchema.parse(body) as CourseUpdate
+      const course = await courseService.updateCourse(parsedBody)
 
-      const student = await studentService.updateStudent(parsedBody)
-
-      return c.json(student)
+      return c.json(course)
     } catch (error) {
       return ErrorValidator(error, c)
     }
@@ -34,8 +33,8 @@ class StudentController {
   async delete(c: Context) {
     try {
       const { _id } = await c.req.json()
-      const student = await studentService.deleteStudent(_id)
-      return c.json(student)
+      const course = await courseService.deleteCourse(_id)
+      return c.json(course)
     } catch (error) {
       return ErrorValidator(error, c)
     }
@@ -44,8 +43,8 @@ class StudentController {
   async getAll(c: Context) {
     try {
       const user = c.get('jwtPayload')
-      const students = await studentService.getAllStudents(user.institutionId)
-      return c.json(students)
+      const courses = await courseService.getAllCourses(user.institutionId)
+      return c.json(courses)
     } catch (error) {
       return ErrorValidator(error, c)
     }
@@ -54,12 +53,12 @@ class StudentController {
   async getById(c: Context) {
     try {
       const { id } = await c.req.param() as { id: string }
-      const student = await studentService.getStudentById(id)
-      return c.json(student)
+      const course = await courseService.getCourseById(id)
+      return c.json(course)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 }
 
-export const studentController = new StudentController()
+export const courseController = new CourseController()

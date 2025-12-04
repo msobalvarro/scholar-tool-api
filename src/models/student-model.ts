@@ -7,7 +7,7 @@ const studentSchema = new Schema<Student>(
     startDate: { type: Date, required: true },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    intitution: { type: Schema.Types.ObjectId, ref: 'Institution', required: true },
+    institution: { type: Schema.Types.ObjectId, ref: 'Institution', required: true },
   },
   {
     versionKey: false,

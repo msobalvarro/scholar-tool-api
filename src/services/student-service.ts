@@ -12,12 +12,17 @@ class StudentService {
     if (!institution) throw 'Institution not found'
     if (institution.status !== 'active') throw 'Institution is not active'
 
-    const createdStudent = await StudentModel.create({ ...rest })
+    const createdStudent = new StudentModel({
+      ...rest,
+      institution
+    })
 
     const responsable = await ResponsableModel.findById(responsableId)
     if (!responsable) throw 'Responsable not found'
 
     await responsable.updateOne({ $push: { students: createdStudent._id } })
+
+    await createdStudent.save()
 
     return createdStudent
   }
@@ -33,8 +38,8 @@ class StudentService {
     return deletedStudent
   }
 
-  async getAllStudents() {
-    const students = await StudentModel.find()
+  async getAllStudents(institutionId: string) {
+    const students = await StudentModel.find({ institution: { _id: institutionId } })
     return students
   }
 

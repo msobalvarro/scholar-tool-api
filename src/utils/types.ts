@@ -12,7 +12,7 @@ export type Student = {
   startDate: Date
   firstName: string
   lastName: string
-  intitution: Institution
+  institution: Institution
   status: 'active' | 'inactive'
 }
 
@@ -64,6 +64,7 @@ export type Teacher = {
   name: string
   birthday: string
   phoneNumber: string
+  email: string
   status: 'active' | 'inactive'
 }
 
@@ -71,6 +72,9 @@ export type Course = {
   name: string
   schedules: Schedule[]
   groupName: string
+  teacherLead: Teacher
+  institution: Institution
+  order: number
 }
 
 export type Matricule = {

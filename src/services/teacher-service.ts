@@ -1,13 +1,13 @@
 import { InstitutionModel } from '@/models/institution-model'
 import { TeacherModel } from '@/models/teacher-model'
-import { DeleteTeacherSchema, TeacherSchema, UpdateTeacherSchema } from '@/schemas/teacher-schema'
+import { TeacherSchema, UpdateTeacherSchema } from '@/schemas/teacher-schema'
 
 class TeacherService {
   async createTeacher(institutionId: string, payload: TeacherSchema) {
     const institution = await InstitutionModel.findById(institutionId)
     if (!institution) throw 'Institucion no encontrada'
 
-    const teacher = await TeacherModel.create(payload)
+    const teacher = await TeacherModel.create({ ...payload })
     await InstitutionModel.updateOne({ _id: institutionId }, { $push: { teachers: teacher } })
     return teacher
   }
