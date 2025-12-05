@@ -1,4 +1,5 @@
 import { CourseModel } from '@/models/course-model'
+import { InstitutionModel } from '@/models/institution-model'
 import { MatriculeModel } from '@/models/matricule-model'
 import { NotificationModel } from '@/models/notification-model'
 import { ResponsableModel } from '@/models/responsable-model'
@@ -6,29 +7,11 @@ import { Notification } from '@/schemas/notification-schema'
 
 class NotificationService {
   async createNotification(notification: Notification, institutionId: string) {
-    const { coursesId, ...rest } = notification
+    const institution = await InstitutionModel.findById(institutionId)
+    if (!institution) throw 'Institution not found'
+    const newNotification = await NotificationModel.create({ ...notification, institution })
 
-
-    // const courses = await CourseModel.find({
-    //   responsable: { $in: coursesId },
-    // })
-
-    // find all matricules of the institution on the current year
-    const matricules = await MatriculeModel.find({
-      institution: { _id: institutionId },
-      year: new Date().getFullYear(),
-    })
-
-    if (!matricules) throw 'Matricules not found'
-
-    // const courses = matricules.map((matricule) => {
-    //   if (matricule.course.)
-    // })
-
-
-
-
-    const newNotification = await NotificationModel.create(notification)
+    // TODO: Send notification to all students and responsables
 
     return newNotification
   }

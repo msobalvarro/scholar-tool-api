@@ -9,7 +9,11 @@ class TokenController {
       const body = await c.req.json()
       const parsedBody = await tokenSchema.parse(body) as TokenSchema
       const user = c.get('jwtPayload')
-      const tokenCreated = await tokenService.createTokenStudent(user._id, parsedBody.token)
+      const tokenCreated = await tokenService.createTokenStudent(
+        user._id,
+        parsedBody.token,
+        user.institutionId
+      )
       return c.json(tokenCreated)
     } catch (error) {
       return ErrorValidator(error, c)
@@ -21,7 +25,11 @@ class TokenController {
       const body = await c.req.json()
       const parsedBody = await tokenSchema.parse(body) as TokenSchema
       const user = c.get('jwtPayload')
-      const tokenCreated = await tokenService.createTokenResponsable(user._id, parsedBody.token)
+      const tokenCreated = await tokenService.createTokenResponsable(
+        user._id,
+        parsedBody.token,
+        user.institutionId
+      )
       return c.json(tokenCreated)
     } catch (error) {
       return ErrorValidator(error, c)

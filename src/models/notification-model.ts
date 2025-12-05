@@ -7,6 +7,7 @@ const NotificationSchema = new Schema<Notifications>({
   responsablePerson: [{ type: Schema.Types.ObjectId, ref: 'ResponsablePerson' }],
   readed: { type: Boolean, default: false },
   deleted: { type: Boolean, default: false },
+  institution: { type: Schema.Types.ObjectId, ref: 'Institution' },
 })
 
 export const NotificationModel = model('Notification', NotificationSchema)

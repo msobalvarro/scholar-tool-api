@@ -113,6 +113,7 @@ export type Notifications = {
   responsablePerson: ResponsablePerson
   readed: boolean
   deleted: boolean
+  institution: Institution
 }
 
 export type Token = {
@@ -120,4 +121,5 @@ export type Token = {
   role: 'responsable' | 'student'
   student?: Student
   responsable?: ResponsablePerson
+  institution: Institution
 }

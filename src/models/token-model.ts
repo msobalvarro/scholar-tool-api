@@ -20,6 +20,11 @@ const TokenSchema = new Schema<Token>(
       type: Schema.Types.ObjectId,
       ref: 'ResponsablePerson',
     },
+    institution: {
+      type: Schema.Types.ObjectId,
+      ref: 'Institution',
+      required: true,
+    },
   },
   {
     versionKey: false,
