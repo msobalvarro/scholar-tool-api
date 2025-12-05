@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const notificationSchema = z.object({
   title: z.string(),
-  message: z.string(),
+  body: z.string(),
 })
 
 export type Notification = z.infer<typeof notificationSchema>

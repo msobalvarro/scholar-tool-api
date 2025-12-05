@@ -109,7 +109,7 @@ export type Assistance = {
 
 export type Notifications = {
   title: string
-  message: string
+  body: string
   responsablePerson: ResponsablePerson
   readed: boolean
   deleted: boolean
