@@ -5,7 +5,7 @@ const teacherSchema = new Schema<Teacher>(
   {
     name: String,
     birthday: String,
-    email: String,
+    email: { type: String, unique: true, required: true },
     status: { type: String, enum: ['active', 'inactive'], default: 'active' },
     phoneNumber: String,
   },

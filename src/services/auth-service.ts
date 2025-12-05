@@ -1,5 +1,7 @@
 import { InstitutionModel } from '@/models/institution-model'
 import { UserRootModel } from '@/models/root-user-model'
+import { TeacherAuthModel } from '@/models/teacher-auth-model'
+import { TeacherModel } from '@/models/teacher-model'
 import { UserInstitutionModel } from '@/models/user-institution-model'
 import { environments } from '@/utils/constanst'
 import { createHash } from '@/utils/encrypt'
@@ -43,6 +45,42 @@ class AuthService {
         role: 'institution'
       },
       environments.JWT_SECRET_USER_INSTITUTION
+    )
+
+    return { user, token }
+  }
+
+  async loginTeacher(email: string, password: string) {
+    const teacher = await TeacherModel
+      .findOne({ email })
+      .select({
+        createdAt: 0,
+        updatedAt: 0,
+      })
+
+    if (!teacher) throw 'Teacher not found'
+
+    const institution = await InstitutionModel.findOne({ teachers: { _id: teacher._id } })
+    if (!institution) throw 'Institution not found'
+
+
+    const user = await TeacherAuthModel
+      .findOne({ teacher, password: createHash(password) })
+      .select({
+        password: 0,
+        createdAt: 0,
+        updatedAt: 0,
+      })
+
+    if (!user) throw 'User Teacher not found'
+
+    const token = await sign(
+      {
+        institutionId: institution._id,
+        ...teacher.toJSON(),
+        role: 'teacher'
+      },
+      environments.JWT_SECRET_USER_TEACHER
     )
 
     return { user, token }

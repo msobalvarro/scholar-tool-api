@@ -11,8 +11,8 @@ export const assistanceSchema = z.object({
 
 export type AssitanceSchema = z.infer<typeof assistanceSchema>
 
-export const asssitanceSchemaUpdate = assitanceSchema.extends({
+export const asssitanceSchemaUpdate = assistanceSchema.extend({
   _id: z.string()
 })
 
-export type AssitanceSchemaUpdate = z.infer<typeof assitanceSchemaUpdate>
+export type AssitanceSchemaUpdate = z.infer<typeof asssitanceSchemaUpdate>

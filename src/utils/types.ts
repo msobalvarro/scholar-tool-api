@@ -67,6 +67,12 @@ export type Teacher = {
   status: 'active' | 'inactive'
 }
 
+export type TeacherAuth = {
+  teacher: Teacher
+  lastLogin: Date
+  password: string
+}
+
 export type Course = {
   name: string
   schedules: Schedule[]

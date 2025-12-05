@@ -1,7 +1,7 @@
-import { assistanceSchema, AssitanceSchema } from '@/schemas/assitance-schema';
-import { assistanceService } from '@/services/assitance-service';
-import { ErrorValidator } from '@/utils/error-validator';
-import { Context } from 'hono';
+import { assistanceSchema, AssitanceSchema } from '@/schemas/assitance-schema'
+import { assistanceService } from '@/services/assitance-service'
+import { ErrorValidator } from '@/utils/error-validator'
+import { Context } from 'hono'
 
 class AssistanceController {
   async createAssistance(c: Context) {
