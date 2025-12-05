@@ -18,7 +18,7 @@ export type Student = {
 
 export type Observations = {
   student: Student
-  techer: Teacher
+  teacher: Teacher
   type: 'negative' | 'positive'
   observation: string
   photo?: string

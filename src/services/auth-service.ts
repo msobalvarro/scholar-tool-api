@@ -83,7 +83,7 @@ class AuthService {
       environments.JWT_SECRET_USER_TEACHER
     )
 
-    return { user, token }
+    return { teacher, token }
   }
 }
 

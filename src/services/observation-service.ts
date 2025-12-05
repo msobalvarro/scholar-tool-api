@@ -24,6 +24,14 @@ class Observation {
 
     return observationCreated
   }
+
+  async getObservationsByStudent(studentId: string) {
+    const observations = await ObservationModel
+      .find({ student: { _id: studentId } })
+      .populate('teacher')
+
+    return observations
+  }
 }
 
 export const observationService = new Observation()

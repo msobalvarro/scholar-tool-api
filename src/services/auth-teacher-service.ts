@@ -23,6 +23,7 @@ class AuthTeacherService {
     const teachers = await TeacherAuthModel
       .find({ teacher: { $in: institution.teachers } })
       .select('-password')
+      .populate('teacher')
 
     return teachers
   }
