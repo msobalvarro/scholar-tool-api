@@ -106,3 +106,18 @@ export type Assistance = {
   studentsPresents: Student[]
   studentsAbsent: Student[]
 }
+
+export type Notifications = {
+  title: string
+  message: string
+  responsablePerson: ResponsablePerson
+  readed: boolean
+  deleted: boolean
+}
+
+export type Token = {
+  token: string
+  role: 'responsable' | 'student'
+  student?: Student
+  responsable?: ResponsablePerson
+}
