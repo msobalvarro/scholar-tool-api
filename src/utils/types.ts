@@ -91,3 +91,12 @@ export type RootUser = {
   password: string
   status: 'active' | 'inactive'
 }
+
+export type Assistance = {
+  course: Course
+  teacher: Teacher
+  date: Date
+  observation: string
+  studentsPresents: Student[]
+  studentsAbsent: Student[]
+}

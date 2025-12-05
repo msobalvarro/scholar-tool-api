@@ -28,8 +28,11 @@ class AsignatureService {
     const asignatureDeleted = await AsignatureModel.findByIdAndDelete(id)
     return asignatureDeleted
   }
+
   async getAllAsignatures(institutionId: string) {
-    const asignatures = await AsignatureModel.find({ institution: { _id: institutionId } })
+    const asignatures = await AsignatureModel
+      .find({ institution: { _id: institutionId } })
+      .select('-institution')
     return asignatures
   }
 
