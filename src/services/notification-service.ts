@@ -25,9 +25,13 @@ class NotificationService {
     return newNotification
   }
 
-  async sendNotificationsToTokens(tokens: string[], notification: Notification) {
+  async sendNotificationsToTokens(
+    tokens: string[],
+    notification: Notification,
+    data?: Record<string, string>
+  ) {
     for (const token of tokens) {
-      await admin.messaging().send({ token, notification })
+      await admin.messaging().send({ token, notification, data })
     }
   }
 }

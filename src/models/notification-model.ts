@@ -3,7 +3,7 @@ import { model, Schema } from 'mongoose'
 
 const NotificationSchema = new Schema<Notifications>({
   title: String,
-  message: String,
+  body: String,
   responsablePerson: [{ type: Schema.Types.ObjectId, ref: 'ResponsablePerson' }],
   readed: { type: Boolean, default: false },
   deleted: { type: Boolean, default: false },
