@@ -4,6 +4,7 @@ export const teacherSchema = z.object({
   name: z.string().min(3).max(128),
   birthday: z.string(),
   phoneNumber: z.string(),
+  email: z.email()
 })
 
 export type TeacherSchema = z.infer<typeof teacherSchema>

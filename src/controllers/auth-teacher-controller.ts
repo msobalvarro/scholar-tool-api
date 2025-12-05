@@ -21,7 +21,7 @@ class AuthTeacherController {
     try {
       const user = c.get('jwtPayload')
       const teachersAuth = await authTeacherService.getAllTeacherAuth(user.institutionId)
-      return c.json({ teachersAuth })
+      return c.json(teachersAuth)
     } catch (error) {
       return ErrorValidator(error, c)
     }

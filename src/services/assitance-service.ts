@@ -6,7 +6,14 @@ import { AssitanceSchema } from '@/schemas/assitance-schema';
 
 class Assitance {
   async createAssistance(assitance: AssitanceSchema) {
-    const { courseId, teacherId, date, observation, studentsPresentsId, studentsAbsentId } = assitance
+    const {
+      courseId,
+      teacherId,
+      date,
+      observation,
+      studentsPresentsId,
+      studentsAbsentId
+    } = assitance
 
     const course = await CourseModel.findById(courseId)
     const teacher = await TeacherModel.findById(teacherId)
@@ -16,12 +23,19 @@ class Assitance {
     const assistance = new AssistanceModel({
       teacher,
       date: new Date(date),
-      observation
+      observation,
+      studentsPresents: [],
+      studentsAbsent: [],
     })
 
     for (const studentId of studentsPresentsId) {
       const student = await StudentModel.findById(studentId)
       if (!student) throw 'Student not found'
+
+      if (studentsAbsentId.find((id) => id === studentId)) {
+        console.log('Student already absent')
+        continue
+      }
 
       assistance.studentsPresents.push(student)
 
@@ -33,6 +47,11 @@ class Assitance {
       if (!student) throw 'Student not found'
 
       assistance.studentsAbsent.push(student)
+
+      if (studentsPresentsId.find((id) => id === studentId)) {
+        console.log('Student already present')
+        continue
+      }
 
       // TODO: Notification push to representatives
     }

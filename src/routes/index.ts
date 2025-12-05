@@ -10,6 +10,7 @@ import { studentRoute } from './student-route'
 import { courseRoute } from './course-route'
 import { scheduleRoute } from './schedule-route'
 import { asignatureRoute } from './asignature-route'
+import { authTeacherRoute } from './auth-teacher-route'
 
 export const router = new Hono()
 
@@ -24,5 +25,5 @@ router.route('/students', studentRoute)
 router.route('/courses', courseRoute)
 router.route('/schedules', scheduleRoute)
 router.route('/asignatures', asignatureRoute)
-
+router.route('/auth-teacher', authTeacherRoute)
 

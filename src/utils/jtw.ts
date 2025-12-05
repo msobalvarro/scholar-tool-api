@@ -4,3 +4,4 @@ import { environments } from './constanst'
 
 export const jwtUserRoot = jwt({ secret: environments.JWT_SECRET_ADMIN })
 export const jwtUserInstitution = jwt({ secret: environments.JWT_SECRET_USER_INSTITUTION })
+export const jwtUserTeacher = jwt({ secret: environments.JWT_SECRET_USER_TEACHER })

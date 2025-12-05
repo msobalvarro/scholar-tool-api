@@ -20,7 +20,9 @@ class AuthTeacherService {
     const institution = await InstitutionModel.findById(institutionId)
     if (!institution) throw 'Institution not found'
 
-    const teachers = await TeacherAuthModel.find({ teacher: { $in: institution.teachers } })
+    const teachers = await TeacherAuthModel
+      .find({ teacher: { $in: institution.teachers } })
+      .select('-password')
 
     return teachers
   }
