@@ -7,14 +7,13 @@ class TeacherService {
     const institution = await InstitutionModel.findById(institutionId)
     if (!institution) throw 'Institucion no encontrada'
 
-    const teacher = await TeacherModel.create({ ...payload })
-    await InstitutionModel.updateOne({ _id: institutionId }, { $push: { teachers: teacher } })
+    const teacher = await TeacherModel.create({ ...payload, institution })
     return teacher
   }
 
   async getTeachers(institutionId: string) {
-    const insitution = await InstitutionModel.findById(institutionId)
-    return insitution?.teachers
+    const teachers = await TeacherModel.find({ institution: { _id: institutionId } })
+    return teachers
   }
 
   async getAllTeachers() {
@@ -27,9 +26,18 @@ class TeacherService {
     return teacher
   }
 
-  async updateTeacher(payload: UpdateTeacherSchema) {
+  async updateTeacher(institutionId: string, payload: UpdateTeacherSchema) {
     const { _id, ...rest } = payload
-    const teacher = await TeacherModel.findByIdAndUpdate(_id, rest, { new: true })
+
+    const teacher = await TeacherModel.findById(_id)
+    const institution = await InstitutionModel.findById(institutionId)
+    if (!teacher) throw 'Profesor no encontrado'
+    if (!institution) throw 'Institucion no encontrada'
+
+    if (institution !== teacher.institution) throw 'Institucion no valida'
+
+    await TeacherModel.updateOne({ _id }, { $set: rest })
+
     return teacher
   }
 

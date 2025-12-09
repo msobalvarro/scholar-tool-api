@@ -34,6 +34,14 @@ class NotificationService {
       await admin.messaging().send({ token, notification, data })
     }
   }
+
+  async markNotificationAsReaded(notificationId: string) {
+    await NotificationModel.updateOne({ _id: notificationId }, { readed: true })
+  }
+
+  async markNotificationAsDeleted(notificationId: string) {
+    await NotificationModel.updateOne({ _id: notificationId }, { deleted: true })
+  }
 }
 
 export const notificationService = new NotificationService()

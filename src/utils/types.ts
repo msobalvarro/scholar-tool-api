@@ -35,8 +35,6 @@ export type Institution = {
   name: string
   logo?: string
   status: 'active' | 'inactive' | 'pending'
-  users: UserInstitution[]
-  teachers: Teacher[]
 }
 
 export type UserInstitution = {
@@ -44,6 +42,7 @@ export type UserInstitution = {
   email: string
   password: string
   status: 'active' | 'inactive'
+  institution: Institution
 }
 
 export type Schedule = {
@@ -65,6 +64,7 @@ export type Teacher = {
   phoneNumber: string
   email: string
   status: 'active' | 'inactive'
+  institution: Institution
 }
 
 export type TeacherAuth = {

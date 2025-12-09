@@ -1,6 +1,4 @@
 import {
-  CreateTeacherSchema,
-  createTeacherSchema,
   teacherSchema,
   TeacherSchema,
   UpdateTeacherSchema,
@@ -44,7 +42,8 @@ class TeacherController {
     try {
       const body = await c.req.json()
       const payload = updateTeacherSchema.parse(body) as UpdateTeacherSchema
-      const teacher = await teacherService.updateTeacher(payload)
+      const user = c.get('jwtPayload')
+      const teacher = await teacherService.updateTeacher(user.institutionId, payload)
       return c.json(teacher)
     } catch (error) {
       return ErrorValidator(error, c)

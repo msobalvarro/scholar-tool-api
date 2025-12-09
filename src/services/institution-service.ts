@@ -32,9 +32,7 @@ class Institution {
   async createInstitution(payload: InstitutionSchema) {
     const institution = await InstitutionModel.create({
       name: payload.name,
-      logo: payload.logo,
-      users: [],
-      teachers: [],
+      logo: payload.logo
     })
 
     return institution
@@ -60,7 +58,8 @@ class Institution {
     if (!user) throw 'Usuario no encontrado'
     if (!institution) throw 'Institucion no encontrada'
 
-    await InstitutionModel.updateOne({ _id: institutionId }, { $push: { users: { _id: user._id } } })
+    await UserInstitutionModel.updateOne({ _id: user._id }, { institution })
+
     return institution
   }
 
