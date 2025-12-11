@@ -16,4 +16,12 @@ export const environments = {
   JWT_SECRET_USER_TEACHER: JWT_SECRET_USER_TEACHER || 'secret',
   JWT_SECRET_USER_STUDENT: JWT_SECRET_USER_STUDENT || 'secret',
   JWT_SECRET_USER_RESPONSABLE: JWT_SECRET_USER_RESPONSABLE || 'secret',
-} 
+}
+
+export const UserRoles = {
+  ADMIN: 'root',
+  INSTITUTION: 'institution',
+  TEACHER: 'teacher',
+  STUDENT: 'student',
+  RESPONSABLE: 'responsable'
+}

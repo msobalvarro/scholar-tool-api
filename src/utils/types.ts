@@ -132,14 +132,14 @@ export type Period = {
 }
 
 export type Task = {
+  institution: Institution
   period: Period
-  student: Student
   teacher: Teacher
   course: Course
   asignature: Asignature
   name: string
   description: string
-  status: 'pending' | 'completed'
+  status: 'pending' | 'completed' | 'unfulfilled' | 'incomplete'
   highestScore: number
   score: number | null
   dueDate: Date

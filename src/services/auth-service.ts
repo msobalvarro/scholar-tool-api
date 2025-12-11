@@ -6,6 +6,7 @@ import { UserInstitutionModel } from '@/models/user-institution-model'
 import { environments } from '@/utils/constanst'
 import { createHash } from '@/utils/encrypt'
 import { sign } from 'hono/jwt'
+import { UserRoles } from '@/utils/constanst'
 
 class AuthService {
   async loginUserRoot(email: string, password: string) {
@@ -19,7 +20,7 @@ class AuthService {
 
     if (!user) throw 'User not found'
 
-    const token = await sign({ ...user.toJSON(), role: 'root' }, environments.JWT_SECRET_ADMIN)
+    const token = await sign({ ...user.toJSON(), role: UserRoles.ADMIN }, environments.JWT_SECRET_ADMIN)
     return { user, token }
   }
 
@@ -42,7 +43,7 @@ class AuthService {
       {
         ...user.toJSON(),
         institutionId: institution._id,
-        role: 'institution'
+        role: UserRoles.INSTITUTION
       },
       environments.JWT_SECRET_USER_INSTITUTION
     )
@@ -78,7 +79,7 @@ class AuthService {
       {
         institutionId: institution._id,
         ...teacher.toJSON(),
-        role: 'teacher'
+        role: UserRoles.TEACHER
       },
       environments.JWT_SECRET_USER_TEACHER
     )
