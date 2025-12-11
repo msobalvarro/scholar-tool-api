@@ -123,3 +123,24 @@ export type Token = {
   responsable?: ResponsablePerson
   institution: Institution
 }
+
+export type Period = {
+  name: string
+  startDate: Date
+  endDate: Date
+  institution: Institution
+}
+
+export type Task = {
+  period: Period
+  student: Student
+  teacher: Teacher
+  course: Course
+  asignature: Asignature
+  name: string
+  description: string
+  status: 'pending' | 'completed'
+  highestScore: number
+  score: number | null
+  dueDate: Date
+}

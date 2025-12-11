@@ -1,5 +1,5 @@
-import { authTeacherController } from '@/controllers/auth-teacher-controller'
 import { Hono } from 'hono'
+import { authTeacherController } from '@/controllers/auth-teacher-controller'
 import { jwtUserInstitution, jwtUserTeacher } from '@/utils/jtw'
 
 export const authTeacherRoute = new Hono()

@@ -3,10 +3,10 @@ import {
   TeacherSchema,
   UpdateTeacherSchema,
   updateTeacherSchema
-} from '@/schemas/teacher-schema';
-import { teacherService } from '@/services/teacher-service';
-import { ErrorValidator } from '@/utils/error-validator';
-import { Context } from 'hono';
+} from '@/schemas/teacher-schema'
+import { teacherService } from '@/services/teacher-service'
+import { ErrorValidator } from '@/utils/error-validator'
+import { Context } from 'hono'
 
 class TeacherController {
   async getAllTeachers(c: Context) {

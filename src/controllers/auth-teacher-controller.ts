@@ -31,8 +31,8 @@ class AuthTeacherController {
     try {
       const body = await c.req.json()
       const payload = authTeacherSchema.parse(body) as AuthTeacherSchema
-
-      const teacherAuth = await authTeacherService.updatePassword(payload.teacherId, payload.password)
+      const user = c.get('jwtPayload')
+      const teacherAuth = await authTeacherService.updatePassword(user._id, payload.password)
 
       return c.json({ teacherAuth })
     } catch (error) {
