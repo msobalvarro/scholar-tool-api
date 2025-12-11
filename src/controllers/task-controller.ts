@@ -1,8 +1,9 @@
 import { Context } from 'hono'
 import { ErrorValidator } from '@/utils/error-validator'
 import { taskService } from '@/services/task-service'
-import { TaskUpdate, Task } from '@/schemas/task-schema'
 import {
+  TaskUpdate,
+  Task,
   TaskUpdateSchema,
   TaskSchema,
   TaskGetByAsignature,
