@@ -45,6 +45,10 @@ class TeacherService {
     const teacher = await TeacherModel.findByIdAndDelete(_id)
     return teacher
   }
+
+  async updatePhoto(teacherId: string, imageName: string) {
+    return await TeacherModel.findByIdAndUpdate(teacherId, { photo: imageName }, { new: true })
+  }
 }
 
 export const teacherService = new TeacherService()

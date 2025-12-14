@@ -43,6 +43,7 @@ export type UserInstitution = {
   password: string
   status: 'active' | 'inactive'
   institution: Institution
+  lastLogin: Date
 }
 
 export type Schedule = {
@@ -65,6 +66,7 @@ export type Teacher = {
   email: string
   status: 'active' | 'inactive'
   institution: Institution
+  photo?: string
 }
 
 export type TeacherAuth = {
@@ -96,6 +98,7 @@ export type RootUser = {
   email: string
   password: string
   status: 'active' | 'inactive'
+  lastLogin: Date
 }
 
 export type Assistance = {

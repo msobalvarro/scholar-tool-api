@@ -79,7 +79,6 @@ class TaskService {
       endDate: { $gte: periodDate },
     })
 
-
     if (!period) throw 'Period not found'
 
     return await TaskModel.find({

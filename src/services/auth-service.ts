@@ -11,7 +11,7 @@ import { UserRoles } from '@/utils/constanst'
 class AuthService {
   async loginUserRoot(email: string, password: string) {
     const user = await UserRootModel
-      .findOne({ email, password: createHash(password) })
+      .findOneAndUpdate({ email, password: createHash(password) }, { lastLogin: new Date() }, { new: true })
       .select({
         password: 0,
         createdAt: 0,
@@ -26,7 +26,7 @@ class AuthService {
 
   async loginUserInstitution(email: string, password: string) {
     const user = await UserInstitutionModel
-      .findOne({ email, password: createHash(password) })
+      .findOneAndUpdate({ email, password: createHash(password) }, { lastLogin: new Date() }, { new: true })
       .select({
         password: 0,
         createdAt: 0,
@@ -66,7 +66,7 @@ class AuthService {
 
 
     const user = await TeacherAuthModel
-      .findOne({ teacher, password: createHash(password) })
+      .findOneAndUpdate({ teacher, password: createHash(password) }, { lastLogin: new Date() }, { new: true })
       .select({
         password: 0,
         createdAt: 0,

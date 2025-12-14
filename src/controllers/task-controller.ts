@@ -40,6 +40,9 @@ class TaskController {
   async delete(c: Context) {
     try {
       const { _id } = await c.req.json()
+
+      if (!_id) throw 'Task not found'
+
       const task = await taskService.deleteTask(_id)
       return c.json(task)
     } catch (error) {

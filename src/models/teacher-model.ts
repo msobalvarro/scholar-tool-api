@@ -9,6 +9,7 @@ const teacherSchema = new Schema<Teacher>(
     status: { type: String, enum: ['active', 'inactive'], default: 'active' },
     phoneNumber: String,
     institution: { type: Schema.Types.ObjectId, ref: 'Institution' },
+    photo: { type: String, default: null },
   },
   {
     versionKey: false,

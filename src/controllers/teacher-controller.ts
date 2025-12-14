@@ -1,4 +1,6 @@
 import {
+  teacherPhotoSchema,
+  TeacherPhotoSchema,
   teacherSchema,
   TeacherSchema,
   UpdateTeacherSchema,
@@ -29,6 +31,7 @@ class TeacherController {
       return ErrorValidator(error, c)
     }
   }
+
   async getTeacherById(c: Context) {
     try {
       const { id } = c.req.param()
@@ -38,6 +41,7 @@ class TeacherController {
       return ErrorValidator(error, c)
     }
   }
+
   async updateTeacher(c: Context) {
     try {
       const body = await c.req.json()
@@ -49,10 +53,24 @@ class TeacherController {
       return ErrorValidator(error, c)
     }
   }
+
   async deleteTeacher(c: Context) {
     try {
       const { id } = c.req.param()
       const teacher = await teacherService.deleteTeacher(id)
+      return c.json(teacher)
+    } catch (error) {
+      return ErrorValidator(error, c)
+    }
+  }
+
+  async updatePhoto(c: Context) {
+    try {
+      const body = await c.req.json()
+      const payload = teacherPhotoSchema.parse(body) as TeacherPhotoSchema
+      const user = c.get('jwtPayload')
+      const teacher = await teacherService.updatePhoto(user._id, payload.imageName)
+
       return c.json(teacher)
     } catch (error) {
       return ErrorValidator(error, c)

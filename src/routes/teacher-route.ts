@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
 import { teacherController } from '@/controllers/teacher-controller'
-import { jwtUserInstitution } from '@/utils/jtw'
+import { jwtUserInstitution, jwtUserTeacher } from '@/utils/jtw'
 
 export const teacherRoute = new Hono()
 
@@ -12,3 +12,7 @@ teacherRoute.put('/', teacherController.updateTeacher)
 
 teacherRoute.get('/:id', teacherController.getTeacherById)
 teacherRoute.delete('/:id', teacherController.deleteTeacher)
+
+teacherRoute.use('/photo', jwtUserTeacher)
+teacherRoute.put('/photo', teacherController.updatePhoto)
+

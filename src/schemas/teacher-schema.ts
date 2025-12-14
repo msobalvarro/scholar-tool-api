@@ -21,3 +21,9 @@ export const deleteTeacherSchema = z.object({
 })
 
 export type DeleteTeacherSchema = z.infer<typeof deleteTeacherSchema>
+
+export const teacherPhotoSchema = z.object({
+  imageName: z.string(),
+})
+
+export type TeacherPhotoSchema = z.infer<typeof TeacherPhotoSchema>

@@ -7,6 +7,7 @@ const userRootSchema = new Schema<RootUser>(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     status: { type: String, enum: ['active', 'inactive'], default: 'active' },
+    lastLogin: { type: Date, default: null },
   }, {
   versionKey: false,
   timestamps: true,

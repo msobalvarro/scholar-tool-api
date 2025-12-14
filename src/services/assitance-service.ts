@@ -1,8 +1,8 @@
-import { AssistanceModel } from '@/models/assistance-model';
-import { CourseModel } from '@/models/course-model';
-import { StudentModel } from '@/models/student-model';
-import { TeacherModel } from '@/models/teacher-model';
-import { AssitanceSchema } from '@/schemas/assitance-schema';
+import { AssistanceModel } from '@/models/assistance-model'
+import { CourseModel } from '@/models/course-model'
+import { StudentModel } from '@/models/student-model'
+import { TeacherModel } from '@/models/teacher-model'
+import { AssitanceSchema } from '@/schemas/assitance-schema'
 
 class Assitance {
   async createAssistance(assitance: AssitanceSchema) {
