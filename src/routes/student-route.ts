@@ -6,8 +6,8 @@ export const studentRoute = new Hono()
 
 studentRoute.use('/*', jwtUserInstitution)
 
-studentRoute.post('/', studentController.create)
-studentRoute.put('/', studentController.update)
-studentRoute.delete('/', studentController.delete)
 studentRoute.get('/', studentController.getAll)
+studentRoute.post('/', studentController.create)
+studentRoute.put('/:id', studentController.update)
+studentRoute.delete('/:id', studentController.delete)
 studentRoute.get('/:id', studentController.getById)

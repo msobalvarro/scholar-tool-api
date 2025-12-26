@@ -11,13 +11,19 @@ class UserInstitution {
   async createUserInstitution(payload: CreateUserInstitutionSchema) {
     const { institutionId, ...rest } = payload
 
-    const userInstitution = new UserInstitutionModel({ ...rest, password: createHash(rest.password) })
     const institution = await InstitutionModel.findById(institutionId)
-
     if (!institution) throw 'Institucion no encontrada'
 
-    await UserInstitutionModel.updateOne({ _id: userInstitution._id }, { institution })
+    const userEmailExist = await UserInstitutionModel.findOne({ email: rest.email })
+    if (userEmailExist) throw 'Email ya registrado'
 
+    const userInstitution = new UserInstitutionModel({
+      ...rest,
+      password: createHash(rest.password),
+      institution
+    })
+
+    await userInstitution.save()
     return userInstitution
   }
 

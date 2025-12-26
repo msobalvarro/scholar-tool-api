@@ -4,16 +4,18 @@ export type ResponsablePerson = {
   identification: string
   email: string | null
   phoneNumber: string
-  students: Student[]
 }
 
 export type Student = {
   birthday: Date
-  startDate: Date
   firstName: string
   lastName: string
   institution: Institution
   status: 'active' | 'inactive'
+  gender: 'male' | 'female'
+  photo?: string
+  email?: string
+  responsable?: ResponsablePerson
 }
 
 export type Observations = {

@@ -35,9 +35,8 @@ class AuthService {
 
     if (!user) throw 'User not found'
 
-    const institution = await InstitutionModel.findOne({ users: user })
+    const institution = await InstitutionModel.findOne(user.institution)
     if (!institution) throw 'Institution not found'
-
 
     const token = await sign(
       {
@@ -48,7 +47,7 @@ class AuthService {
       environments.JWT_SECRET_USER_INSTITUTION
     )
 
-    return { user, token }
+    return { user, token, institution }
   }
 
   async loginTeacher(email: string, password: string) {
@@ -61,7 +60,7 @@ class AuthService {
 
     if (!teacher) throw 'Teacher not found'
 
-    const institution = await InstitutionModel.findOne({ teachers: { _id: teacher._id } })
+    const institution = await InstitutionModel.findOne(teacher.institution)
     if (!institution) throw 'Institution not found'
 
 
@@ -84,7 +83,7 @@ class AuthService {
       environments.JWT_SECRET_USER_TEACHER
     )
 
-    return { teacher, token }
+    return { teacher, token, institution }
   }
 }
 

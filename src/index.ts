@@ -4,7 +4,9 @@ import { cors } from 'hono/cors'
 import { connect } from 'mongoose'
 import { environments } from './utils/constanst'
 import { router } from './routes'
+import { z } from 'zod'
 
+z.config(z.locales.es())
 const app = new Hono()
 
 connect(environments.DB, { autoIndex: false })

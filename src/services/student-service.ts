@@ -12,40 +12,46 @@ class StudentService {
     if (!institution) throw 'Institution not found'
     if (institution.status !== 'active') throw 'Institution is not active'
 
-    const createdStudent = new StudentModel({
-      ...rest,
-      institution
-    })
-
     const responsable = await ResponsableModel.findById(responsableId)
     if (!responsable) throw 'Responsable not found'
 
-    await responsable.updateOne({ $push: { students: createdStudent._id } })
-
-    await createdStudent.save()
-
-    return createdStudent
+    return await StudentModel.create({
+      ...rest,
+      responsable,
+      institution
+    })
   }
 
-  async updateStudent(student: StudentUpdate) {
-    const { _id, ...rest } = student
-    const updatedStudent = await StudentModel.updateOne({ _id }, rest)
-    return updatedStudent
+  async updateStudent(student: StudentUpdate, institutionId: string, studentId: string) {
+    const institution = await InstitutionModel.findById(institutionId)
+    if (!institution) throw 'Institution not found'
+    if (institution.status !== 'active') throw 'Institution is not active'
+
+    return await StudentModel.updateOne({ _id: studentId, institution: { _id: institutionId } }, student)
   }
 
-  async deleteStudent(_id: string) {
-    const deletedStudent = await StudentModel.deleteOne({ _id })
-    return deletedStudent
+  async deleteStudent(_id: string, institutionId: string) {
+    const institution = await InstitutionModel.findById(institutionId)
+    if (!institution) throw 'Institution not found'
+    if (institution.status !== 'active') throw 'Institution is not active'
+
+    return await StudentModel.deleteOne({ _id, institution: { _id: institutionId } })
   }
 
   async getAllStudents(institutionId: string) {
-    const students = await StudentModel.find({ institution: { _id: institutionId } })
-    return students
+    return await StudentModel
+      .find({ institution: { _id: institutionId } })
+      .populate('responsable')
   }
 
-  async getStudentById(_id: string) {
-    const student = await StudentModel.findById(_id)
-    return student
+  async getStudentById(_id: string, institutionId: string) {
+    const institution = await InstitutionModel.findById(institutionId)
+    if (!institution) throw 'Institution not found'
+    if (institution.status !== 'active') throw 'Institution is not active'
+
+    return await StudentModel
+      .findOne({ _id })
+      .populate('responsable')
   }
 }
 

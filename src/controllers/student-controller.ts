@@ -20,10 +20,11 @@ class StudentController {
 
   async update(c: Context) {
     try {
+      const { id } = await c.req.param() as { id: string }
       const body = await c.req.json()
       const parsedBody = studentSchema.parse(body) as StudentUpdate
-
-      const student = await studentService.updateStudent(parsedBody)
+      const user = c.get('jwtPayload')
+      const student = await studentService.updateStudent(parsedBody, user.institutionId, id)
 
       return c.json(student)
     } catch (error) {
@@ -33,8 +34,9 @@ class StudentController {
 
   async delete(c: Context) {
     try {
-      const { _id } = await c.req.json()
-      const student = await studentService.deleteStudent(_id)
+      const user = c.get('jwtPayload')
+      const { id } = await c.req.param() as { id: string }
+      const student = await studentService.deleteStudent(id, user.institutionId)
       return c.json(student)
     } catch (error) {
       return ErrorValidator(error, c)
@@ -54,7 +56,8 @@ class StudentController {
   async getById(c: Context) {
     try {
       const { id } = await c.req.param() as { id: string }
-      const student = await studentService.getStudentById(id)
+      const user = c.get('jwtPayload')
+      const student = await studentService.getStudentById(id, user.institutionId)
       return c.json(student)
     } catch (error) {
       return ErrorValidator(error, c)

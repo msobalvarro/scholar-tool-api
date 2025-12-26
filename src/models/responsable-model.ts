@@ -6,8 +6,7 @@ const responsableSchema = new Schema<ResponsablePerson>(
     fullName: { type: String, required: true },
     identification: { type: String, required: true },
     email: { type: String, required: true },
-    phoneNumber: { type: String, required: true },
-    students: [{ type: Schema.Types.ObjectId, ref: 'Student' }]
+    phoneNumber: { type: String, required: true, unique: true }
   },
   {
     versionKey: false,
