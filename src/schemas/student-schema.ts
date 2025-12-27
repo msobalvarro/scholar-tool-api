@@ -11,4 +11,11 @@ export const studentSchema = z.object({
 })
 
 export type Student = z.infer<typeof studentSchema>
-export type StudentUpdate = z.infer<typeof studentSchema> 
+export type StudentUpdate = z.infer<typeof studentSchema>
+
+export const assignToCourseSchema = z.object({
+  studentId: z.string().length(24),
+  courseId: z.string().length(24),
+})
+
+export type AssignToCourse = z.infer<typeof assignToCourseSchema>

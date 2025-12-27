@@ -11,3 +11,6 @@ studentRoute.post('/', studentController.create)
 studentRoute.put('/:id', studentController.update)
 studentRoute.delete('/:id', studentController.delete)
 studentRoute.get('/:id', studentController.getById)
+studentRoute.get('/course/:courseId', studentController.getAllByCourseId)
+studentRoute.post('/course/assign', studentController.assignToCourse)
+

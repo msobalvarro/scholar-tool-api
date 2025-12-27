@@ -4,6 +4,9 @@ export type ResponsablePerson = {
   identification: string
   email: string | null
   phoneNumber: string
+  direction: string
+  type: 'father' | 'mother' | 'grandfather' | 'uncle' | 'other'
+  city: string
 }
 
 export type Student = {

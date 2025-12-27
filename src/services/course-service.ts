@@ -1,5 +1,6 @@
 import { CourseModel } from '@/models/course-model'
 import { InstitutionModel } from '@/models/institution-model'
+import { MatriculeModel } from '@/models/matricule-model'
 import { TeacherModel } from '@/models/teacher-model'
 import { Course, CourseUpdate } from '@/schemas/course-schema'
 
@@ -32,8 +33,23 @@ class CourseService {
   }
 
   async getAllCourses(institutionId: string) {
-    const courses = await CourseModel.find({ institution: { _id: institutionId } })
-    return courses
+    const courses = await CourseModel
+      .find({ institution: { _id: institutionId } })
+      .select('-schedules -institution')
+      .populate({
+        path: 'teacherLead',
+        select: 'name'
+      })
+
+    const response = []
+
+    for (const course of courses) {
+      const matricules = await MatriculeModel.find({ course: { _id: course._id } })
+
+      response.push({ ...course.toObject(), studentCount: matricules.length })
+    }
+
+    return response
   }
 
   async getCourseById(courseId: string) {
