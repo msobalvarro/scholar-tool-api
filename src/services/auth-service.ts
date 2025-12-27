@@ -18,7 +18,7 @@ class AuthService {
         updatedAt: 0,
       })
 
-    if (!user) throw 'User not found'
+    if (!user) throw 'Usuario no encontrado'
 
     const token = await sign({ ...user.toJSON(), role: UserRoles.ADMIN }, environments.JWT_SECRET_ADMIN)
     return { user, token }
@@ -33,10 +33,10 @@ class AuthService {
         updatedAt: 0,
       })
 
-    if (!user) throw 'User not found'
+    if (!user) throw 'Usuario no encontrado'
 
     const institution = await InstitutionModel.findOne(user.institution)
-    if (!institution) throw 'Institution not found'
+    if (!institution) throw 'Institución no encontrada'
 
     const token = await sign(
       {
@@ -58,10 +58,10 @@ class AuthService {
         updatedAt: 0,
       })
 
-    if (!teacher) throw 'Teacher not found'
+    if (!teacher) throw 'Profesor no encontrado'
 
     const institution = await InstitutionModel.findOne(teacher.institution)
-    if (!institution) throw 'Institution not found'
+    if (!institution) throw 'Institución no encontrada'
 
 
     const user = await TeacherAuthModel
@@ -72,7 +72,7 @@ class AuthService {
         updatedAt: 0,
       })
 
-    if (!user) throw 'User Teacher not found'
+    if (!user) throw 'Profesor del usuario no encontrado'
 
     const token = await sign(
       {

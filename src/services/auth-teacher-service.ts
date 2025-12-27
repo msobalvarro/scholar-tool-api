@@ -6,7 +6,7 @@ import { createHash } from '@/utils/encrypt'
 class AuthTeacherService {
   async createTeacherAuth(teacherId: string, password: string) {
     const teacher = await TeacherModel.findById(teacherId)
-    if (!teacher) throw 'Teacher not found'
+    if (!teacher) throw 'Profesor no encontrado'
 
     const user = await TeacherAuthModel.create({
       teacher,
@@ -18,7 +18,7 @@ class AuthTeacherService {
 
   async getAllTeacherAuth(institutionId: string) {
     const institution = await InstitutionModel.findById(institutionId)
-    if (!institution) throw 'Institution not found'
+    if (!institution) throw 'Institución no encontrada'
 
     const teachers = await TeacherAuthModel
       .find({ teacher: { $in: institution.teachers } })
@@ -30,7 +30,7 @@ class AuthTeacherService {
 
   async updatePassword(teacherId: string, password: string) {
     const teacher = await TeacherAuthModel.findById(teacherId)
-    if (!teacher) throw 'Teacher not found'
+    if (!teacher) throw 'Profesor no encontrado'
 
     teacher.password = createHash(password)
     await teacher.save()

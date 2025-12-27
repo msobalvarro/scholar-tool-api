@@ -34,7 +34,7 @@ class TeacherService {
     if (!teacher) throw 'Profesor no encontrado'
     if (!institution) throw 'Institucion no encontrada'
 
-    if (institution !== teacher.institution) throw 'Institucion no valida'
+    if (institution !== teacher.institution) throw 'Institución no válida'
 
     await TeacherModel.updateOne({ _id }, { $set: rest })
 

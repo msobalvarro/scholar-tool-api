@@ -10,13 +10,13 @@ class TaskService {
     const { courseId, asignatureId, ...task } = payload
 
     const course = await CourseModel.findById(courseId)
-    if (!course) throw 'Course not found'
+    if (!course) throw 'Curso no encontrado'
 
     const asignature = await AsignatureModel.findById(asignatureId)
-    if (!asignature) throw 'Asignature not found'
+    if (!asignature) throw 'Asignatura no encontrada'
 
     const institution = await InstitutionModel.findById(institutionId)
-    if (!institution) throw 'Institution not found'
+    if (!institution) throw 'Institución no encontrada'
 
     // get the period where the due date is between the start and end date
     const period = await PeriodModel.findOne({
@@ -25,7 +25,7 @@ class TaskService {
       institution: { _id: institutionId }
     })
 
-    if (!period) throw 'Period not found'
+    if (!period) throw 'Periodo no encontrado'
 
     return await TaskModel.create({
       ...task,
@@ -40,13 +40,13 @@ class TaskService {
     const { courseId, asignatureId, ...task } = payload
 
     const course = await CourseModel.findById(courseId)
-    if (!course) throw 'Course not found'
+    if (!course) throw 'Curso no encontrado'
 
     const asignature = await AsignatureModel.findById(asignatureId)
-    if (!asignature) throw 'Asignature not found'
+    if (!asignature) throw 'Asignatura no encontrada'
 
     const institution = await InstitutionModel.findById(institutionId)
-    if (!institution) throw 'Institution not found'
+    if (!institution) throw 'Institución no encontrada'
 
     // get the period where the due date is between the start and end date
     const period = await PeriodModel.findOne({
@@ -55,7 +55,7 @@ class TaskService {
       institution: { _id: institutionId },
     })
 
-    if (!period) throw 'Period not found'
+    if (!period) throw 'Periodo no encontrado'
 
     return await TaskModel.findByIdAndUpdate(payload._id, payload)
   }
@@ -79,7 +79,7 @@ class TaskService {
       endDate: { $gte: periodDate },
     })
 
-    if (!period) throw 'Period not found'
+    if (!period) throw 'Periodo no encontrado'
 
     return await TaskModel.find({
       asignature: { _id: asignatureId },

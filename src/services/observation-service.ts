@@ -8,10 +8,10 @@ class Observation {
     const { studentId, type, observation } = payload
 
     const student = await StudentModel.findById(studentId)
-    if (!student) throw 'Student not found'
+    if (!student) throw 'Estudiante no encontrado'
 
     const teacher = await TeacherModel.findById(teacherId)
-    if (!teacher) throw 'Teacher not found'
+    if (!teacher) throw 'Profesor no encontrado'
 
     const observationCreated = await ObservationModel.create({
       student,

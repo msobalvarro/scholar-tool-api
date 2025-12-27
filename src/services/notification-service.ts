@@ -12,7 +12,7 @@ admin.initializeApp({
 class NotificationService {
   async createNotification(notification: Notification, institutionId: string) {
     const institution = await InstitutionModel.findById(institutionId)
-    if (!institution) throw 'Institution not found'
+    if (!institution) throw 'Institución no encontrada'
     const newNotification = await NotificationModel.create({ ...notification, institution })
 
     // TODO: Send notification to all students and responsables

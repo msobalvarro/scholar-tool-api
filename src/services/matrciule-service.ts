@@ -7,11 +7,11 @@ import { CourseModel } from '@/models/course-model'
 class MatriculeService {
   async createMatricule(matricule: Matricule, institutionId: string) {
     const institution = await InstitutionModel.findById(institutionId)
-    if (!institution) throw 'Institution not found'
-    if (institution.status !== 'active') throw 'Institution is not active'
+    if (!institution) throw 'Institución no encontrada'
+    if (institution.status !== 'active') throw 'La institución no está activa'
 
     const student = await StudentModel.findById(matricule.studentId)
-    if (!student) throw 'Student not found'
+    if (!student) throw 'Estudiante no encontrado'
 
     const matriculeExists = await MatriculeModel.findOne({
       year: matricule.year,
@@ -19,10 +19,10 @@ class MatriculeService {
       institutionId
     })
 
-    if (matriculeExists) throw 'Matricule already exists'
+    if (matriculeExists) throw 'La matrícula ya existe'
 
     const course = await CourseModel.findById(matricule.courseId)
-    if (!course) throw 'Course not found'
+    if (!course) throw 'Curso no encontrado'
 
     const createdMatricule = await MatriculeModel.create({
       year: matricule.year,

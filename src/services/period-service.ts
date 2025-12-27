@@ -5,7 +5,7 @@ import { PeriodUpdate, Period } from '@/schemas/period-schema'
 class PeriodService {
   async createPeriod(period: Period, institutionId: string) {
     const institution = await InstitutionModel.findById(institutionId)
-    if (!institution) throw 'Institution not found'
+    if (!institution) throw 'Institución no encontrada'
 
     return await PeriodModel.create({ ...period, institution })
   }

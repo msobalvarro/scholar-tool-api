@@ -46,7 +46,7 @@ class PeriodController {
     try {
       const { id } = await c.req.param() as { id: string }
 
-      if (!id) throw 'Period not found'
+      if (!id) throw 'Periodo no encontrado'
 
       const period = await periodService.getPeriodById(id)
       return c.json(period)

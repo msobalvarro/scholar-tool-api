@@ -7,7 +7,7 @@ class AsignatureService {
     const { name } = asignature
 
     const institution = await InstitutionModel.findById(institutionId)
-    if (!institution) throw 'Institution not found'
+    if (!institution) throw 'Institución no encontrada'
 
     const asignatureCreated = await AsignatureModel.create({ name, institution })
     return asignatureCreated

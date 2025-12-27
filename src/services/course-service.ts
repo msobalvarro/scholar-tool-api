@@ -7,10 +7,10 @@ import { Course, CourseUpdate } from '@/schemas/course-schema'
 class CourseService {
   async createCourse(course: Course, institutionId: string) {
     const institution = await InstitutionModel.findById(institutionId)
-    if (!institution) throw 'Institution not found'
+    if (!institution) throw 'Institución no encontrada'
 
     const teacherLead = await TeacherModel.findById(course.teacherLeadId)
-    if (!teacherLead) throw 'Teacher lead not found'
+    if (!teacherLead) throw 'Profesor titular no encontrado'
 
     const newCourse = await CourseModel.create({ ...course, institution, teacherLead })
     return newCourse
@@ -20,7 +20,7 @@ class CourseService {
     const { _id, ...rest } = course
 
     const teacherLead = await TeacherModel.findById(course.teacherLeadId)
-    if (!teacherLead) throw 'Teacher lead not found'
+    if (!teacherLead) throw 'Profesor titular no encontrado'
 
     const updatedCourse = await CourseModel.updateOne({ _id }, { ...rest, teacherLead })
 

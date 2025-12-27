@@ -18,7 +18,7 @@ class Assitance {
     const course = await CourseModel.findById(courseId)
     const teacher = await TeacherModel.findById(teacherId)
 
-    if (!course || !teacher) throw 'Course or teacher not found'
+    if (!course || !teacher) throw 'Curso o profesor no encontrado'
 
     const assistance = new AssistanceModel({
       teacher,
@@ -30,7 +30,7 @@ class Assitance {
 
     for (const studentId of studentsPresentsId) {
       const student = await StudentModel.findById(studentId)
-      if (!student) throw 'Student not found'
+      if (!student) throw 'Estudiante no encontrado'
 
       if (studentsAbsentId.find((id) => id === studentId)) {
         console.log('Student already absent')
@@ -44,7 +44,7 @@ class Assitance {
 
     for (const studentId of studentsAbsentId) {
       const student = await StudentModel.findById(studentId)
-      if (!student) throw 'Student not found'
+      if (!student) throw 'Estudiante no encontrado'
 
       assistance.studentsAbsent.push(student)
 

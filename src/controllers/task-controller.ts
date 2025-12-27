@@ -41,7 +41,7 @@ class TaskController {
     try {
       const { _id } = await c.req.json()
 
-      if (!_id) throw 'Task not found'
+      if (!_id) throw 'Tarea no encontrada'
 
       const task = await taskService.deleteTask(_id)
       return c.json(task)

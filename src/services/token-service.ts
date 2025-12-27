@@ -6,10 +6,10 @@ import { TokenModel } from '@/models/token-model'
 class TokenService {
   async createTokenResponsable(token: string, responsableId: string, institutionId: string) {
     const responsable = await ResponsableModel.findById(responsableId)
-    if (!responsable) throw 'Responsable not found'
+    if (!responsable) throw 'Responsable no encontrado'
 
     const institution = await InstitutionModel.findById(institutionId)
-    if (!institution) throw 'Institution not found'
+    if (!institution) throw 'Institución no encontrada'
 
     const newToken = await TokenModel.create({
       token,
@@ -23,10 +23,10 @@ class TokenService {
 
   async createTokenStudent(token: string, studentId: string, institutionId: string) {
     const student = await StudentModel.findById(studentId)
-    if (!student) throw 'Student not found'
+    if (!student) throw 'Estudiante no encontrado'
 
     const institution = await InstitutionModel.findById(institutionId)
-    if (!institution) throw 'Institution not found'
+    if (!institution) throw 'Institución no encontrada'
 
     const newToken = await TokenModel.create({
       token,
