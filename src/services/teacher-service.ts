@@ -26,17 +26,15 @@ class TeacherService {
     return teacher
   }
 
-  async updateTeacher(institutionId: string, payload: UpdateTeacherSchema) {
-    const { _id, ...rest } = payload
-
+  async updateTeacher(institutionId: string, payload: TeacherSchema, _id: string) {
     const teacher = await TeacherModel.findById(_id)
     const institution = await InstitutionModel.findById(institutionId)
     if (!teacher) throw 'Profesor no encontrado'
     if (!institution) throw 'Institucion no encontrada'
 
-    if (institution !== teacher.institution) throw 'Institución no válida'
+    // if (institution._id.toString() !== teacher.institution) throw 'Institución no válida'
 
-    await TeacherModel.updateOne({ _id }, { $set: rest })
+    await TeacherModel.updateOne({ _id }, { $set: payload })
 
     return teacher
   }

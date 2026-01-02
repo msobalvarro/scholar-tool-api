@@ -9,13 +9,6 @@ export const teacherSchema = z.object({
 
 export type TeacherSchema = z.infer<typeof teacherSchema>
 
-
-export const updateTeacherSchema = teacherSchema.extend({
-  _id: z.string()
-})
-
-export type UpdateTeacherSchema = z.infer<typeof updateTeacherSchema>
-
 export const deleteTeacherSchema = z.object({
   _id: z.string()
 })

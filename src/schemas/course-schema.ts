@@ -9,9 +9,3 @@ export const courseSchema = z.object({
 })
 
 export type Course = z.infer<typeof courseSchema>
-
-export const courseUpdateSchema = courseSchema.extend({
-  _id: z.string()
-})
-
-export type CourseUpdate = z.infer<typeof courseUpdateSchema>

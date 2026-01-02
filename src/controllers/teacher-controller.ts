@@ -44,10 +44,11 @@ class TeacherController {
 
   async updateTeacher(c: Context) {
     try {
+      const { id } = c.req.param()
       const body = await c.req.json()
-      const payload = updateTeacherSchema.parse(body) as UpdateTeacherSchema
+      const payload = teacherSchema.parse(body) as TeacherSchema
       const user = c.get('jwtPayload')
-      const teacher = await teacherService.updateTeacher(user.institutionId, payload)
+      const teacher = await teacherService.updateTeacher(user.institutionId, payload, id)
       return c.json(teacher)
     } catch (error) {
       return ErrorValidator(error, c)

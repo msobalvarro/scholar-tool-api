@@ -20,9 +20,10 @@ class CourseController {
 
   async update(c: Context) {
     try {
+      const { id } = await c.req.param() as { id: string }
       const body = await c.req.json()
-      const parsedBody = courseUpdateSchema.parse(body) as CourseUpdate
-      const course = await courseService.updateCourse(parsedBody)
+      const parsedBody = courseSchema.parse(body) as Course
+      const course = await courseService.updateCourse(parsedBody, id)
 
       return c.json(course)
     } catch (error) {
@@ -32,8 +33,8 @@ class CourseController {
 
   async delete(c: Context) {
     try {
-      const { _id } = await c.req.json()
-      const course = await courseService.deleteCourse(_id)
+      const { id } = await c.req.param() as { id: string }
+      const course = await courseService.deleteCourse(id)
       return c.json(course)
     } catch (error) {
       return ErrorValidator(error, c)

@@ -10,6 +10,7 @@ export type ResponsablePerson = {
 }
 
 export type Student = {
+  _id?: any
   birthday: Date
   firstName: string
   lastName: string
@@ -37,12 +38,14 @@ export type Devices = {
 }
 
 export type Institution = {
+  _id?: string
   name: string
   logo?: string
   status: 'active' | 'inactive' | 'pending'
 }
 
 export type UserInstitution = {
+  _id?: string
   name: string
   email: string
   password: string
@@ -60,11 +63,13 @@ export type Schedule = {
 }
 
 export type Asignature = {
+  _id?: any
   name: string
   institution: Institution
 }
 
 export type Teacher = {
+  _id?: any
   name: string
   birthday: string
   phoneNumber: string
@@ -81,6 +86,7 @@ export type TeacherAuth = {
 }
 
 export type Course = {
+  _id?: any
   name: string
   schedules: Schedule[]
   groupName: string
@@ -91,6 +97,7 @@ export type Course = {
 }
 
 export type Matricule = {
+  _id?: any
   student: Student
   course: Course
   status: 'active' | 'inactive'
@@ -133,6 +140,7 @@ export type Token = {
 }
 
 export type Period = {
+  _id?: any
   name: string
   startDate: Date
   endDate: Date

@@ -2,7 +2,7 @@ import { CourseModel } from '@/models/course-model'
 import { InstitutionModel } from '@/models/institution-model'
 import { MatriculeModel } from '@/models/matricule-model'
 import { TeacherModel } from '@/models/teacher-model'
-import { Course, CourseUpdate } from '@/schemas/course-schema'
+import { Course } from '@/schemas/course-schema'
 
 class CourseService {
   async createCourse(course: Course, institutionId: string) {
@@ -16,13 +16,11 @@ class CourseService {
     return newCourse
   }
 
-  async updateCourse(course: CourseUpdate) {
-    const { _id, ...rest } = course
-
+  async updateCourse(course: Course, _id: string) {
     const teacherLead = await TeacherModel.findById(course.teacherLeadId)
     if (!teacherLead) throw 'Profesor titular no encontrado'
 
-    const updatedCourse = await CourseModel.updateOne({ _id }, { ...rest, teacherLead })
+    const updatedCourse = await CourseModel.updateOne({ _id }, { ...course, teacherLead })
 
     return updatedCourse
   }

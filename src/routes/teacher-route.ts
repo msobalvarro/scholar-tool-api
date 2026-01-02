@@ -8,11 +8,12 @@ teacherRoute.use('/*', jwtUserInstitution)
 
 teacherRoute.get('/', teacherController.getAllTeachers)
 teacherRoute.post('/', teacherController.createTeacher)
-teacherRoute.put('/', teacherController.updateTeacher)
 
 teacherRoute.get('/:id', teacherController.getTeacherById)
 teacherRoute.delete('/:id', teacherController.deleteTeacher)
 
 teacherRoute.use('/photo', jwtUserTeacher)
 teacherRoute.put('/photo', teacherController.updatePhoto)
+
+teacherRoute.put('/:id', teacherController.updateTeacher)
 
