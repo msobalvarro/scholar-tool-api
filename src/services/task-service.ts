@@ -4,8 +4,10 @@ import { InstitutionModel } from '@/models/institution-model'
 import { PeriodModel } from '@/models/period-model'
 import { TaskModel } from '@/models/task-model'
 import { Task, TaskUpdate } from '@/schemas/task-schema'
+import { Service } from 'typedi'
 
-class TaskService {
+@Service()
+export class TaskService {
   async createTask(payload: Task, institutionId: string) {
     const { courseId, asignatureId, ...task } = payload
 
@@ -88,5 +90,3 @@ class TaskService {
     })
   }
 }
-
-export const taskService = new TaskService()

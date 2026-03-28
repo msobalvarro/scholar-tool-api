@@ -1,16 +1,19 @@
-import { ObservationSchema, observationSchema } from '@/schemas/observation-schema';
-import { observationService } from '@/services/observation-service';
-import { ErrorValidator } from '@/utils/error-validator';
-import { Context } from 'hono';
+import { ObservationSchema, observationSchema } from '@/schemas/observation-schema'
+import { ObservationService } from '@/services/observation-service'
+import { ErrorValidator } from '@/utils/error-validator'
+import { Context } from 'hono'
+import { Service } from 'typedi'
 
-class ObservationController {
-  async createObservation(c: Context) {
+@Service()
+export class ObservationController {
+  constructor(private observationService: ObservationService) { }
+   createObservation = async (c: Context) => {
     try {
       const body = await c.req.json()
       const payload = observationSchema.parse(body) as ObservationSchema
       const teacher = c.get('jwtPayload')
 
-      const observationCreated = await observationService.createObservation(payload, teacher._id)
+      const observationCreated = await this.observationService.createObservation(payload, teacher._id)
 
       return c.json(observationCreated)
 
@@ -19,5 +22,3 @@ class ObservationController {
     }
   }
 }
-
-export const observationController = new ObservationController()

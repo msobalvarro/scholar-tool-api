@@ -1,8 +1,10 @@
 import { InstitutionModel } from '@/models/institution-model'
 import { PeriodModel } from '@/models/period-model'
 import { PeriodUpdate, Period } from '@/schemas/period-schema'
+import { Service } from 'typedi'
 
-class PeriodService {
+@Service()
+export class PeriodService {
   async createPeriod(period: Period, institutionId: string) {
     const institution = await InstitutionModel.findById(institutionId)
     if (!institution) throw 'Institución no encontrada'
@@ -26,5 +28,3 @@ class PeriodService {
     return await PeriodModel.findById(periodId)
   }
 }
-
-export const periodService = new PeriodService()

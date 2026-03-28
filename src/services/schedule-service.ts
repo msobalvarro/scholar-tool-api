@@ -3,8 +3,10 @@ import { CourseModel } from '@/models/course-model'
 import { ScheduleModel } from '@/models/schedule-model'
 import { TeacherModel } from '@/models/teacher-model'
 import { Schedule, ScheduleUpdate } from '@/schemas/schedule-schema'
+import { Service } from 'typedi'
 
-class ScheduleService {
+@Service()
+export class ScheduleService {
   async createSchedule(schedule: Schedule) {
     const { asignatureId, courseId, teacherId, ...rest } = schedule
 
@@ -87,5 +89,3 @@ class ScheduleService {
     // return schedules
   }
 }
-
-export const scheduleService = new ScheduleService()

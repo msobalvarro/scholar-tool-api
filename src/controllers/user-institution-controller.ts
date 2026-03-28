@@ -4,16 +4,20 @@ import {
   UpdateUserInstitutionSchema,
   updateUserInstitutionSchema
 } from '@/schemas/user-institution-schema'
-import { userInstitutionService } from '@/services/user-institution-service'
+import { UserInstitutionService } from '@/services/user-institution-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
+import { Service } from 'typedi'
 
-class UserInstitutionController {
-  async createUserInstitution(c: Context) {
+@Service()
+export class UserInstitutionController {
+  constructor(private userInstitutionService: UserInstitutionService) { }
+
+   createUserInstitution = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = createUserInstitutionSchema.parse(body) as CreateUserInstitutionSchema
-      const userInstitution = await userInstitutionService.createUserInstitution(parsedBody)
+      const userInstitution = await this.userInstitutionService.createUserInstitution(parsedBody)
 
       return c.json(userInstitution)
     } catch (error) {
@@ -21,11 +25,11 @@ class UserInstitutionController {
     }
   }
 
-  async updateUserInstitution(c: Context) {
+   updateUserInstitution = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = updateUserInstitutionSchema.parse(body) as UpdateUserInstitutionSchema
-      const userInstitution = await userInstitutionService.updateUserInstitution(parsedBody)
+      const userInstitution = await this.userInstitutionService.updateUserInstitution(parsedBody)
 
       return c.json(userInstitution)
     } catch (error) {
@@ -33,24 +37,22 @@ class UserInstitutionController {
     }
   }
 
-  async getUserInstitutionById(c: Context) {
+   getUserInstitutionById = async (c: Context) => {
     try {
       const { id } = c.req.param()
-      const userInstitution = await userInstitutionService.getUserInstitutionById(id)
+      const userInstitution = await this.userInstitutionService.getUserInstitutionById(id)
       return c.json(userInstitution)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 
-  async getAllUserInstitutions(c: Context) {
+   getAllUserInstitutions = async (c: Context) => {
     try {
-      const userInstitutions = await userInstitutionService.getAllUserInstitutions()
+      const userInstitutions = await this.userInstitutionService.getAllUserInstitutions()
       return c.json(userInstitutions)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 }
-
-export const userInstitutionController = new UserInstitutionController()

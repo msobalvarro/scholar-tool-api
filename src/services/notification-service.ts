@@ -4,12 +4,14 @@ import { InstitutionModel } from '@/models/institution-model'
 import { NotificationModel } from '@/models/notification-model'
 import { Notification } from '@/schemas/notification-schema'
 import { TokenModel } from '@/models/token-model'
+import { Service } from 'typedi'
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount as admin.ServiceAccount)
 })
 
-class NotificationService {
+@Service()
+export class NotificationService {
   async createNotification(notification: Notification, institutionId: string) {
     const institution = await InstitutionModel.findById(institutionId)
     if (!institution) throw 'Institución no encontrada'
@@ -43,5 +45,3 @@ class NotificationService {
     await NotificationModel.updateOne({ _id: notificationId }, { deleted: true })
   }
 }
-
-export const notificationService = new NotificationService()

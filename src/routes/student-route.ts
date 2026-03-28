@@ -1,16 +1,18 @@
-import { studentController } from '@/controllers/student-controller'
+import { StudentController } from '@/controllers/student-controller'
 import { jwtUserInstitution } from '@/utils/jtw'
 import { Hono } from 'hono'
+import Container from 'typedi'
 
 export const studentRoute = new Hono()
+const controller = Container.get(StudentController)
 
 studentRoute.use('/*', jwtUserInstitution)
 
-studentRoute.get('/', studentController.getAll)
-studentRoute.post('/', studentController.create)
-studentRoute.put('/:id', studentController.update)
-studentRoute.delete('/:id', studentController.delete)
-studentRoute.get('/:id', studentController.getById)
-studentRoute.get('/course/:courseId', studentController.getAllByCourseId)
-studentRoute.post('/course/assign', studentController.assignToCourse)
+studentRoute.get('/', controller.getAll)
+studentRoute.post('/', controller.create)
+studentRoute.put('/:id', controller.update)
+studentRoute.delete('/:id', controller.delete)
+studentRoute.get('/:id', controller.getById)
+studentRoute.get('/course/:courseId', controller.getAllByCourseId)
+studentRoute.post('/course/assign', controller.assignToCourse)
 

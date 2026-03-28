@@ -1,3 +1,4 @@
+import { UserRoles } from '@/interfaces/dtos/user'
 import { InstitutionModel } from '@/models/institution-model'
 import { UserRootModel } from '@/models/root-user-model'
 import { TeacherAuthModel } from '@/models/teacher-auth-model'
@@ -6,9 +7,10 @@ import { UserInstitutionModel } from '@/models/user-institution-model'
 import { environments } from '@/utils/constanst'
 import { createHash } from '@/utils/encrypt'
 import { sign } from 'hono/jwt'
-import { UserRoles } from '@/utils/constanst'
+import { Service } from 'typedi'
 
-class AuthService {
+@Service()
+export class AuthService {
   async loginUserRoot(email: string, password: string) {
     const user = await UserRootModel
       .findOneAndUpdate({ email, password: createHash(password) }, { lastLogin: new Date() }, { new: true })
@@ -86,5 +88,3 @@ class AuthService {
     return { teacher, token, institution }
   }
 }
-
-export const authService = new AuthService()

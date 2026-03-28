@@ -1,15 +1,19 @@
 import { TokenSchema, tokenSchema } from '@/schemas/token-schema'
-import { tokenService } from '@/services/token-service'
+import { TokenService } from '@/services/token-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
+import { Service } from 'typedi'
 
-class TokenController {
-  async createTokenStudent(c: Context) {
+@Service()
+export class TokenController {
+  constructor(private tokenService: TokenService) { }
+
+   createTokenStudent = async (c: Context) => {
     try {
       const body = await c.req.json()
-      const parsedBody = await tokenSchema.parse(body) as TokenSchema
+      const parsedBody = await tokenSchema.parse(body)
       const user = c.get('jwtPayload')
-      const tokenCreated = await tokenService.createTokenStudent(
+      const tokenCreated = await this.tokenService.createTokenStudent(
         user._id,
         parsedBody.token,
         user.institutionId
@@ -20,12 +24,12 @@ class TokenController {
     }
   }
 
-  async createTokenResponsable(c: Context) {
+   createTokenResponsable = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = await tokenSchema.parse(body) as TokenSchema
       const user = c.get('jwtPayload')
-      const tokenCreated = await tokenService.createTokenResponsable(
+      const tokenCreated = await this.tokenService.createTokenResponsable(
         user._id,
         parsedBody.token,
         user.institutionId
@@ -36,16 +40,14 @@ class TokenController {
     }
   }
 
-  async removeToken(c: Context) {
+   removeToken = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = await tokenSchema.parse(body) as TokenSchema
-      const tokenRemoved = await tokenService.removeToken(parsedBody.token)
+      const tokenRemoved = await this.tokenService.removeToken(parsedBody.token)
       return c.json(tokenRemoved)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 }
-
-export const tokenController = new TokenController()

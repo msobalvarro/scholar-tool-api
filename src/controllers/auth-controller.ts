@@ -1,14 +1,17 @@
 import { AuthSchema, authSchema } from '@/schemas/auth-schema'
-import { authService } from '@/services/auth-service'
+import { AuthService } from '@/services/auth-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
+import { Service } from 'typedi'
 
-class AuthController {
+@Service()
+export class AuthController {
+  constructor(private authService: AuthService) { }
   authUserInstitution = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = authSchema.parse(body) as AuthSchema
-      const user = await authService.loginUserInstitution(parsedBody.email, parsedBody.password)
+      const user = await this.authService.loginUserInstitution(parsedBody.email, parsedBody.password)
       return c.json(user)
     } catch (error) {
       return ErrorValidator(error, c)
@@ -19,7 +22,7 @@ class AuthController {
     try {
       const body = await c.req.json()
       const parsedBody = authSchema.parse(body) as AuthSchema
-      const user = await authService.loginUserRoot(parsedBody.email, parsedBody.password)
+      const user = await this.authService.loginUserRoot(parsedBody.email, parsedBody.password)
       return c.json(user)
     } catch (error) {
       return ErrorValidator(error, c)
@@ -30,12 +33,10 @@ class AuthController {
     try {
       const body = await c.req.json()
       const parsedBody = authSchema.parse(body) as AuthSchema
-      const user = await authService.loginTeacher(parsedBody.email, parsedBody.password)
+      const user = await this.authService.loginTeacher(parsedBody.email, parsedBody.password)
       return c.json(user)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 }
-
-export const authController = new AuthController()

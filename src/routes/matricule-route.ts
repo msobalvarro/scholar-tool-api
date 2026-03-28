@@ -1,13 +1,15 @@
-import { matriculeController } from '@/controllers/matricule-controller'
+import { MatriculeController } from '@/controllers/matricule-controller'
 import { jwtUserInstitution } from '@/utils/jtw'
 import { Hono } from 'hono'
+import Container from 'typedi'
 
 export const matriculeRoute = new Hono()
+const controller = Container.get(MatriculeController)
 
 matriculeRoute.use('/*', jwtUserInstitution)
 
-matriculeRoute.post('/', matriculeController.create)
-matriculeRoute.put('/', matriculeController.update)
-matriculeRoute.delete('/', matriculeController.delete)
-matriculeRoute.get('/', matriculeController.getAll)
-matriculeRoute.get('/:id', matriculeController.getById)
+matriculeRoute.post('/', controller.create)
+matriculeRoute.put('/', controller.update)
+matriculeRoute.delete('/', controller.delete)
+matriculeRoute.get('/', controller.getAll)
+matriculeRoute.get('/:id', controller.getById)

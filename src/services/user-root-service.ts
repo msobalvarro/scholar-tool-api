@@ -1,8 +1,10 @@
 import { UserRootModel } from '@/models/root-user-model'
 import { UpdateUserRootSchema, UserRootSchema } from '@/schemas/user-root-schema'
 import { createHash } from '@/utils/encrypt'
+import { Service } from 'typedi'
 
-class UserRootService {
+@Service()
+export class UserRootService {
   createUserRoot = async (payload: UserRootSchema) => {
     const userRoot = await UserRootModel.create({ ...payload, password: createHash(payload.password) })
 
@@ -25,5 +27,3 @@ class UserRootService {
     return userRoots
   }
 }
-
-export const userRootService = new UserRootService()

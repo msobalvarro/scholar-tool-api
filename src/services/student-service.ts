@@ -3,9 +3,11 @@ import { InstitutionModel } from '@/models/institution-model'
 import { MatriculeModel } from '@/models/matricule-model'
 import { ResponsableModel } from '@/models/responsable-model'
 import { StudentModel } from '@/models/student-model'
-import { AssignToCourse, Student, StudentUpdate } from '@/schemas/student-schema'
+import { Student, StudentUpdate, AssignToCourse } from '@/schemas/student-schema'
+import { Service } from 'typedi'
 
-class StudentService {
+@Service()
+export class StudentService {
   async createStudent(student: Student, institutionId: string) {
 
     const { responsableId, ...rest } = student
@@ -91,5 +93,3 @@ class StudentService {
       .populate('responsable')
   }
 }
-
-export const studentService = new StudentService()

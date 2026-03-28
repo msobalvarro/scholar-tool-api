@@ -1,9 +1,11 @@
+import Container from 'typedi'
 import { Hono } from 'hono'
-import { authController } from '@/controllers/auth-controller'
+import { AuthController } from '@/controllers/auth-controller'
 
+const controller = Container.get(AuthController)
 export const authRoute = new Hono()
 
-authRoute.post('/root', authController.authUserRoot)
-authRoute.post('/institution', authController.authUserInstitution)
-authRoute.post('/teacher', authController.authTeacher)
+authRoute.post('/root', controller.authUserRoot)
+authRoute.post('/institution', controller.authUserInstitution)
+authRoute.post('/teacher', controller.authTeacher)
 

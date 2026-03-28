@@ -8,7 +8,10 @@ import {
   UpdateInstitutionSchema
 } from '@/schemas/institution-schema'
 
-class Institution {
+import { Service } from 'typedi'
+
+@Service()
+export class InstitutionService {
   async getInstitutions() {
     const insitutions = await InstitutionModel.find()
     return insitutions
@@ -75,5 +78,3 @@ class Institution {
     return institution
   }
 }
-
-export const institutionService = new Institution()

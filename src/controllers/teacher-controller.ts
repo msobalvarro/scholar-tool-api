@@ -2,75 +2,77 @@ import {
   teacherPhotoSchema,
   TeacherPhotoSchema,
   teacherSchema,
-  TeacherSchema,
-  UpdateTeacherSchema,
-  updateTeacherSchema
+  TeacherSchema
 } from '@/schemas/teacher-schema'
-import { teacherService } from '@/services/teacher-service'
+import { TeacherService } from '@/services/teacher-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
+import { Service } from 'typedi'
 
-class TeacherController {
-  async getAllTeachers(c: Context) {
+@Service()
+export class TeacherController {
+  constructor(private teacherService: TeacherService) { }
+
+  getAllTeachers = async (c: Context) => {
+    const teachers = await this.teacherService.getAllTeachers()
     try {
-      const teachers = await teacherService.getAllTeachers()
       return c.json(teachers)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 
-  async createTeacher(c: Context) {
+   createTeacher = async (c: Context) => {
     try {
       const body = await c.req.json()
       const payload = teacherSchema.parse(body) as TeacherSchema
       const user = c.get('jwtPayload')
-      const teacher = await teacherService.createTeacher(user.institutionId, payload)
+      const teacher = await this.teacherService.createTeacher(user.institutionId, payload)
       return c.json(teacher)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 
-  async getTeacherById(c: Context) {
+   getTeacherById = async (c: Context) => {
     try {
       const { id } = c.req.param()
-      const teacher = await teacherService.getTeacherById(id)
+      const teacher = await this.teacherService.getTeacherById(id)
       return c.json(teacher)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 
-  async updateTeacher(c: Context) {
+   updateTeacher = async (c: Context) => {
     try {
       const { id } = c.req.param()
       const body = await c.req.json()
       const payload = teacherSchema.parse(body) as TeacherSchema
       const user = c.get('jwtPayload')
-      const teacher = await teacherService.updateTeacher(user.institutionId, payload, id)
+      const teacher = await this.teacherService.updateTeacher(user.institutionId, payload, id)
       return c.json(teacher)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 
-  async deleteTeacher(c: Context) {
+   deleteTeacher = async (c: Context) => {
     try {
       const { id } = c.req.param()
-      const teacher = await teacherService.deleteTeacher(id)
+      const teacher = await this.teacherService.deleteTeacher(id)
       return c.json(teacher)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 
-  async updatePhoto(c: Context) {
+   updatePhoto = async (c: Context) => {
     try {
       const body = await c.req.json()
       const payload = teacherPhotoSchema.parse(body) as TeacherPhotoSchema
       const user = c.get('jwtPayload')
-      const teacher = await teacherService.updatePhoto(user._id, payload.imageName)
+      const teacher = await this.teacherService.updatePhoto(user._id, payload.imageName)
 
       return c.json(teacher)
     } catch (error) {
@@ -78,5 +80,3 @@ class TeacherController {
     }
   }
 }
-
-export const teacherController = new TeacherController()

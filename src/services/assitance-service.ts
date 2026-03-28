@@ -3,8 +3,10 @@ import { CourseModel } from '@/models/course-model'
 import { StudentModel } from '@/models/student-model'
 import { TeacherModel } from '@/models/teacher-model'
 import { AssitanceSchema } from '@/schemas/assitance-schema'
+import { Service } from 'typedi'
 
-class Assitance {
+@Service()
+export class AssitanceService {
   async createAssistance(assitance: AssitanceSchema) {
     const {
       courseId,
@@ -61,5 +63,3 @@ class Assitance {
     return assistance
   }
 }
-
-export const assistanceService = new Assitance()

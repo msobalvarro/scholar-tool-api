@@ -3,8 +3,10 @@ import { Matricule, MatriculeUpdate } from '@/schemas/matricule-schema'
 import { InstitutionModel } from '@/models/institution-model'
 import { StudentModel } from '@/models/student-model'
 import { CourseModel } from '@/models/course-model'
+import { Service } from 'typedi'
 
-class MatriculeService {
+@Service()
+export class MatriculeService {
   async createMatricule(matricule: Matricule, institutionId: string) {
     const institution = await InstitutionModel.findById(institutionId)
     if (!institution) throw 'Institución no encontrada'
@@ -60,5 +62,3 @@ class MatriculeService {
     return matricule
   }
 }
-
-export const matriculeService = new MatriculeService()

@@ -1,15 +1,17 @@
-import { scheduleController } from '@/controllers/schedule-controller'
+import { ScheduleController } from '@/controllers/schedule-controller'
 import { jwtUserInstitution } from '@/utils/jtw'
 import { Hono } from 'hono'
+import Container from 'typedi'
 
 export const scheduleRoute = new Hono()
+const controller = Container.get(ScheduleController)
 
 scheduleRoute.use('/*', jwtUserInstitution)
 
-scheduleRoute.post('/', scheduleController.createSchedule)
-scheduleRoute.get('/:id', scheduleController.getScheduleById)
-scheduleRoute.get('/course/:courseId', scheduleController.getScheduleByCourseId)
-scheduleRoute.get('/teacher/:teacherId', scheduleController.getScheduleByTeacherId)
-scheduleRoute.get('/asignature/:asignatureId', scheduleController.getScheduleByAsignatureId)
-scheduleRoute.put('/:id', scheduleController.updateSchedule)
-scheduleRoute.delete('/:id', scheduleController.deleteSchedule)
+scheduleRoute.post('/', controller.createSchedule)
+scheduleRoute.get('/:id', controller.getScheduleById)
+scheduleRoute.get('/course/:courseId', controller.getScheduleByCourseId)
+scheduleRoute.get('/teacher/:teacherId', controller.getScheduleByTeacherId)
+scheduleRoute.get('/asignature/:asignatureId', controller.getScheduleByAsignatureId)
+scheduleRoute.put('/:id', controller.updateSchedule)
+scheduleRoute.delete('/:id', controller.deleteSchedule)

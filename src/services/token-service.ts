@@ -2,8 +2,10 @@ import { InstitutionModel } from '@/models/institution-model'
 import { ResponsableModel } from '@/models/responsable-model'
 import { StudentModel } from '@/models/student-model'
 import { TokenModel } from '@/models/token-model'
+import { Service } from 'typedi'
 
-class TokenService {
+@Service()
+export class TokenService {
   async createTokenResponsable(token: string, responsableId: string, institutionId: string) {
     const responsable = await ResponsableModel.findById(responsableId)
     if (!responsable) throw 'Responsable no encontrado'
@@ -43,5 +45,3 @@ class TokenService {
     return tokenRemoved
   }
 }
-
-export const tokenService = new TokenService()

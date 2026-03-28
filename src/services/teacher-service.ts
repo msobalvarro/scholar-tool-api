@@ -1,8 +1,10 @@
 import { InstitutionModel } from '@/models/institution-model'
 import { TeacherModel } from '@/models/teacher-model'
 import { TeacherSchema } from '@/schemas/teacher-schema'
+import { Service } from 'typedi'
 
-class TeacherService {
+@Service()
+export class TeacherService {
   async createTeacher(institutionId: string, payload: TeacherSchema) {
     const institution = await InstitutionModel.findById(institutionId)
     if (!institution) throw 'Institucion no encontrada'
@@ -48,5 +50,3 @@ class TeacherService {
     return await TeacherModel.findByIdAndUpdate(teacherId, { photo: imageName }, { new: true })
   }
 }
-
-export const teacherService = new TeacherService()

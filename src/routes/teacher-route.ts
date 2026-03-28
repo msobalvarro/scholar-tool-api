@@ -1,19 +1,21 @@
 import { Hono } from 'hono'
-import { teacherController } from '@/controllers/teacher-controller'
+import { TeacherController } from '@/controllers/teacher-controller'
 import { jwtUserInstitution, jwtUserTeacher } from '@/utils/jtw'
+import Container from 'typedi'
 
 export const teacherRoute = new Hono()
+const controller = Container.get(TeacherController)
 
 teacherRoute.use('/*', jwtUserInstitution)
 
-teacherRoute.get('/', teacherController.getAllTeachers)
-teacherRoute.post('/', teacherController.createTeacher)
+teacherRoute.get('/', controller.getAllTeachers)
+teacherRoute.post('/', controller.createTeacher)
 
-teacherRoute.get('/:id', teacherController.getTeacherById)
-teacherRoute.delete('/:id', teacherController.deleteTeacher)
+teacherRoute.get('/:id', controller.getTeacherById)
+teacherRoute.delete('/:id', controller.deleteTeacher)
 
 teacherRoute.use('/photo', jwtUserTeacher)
-teacherRoute.put('/photo', teacherController.updatePhoto)
+teacherRoute.put('/photo', controller.updatePhoto)
 
-teacherRoute.put('/:id', teacherController.updateTeacher)
+teacherRoute.put('/:id', controller.updateTeacher)
 

@@ -5,15 +5,19 @@ import {
   UserRootSchema,
   userRootSchema
 } from '@/schemas/user-root-schema'
-import { userRootService } from '@/services/user-root-service'
+import { UserRootService } from '@/services/user-root-service'
 import { ErrorValidator } from '@/utils/error-validator'
+import { Service } from 'typedi'
 
-class UserRootController {
+@Service()
+export class UserRootController {
+  constructor(private userRootService: UserRootService) { }
+
   createUserRoot = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = userRootSchema.parse(body) as UserRootSchema
-      const user = await userRootService.createUserRoot(parsedBody)
+      const user = await this.userRootService.createUserRoot(parsedBody)
       return c.json(user)
     } catch (error) {
       return ErrorValidator(error, c)
@@ -24,7 +28,7 @@ class UserRootController {
     try {
       const body = await c.req.json()
       const parsedBody = updateUserRootSchema.parse(body) as UpdateUserRootSchema
-      const user = await userRootService.updateUserRoot(parsedBody)
+      const user = await this.userRootService.updateUserRoot(parsedBody)
       return c.json(user)
     } catch (error) {
       return ErrorValidator(error, c)
@@ -34,7 +38,7 @@ class UserRootController {
   getUserRootById = async (c: Context) => {
     try {
       const id = c.req.param('id')
-      const user = await userRootService.getUserRootById(id)
+      const user = await this.userRootService.getUserRootById(id)
       return c.json(user)
     } catch (error) {
       return ErrorValidator(error, c)
@@ -43,12 +47,10 @@ class UserRootController {
 
   getAllUserRoots = async (c: Context) => {
     try {
-      const users = await userRootService.getAllUserRoots()
+      const users = await this.userRootService.getAllUserRoots()
       return c.json(users)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 }
-
-export const userRootController = new UserRootController()

@@ -4,64 +4,65 @@ import {
   AsignatureUpdateSchema,
   asignatureUpdateSchema
 } from '@/schemas/asignature-schema'
-import { asignatureService } from '@/services/asignature-service'
+import { AsignatureService } from '@/services/asignature-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
+import { Service } from 'typedi'
 
-class AsignatureController {
-  async createAsignature(c: Context) {
+@Service()
+export class AsignatureController {
+  constructor(private asignatureService: AsignatureService) { }
+   createAsignature = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = await asignatureSchema.parse(body) as AsignatureSchema
       const user = c.get('jwtPayload')
-      const asignatureCreated = await asignatureService.createAsignature(parsedBody, user.institutionId)
+      const asignatureCreated = await this.asignatureService.createAsignature(parsedBody, user.institutionId)
       return c.json(asignatureCreated)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 
-  async getAsignatureById(c: Context) {
+   getAsignatureById = async (c: Context) => {
     try {
       const id = c.req.param('id')
-      const asignature = await asignatureService.getAsignatureById(id)
+      const asignature = await this.asignatureService.getAsignatureById(id)
       return c.json(asignature)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 
-  async updateAsignature(c: Context) {
+   updateAsignature = async (c: Context) => {
     try {
       const body = await c.req.json()
       const id = c.req.param('id')
       const parsedBody = await asignatureSchema.parse(body) as AsignatureSchema
-      const asignatureUpdated = await asignatureService.updateAsignature(parsedBody, id)
+      const asignatureUpdated = await this.asignatureService.updateAsignature(parsedBody, id)
       return c.json(asignatureUpdated)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 
-  async deleteAsignature(c: Context) {
+   deleteAsignature = async (c: Context) => {
     try {
       const id = c.req.param('id')
-      const asignatureDeleted = await asignatureService.deleteAsignature(id)
+      const asignatureDeleted = await this.asignatureService.deleteAsignature(id)
       return c.json(asignatureDeleted)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 
-  async getAllAsignatures(c: Context) {
+   getAllAsignatures = async (c: Context) => {
     try {
       const user = c.get('jwtPayload')
-      const asignatures = await asignatureService.getAllAsignatures(user.institutionId)
+      const asignatures = await this.asignatureService.getAllAsignatures(user.institutionId)
       return c.json(asignatures)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 }
-
-export const asignatureController = new AsignatureController()

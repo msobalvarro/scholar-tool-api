@@ -6,8 +6,10 @@ import {
   UpdateUserInstitutionSchema
 } from '@/schemas/user-institution-schema'
 import { createHash } from '@/utils/encrypt'
+import { Service } from 'typedi'
 
-class UserInstitution {
+@Service()
+export class UserInstitutionService {
   async createUserInstitution(payload: CreateUserInstitutionSchema) {
     const { institutionId, ...rest } = payload
 
@@ -63,5 +65,3 @@ class UserInstitution {
     return userInstitutions
   }
 }
-
-export const userInstitutionService = new UserInstitution()

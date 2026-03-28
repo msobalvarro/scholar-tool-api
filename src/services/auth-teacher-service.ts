@@ -2,8 +2,10 @@ import { InstitutionModel } from '@/models/institution-model'
 import { TeacherAuthModel } from '@/models/teacher-auth-model'
 import { TeacherModel } from '@/models/teacher-model'
 import { createHash } from '@/utils/encrypt'
+import { Service } from 'typedi'
 
-class AuthTeacherService {
+@Service()
+export class AuthTeacherService {
   async createTeacherAuth(teacherId: string, password: string) {
     const teacher = await TeacherModel.findById(teacherId)
     if (!teacher) throw 'Profesor no encontrado'
@@ -38,5 +40,3 @@ class AuthTeacherService {
     return teacher
   }
 }
-
-export const authTeacherService = new AuthTeacherService()

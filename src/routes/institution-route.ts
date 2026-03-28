@@ -1,19 +1,21 @@
-import { institutionController } from '@/controllers/institution-controller'
+import { InstitutionController } from '@/controllers/institution-controller'
 import { jwtUserRoot } from '@/utils/jtw'
 import { Hono } from 'hono'
+import Container from 'typedi'
 
 export const institutionRoute = new Hono()
+const controller = Container.get(InstitutionController)
 
 institutionRoute.use('/*', jwtUserRoot)
 
 
-institutionRoute.post('/', institutionController.createInstitution)
-institutionRoute.put('/', institutionController.updateInstitution)
-institutionRoute.delete('/', institutionController.deleteInstitution)
+institutionRoute.post('/', controller.createInstitution)
+institutionRoute.put('/', controller.updateInstitution)
+institutionRoute.delete('/', controller.deleteInstitution)
 
-// institutionRoute.post('/assign-user', institutionController.assignUserToInstitution)
-// institutionRoute.post('/remove-user', institutionController.removeUserFromInstitution)
+// institutionRoute.post('/assign-user', controller.assignUserToInstitution)
+// institutionRoute.post('/remove-user', controller.removeUserFromInstitution)
 
 
-institutionRoute.get('/', institutionController.getInstitutions)
-institutionRoute.get('/:id', institutionController.getInstitutionById)
+institutionRoute.get('/', controller.getInstitutions)
+institutionRoute.get('/:id', controller.getInstitutionById)

@@ -10,36 +10,38 @@ import {
   institutionSchema,
   UpdateInstitutionSchema
 } from '@/schemas/institution-schema'
-import { institutionService } from '@/services/institution-service'
+import { InstitutionService } from '@/services/institution-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
-
-class InstitutionController {
-  async getInstitutions(c: Context) {
+import { Service } from 'typedi'
+@Service()
+export class InstitutionController {
+  constructor(private institutionService: InstitutionService) { }
+   getInstitutions = async (c: Context) => {
     try {
-      const institutions = await institutionService.getInstitutions()
+      const institutions = await this.institutionService.getInstitutions()
       return c.json(institutions)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 
-  async getInstitutionById(c: Context) {
+   getInstitutionById = async (c: Context) => {
     try {
       const { id } = c.req.param()
-      const institution = await institutionService.getInstitutionById(id)
+      const institution = await this.institutionService.getInstitutionById(id)
       return c.json(institution)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 
-  async createInstitution(c: Context) {
+   createInstitution = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = institutionSchema.parse(body) as InstitutionSchema
 
-      const institution = await institutionService.createInstitution(parsedBody)
+      const institution = await this.institutionService.createInstitution(parsedBody)
 
       return c.json(institution)
 
@@ -48,13 +50,13 @@ class InstitutionController {
     }
   }
 
-  async updateInstitution(c: Context) {
+   updateInstitution = async (c: Context) => {
     try {
 
       const body = await c.req.json()
       const parsedBody = updateInstitutionSchema.parse(body) as UpdateInstitutionSchema
 
-      const institution = await institutionService.updateInstitution(parsedBody)
+      const institution = await this.institutionService.updateInstitution(parsedBody)
 
       return c.json(institution)
     } catch (error) {
@@ -62,12 +64,12 @@ class InstitutionController {
     }
   }
 
-  async deleteInstitution(c: Context) {
+   deleteInstitution = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = deleteInstitutionSchema.parse(body) as DeleteInstitutionSchema
 
-      const institution = await institutionService.deleteInstitution(parsedBody)
+      const institution = await this.institutionService.deleteInstitution(parsedBody)
 
       return c.json(institution)
     } catch (error) {
@@ -75,12 +77,12 @@ class InstitutionController {
     }
   }
 
-  async assignUserToInstitution(c: Context) {
+   assignUserToInstitution = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = assignUserToInstitutionSchema.parse(body) as AssignUserToInstitutionSchema
 
-      const institution = await institutionService.assignUserToInstitution(parsedBody)
+      const institution = await this.institutionService.assignUserToInstitution(parsedBody)
 
       return c.json(institution)
     } catch (error) {
@@ -88,12 +90,12 @@ class InstitutionController {
     }
   }
 
-  async removeUserFromInstitution(c: Context) {
+   removeUserFromInstitution = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = removeUserFromInstitutionSchema.parse(body) as RemoveUserFromInstitutionSchema
 
-      const institution = await institutionService.removeUserFromInstitution(parsedBody)
+      const institution = await this.institutionService.removeUserFromInstitution(parsedBody)
 
       return c.json(institution)
     } catch (error) {
@@ -101,5 +103,3 @@ class InstitutionController {
     }
   }
 }
-
-export const institutionController = new InstitutionController()

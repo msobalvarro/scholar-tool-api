@@ -1,7 +1,9 @@
 import { ResponsableModel } from '@/models/responsable-model'
 import { ResponsablePerson, ResponsablePersonUpdate } from '@/schemas/responsable-schema'
+import { Service } from 'typedi'
 
-class ResponsableService {
+@Service()
+export class ResponsableService {
   async createResponsable(responsable: ResponsablePerson) {
     const createdResponsable = await ResponsableModel.create(responsable)
     return createdResponsable
@@ -29,5 +31,3 @@ class ResponsableService {
     return responsable
   }
 }
-
-export const responsableService = new ResponsableService()

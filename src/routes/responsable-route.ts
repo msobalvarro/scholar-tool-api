@@ -1,14 +1,16 @@
-import { responsableController } from '@/controllers/responsable-controller'
+import { ResponsableController } from '@/controllers/responsable-controller'
 import { Hono } from 'hono'
 import { jwtUserInstitution } from '@/utils/jtw'
+import Container from 'typedi'
 
 export const responsableRoute = new Hono()
+const controller = Container.get(ResponsableController)
 
 responsableRoute.use('/*', jwtUserInstitution)
 
-responsableRoute.get('/', responsableController.getAll)
-responsableRoute.get('/:id', responsableController.getById)
-responsableRoute.post('/', responsableController.create)
-responsableRoute.put('/', responsableController.update)
-responsableRoute.delete('/', responsableController.delete)
+responsableRoute.get('/', controller.getAll)
+responsableRoute.get('/:id', controller.getById)
+responsableRoute.post('/', controller.create)
+responsableRoute.put('/', controller.update)
+responsableRoute.delete('/', controller.delete)
 

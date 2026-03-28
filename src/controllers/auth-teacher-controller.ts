@@ -1,15 +1,19 @@
 import { AuthTeacherSchema, authTeacherSchema } from '@/schemas/auth-teacher-schema'
-import { authTeacherService } from '@/services/auth-teacher-service'
+import { AuthTeacherService } from '@/services/auth-teacher-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
+import { Service } from 'typedi'
 
-class AuthTeacherController {
-  async create(c: Context) {
+@Service()
+export class AuthTeacherController {
+  constructor(private authTeacherService: AuthTeacherService) {}
+
+   create = async (c: Context) => {
     try {
       const body = await c.req.json()
       const payload = authTeacherSchema.parse(body) as AuthTeacherSchema
 
-      const teacherAuth = await authTeacherService.createTeacherAuth(payload.teacherId, payload.password)
+      const teacherAuth = await this.authTeacherService.createTeacherAuth(payload.teacherId, payload.password)
 
       return c.json({ teacherAuth }, 201)
     } catch (error) {
@@ -17,22 +21,22 @@ class AuthTeacherController {
     }
   }
 
-  async getAll(c: Context) {
+   getAll = async (c: Context) => {
     try {
       const user = c.get('jwtPayload')
-      const teachersAuth = await authTeacherService.getAllTeacherAuth(user.institutionId)
+      const teachersAuth = await this.authTeacherService.getAllTeacherAuth(user.institutionId)
       return c.json(teachersAuth)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 
-  async updatePassword(c: Context) {
+   updatePassword = async (c: Context) => {
     try {
       const body = await c.req.json()
       const payload = authTeacherSchema.parse(body) as AuthTeacherSchema
       const user = c.get('jwtPayload')
-      const teacherAuth = await authTeacherService.updatePassword(user._id, payload.password)
+      const teacherAuth = await this.authTeacherService.updatePassword(user._id, payload.password)
 
       return c.json({ teacherAuth })
     } catch (error) {
@@ -40,5 +44,3 @@ class AuthTeacherController {
     }
   }
 }
-
-export const authTeacherController = new AuthTeacherController()

@@ -2,8 +2,10 @@ import { ObservationModel } from '@/models/observation-model'
 import { StudentModel } from '@/models/student-model'
 import { TeacherModel } from '@/models/teacher-model'
 import { ObservationSchema } from '@/schemas/observation-schema'
+import { Service } from 'typedi'
 
-class Observation {
+@Service()
+export class ObservationService {
   async createObservation(payload: ObservationSchema, teacherId: string) {
     const { studentId, type, observation } = payload
 
@@ -33,5 +35,3 @@ class Observation {
     return observations
   }
 }
-
-export const observationService = new Observation()

@@ -3,8 +3,10 @@ import { InstitutionModel } from '@/models/institution-model'
 import { MatriculeModel } from '@/models/matricule-model'
 import { TeacherModel } from '@/models/teacher-model'
 import { Course } from '@/schemas/course-schema'
+import { Service } from 'typedi'
 
-class CourseService {
+@Service()
+export class CourseService {
   async createCourse(course: Course, institutionId: string) {
     const institution = await InstitutionModel.findById(institutionId)
     if (!institution) throw 'Institución no encontrada'
@@ -55,5 +57,3 @@ class CourseService {
     return course
   }
 }
-
-export const courseService = new CourseService()

@@ -1,8 +1,10 @@
 import { AsignatureModel } from '@/models/asignature-model'
 import { InstitutionModel } from '@/models/institution-model'
 import { AsignatureSchema, AsignatureUpdateSchema } from '@/schemas/asignature-schema'
+import { Service } from 'typedi'
 
-class AsignatureService {
+@Service()
+export class AsignatureService {
   async createAsignature(asignature: AsignatureSchema, institutionId: string) {
     const { name, description, status } = asignature
 
@@ -37,5 +39,3 @@ class AsignatureService {
   }
 
 }
-
-export const asignatureService = new AsignatureService()

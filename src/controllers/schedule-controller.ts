@@ -4,16 +4,19 @@ import {
   ScheduleUpdate,
   scheduleUpdateSchema
 } from '@/schemas/schedule-schema'
-import { scheduleService } from '@/services/schedule-service'
+import { ScheduleService } from '@/services/schedule-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
+import { Service } from 'typedi'
 
-class ScheduleController {
-  async createSchedule(c: Context) {
+@Service()
+export class ScheduleController {
+  constructor(private scheduleService: ScheduleService) { }
+   createSchedule = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = await scheduleSchema.parse(body) as Schedule
-      const scheduleCreated = await scheduleService.createSchedule(parsedBody)
+      const scheduleCreated = await this.scheduleService.createSchedule(parsedBody)
 
       return c.json(scheduleCreated)
     } catch (error) {
@@ -21,66 +24,64 @@ class ScheduleController {
     }
   }
 
-  async getScheduleById(c: Context) {
+   getScheduleById = async (c: Context) => {
     try {
       const id = c.req.param('id')
-      const schedule = await scheduleService.getScheduleById(id)
+      const schedule = await this.scheduleService.getScheduleById(id)
       return c.json(schedule)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 
-  async getScheduleByCourseId(c: Context) {
+   getScheduleByCourseId = async (c: Context) => {
     try {
       const courseId = c.req.param('courseId')
-      const schedule = await scheduleService.getScheduleByCourseId(courseId)
+      const schedule = await this.scheduleService.getScheduleByCourseId(courseId)
       return c.json(schedule)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 
-  async getScheduleByTeacherId(c: Context) {
+   getScheduleByTeacherId = async (c: Context) => {
     try {
       const teacherId = c.req.param('teacherId')
-      const schedule = await scheduleService.getScheduleByTeacherId(teacherId)
+      const schedule = await this.scheduleService.getScheduleByTeacherId(teacherId)
       return c.json(schedule)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 
-  async getScheduleByAsignatureId(c: Context) {
+   getScheduleByAsignatureId = async (c: Context) => {
     try {
       const asignatureId = c.req.param('asignatureId')
-      const schedule = await scheduleService.getScheduleByAsignatureId(asignatureId)
+      const schedule = await this.scheduleService.getScheduleByAsignatureId(asignatureId)
       return c.json(schedule)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 
-  async updateSchedule(c: Context) {
+   updateSchedule = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = await scheduleUpdateSchema.parse(body) as ScheduleUpdate
-      const scheduleUpdated = await scheduleService.updateSchedule(parsedBody)
+      const scheduleUpdated = await this.scheduleService.updateSchedule(parsedBody)
       return c.json(scheduleUpdated)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 
-  async deleteSchedule(c: Context) {
+   deleteSchedule = async (c: Context) => {
     try {
       const id = c.req.param('id')
-      const scheduleDeleted = await scheduleService.deleteSchedule(id)
+      const scheduleDeleted = await this.scheduleService.deleteSchedule(id)
       return c.json(scheduleDeleted)
     } catch (error) {
       return ErrorValidator(error, c)
     }
   }
 }
-
-export const scheduleController = new ScheduleController()
