@@ -4,12 +4,12 @@ import { AsignatureSchema, AsignatureUpdateSchema } from '@/schemas/asignature-s
 
 class AsignatureService {
   async createAsignature(asignature: AsignatureSchema, institutionId: string) {
-    const { name } = asignature
+    const { name, description, status } = asignature
 
     const institution = await InstitutionModel.findById(institutionId)
     if (!institution) throw 'Institución no encontrada'
 
-    const asignatureCreated = await AsignatureModel.create({ name, institution })
+    const asignatureCreated = await AsignatureModel.create({ name, description, status, institution })
     return asignatureCreated
   }
 
@@ -18,9 +18,9 @@ class AsignatureService {
     return asignature
   }
 
-  async updateAsignature(asignature: AsignatureUpdateSchema) {
-    const { _id, ...rest } = asignature
-    const asignatureUpdated = await AsignatureModel.findByIdAndUpdate(_id, rest, { new: true })
+  async updateAsignature(asignature: AsignatureSchema, _id: string) {
+    const { name, description, status } = asignature
+    const asignatureUpdated = await AsignatureModel.findByIdAndUpdate(_id, { name, description, status }, { new: true })
     return asignatureUpdated
   }
 

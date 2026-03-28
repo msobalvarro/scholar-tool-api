@@ -5,6 +5,8 @@ const asignatureSchema = new Schema<Asignature>(
   {
     name: { type: String, required: true },
     institution: { type: Schema.Types.ObjectId, ref: 'Institution', required: true },
+    description: String,
+    status: { type: String, enum: ['active', 'inactive'], default: 'active' },
   },
   {
     versionKey: false,

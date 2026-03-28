@@ -2,6 +2,8 @@ import { z } from 'zod'
 
 export const asignatureSchema = z.object({
   name: z.string(),
+  description: z.string(),
+  status: z.enum(['active', 'inactive']),
 })
 
 export type AsignatureSchema = z.infer<typeof asignatureSchema>

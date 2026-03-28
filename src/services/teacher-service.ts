@@ -1,6 +1,6 @@
 import { InstitutionModel } from '@/models/institution-model'
 import { TeacherModel } from '@/models/teacher-model'
-import { TeacherSchema, UpdateTeacherSchema } from '@/schemas/teacher-schema'
+import { TeacherSchema } from '@/schemas/teacher-schema'
 
 class TeacherService {
   async createTeacher(institutionId: string, payload: TeacherSchema) {

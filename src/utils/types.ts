@@ -63,8 +63,10 @@ export type Schedule = {
 }
 
 export type Asignature = {
-  _id?: any
+  _id?: string
   name: string
+  description: string
+  status: 'active' | 'inactive'
   institution: Institution
 }
 

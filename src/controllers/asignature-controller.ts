@@ -34,8 +34,9 @@ class AsignatureController {
   async updateAsignature(c: Context) {
     try {
       const body = await c.req.json()
-      const parsedBody = await asignatureUpdateSchema.parse(body) as AsignatureUpdateSchema
-      const asignatureUpdated = await asignatureService.updateAsignature(parsedBody)
+      const id = c.req.param('id')
+      const parsedBody = await asignatureSchema.parse(body) as AsignatureSchema
+      const asignatureUpdated = await asignatureService.updateAsignature(parsedBody, id)
       return c.json(asignatureUpdated)
     } catch (error) {
       return ErrorValidator(error, c)
