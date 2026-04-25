@@ -7,6 +7,7 @@ import { Service } from 'typedi'
 @Service()
 export class AuthController {
   constructor(private authService: AuthService) { }
+
   authUserInstitution = async (c: Context) => {
     try {
       const body = await c.req.json()

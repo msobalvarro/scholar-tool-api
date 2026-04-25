@@ -7,7 +7,8 @@ import { Service } from 'typedi'
 @Service()
 export class AssistanceController {
   constructor(private assistanceService: AssitanceService) { }
-   createAssistance = async (c: Context) => {
+
+  createAssistance = async (c: Context) => {
     try {
       const body = await c.req.json()
       const payload = assistanceSchema.parse(body) as AssitanceSchema
@@ -20,5 +21,5 @@ export class AssistanceController {
     }
   }
 
-   getAssistance = async (c: Context) => { }
+  getAssistance = async (c: Context) => { }
 }

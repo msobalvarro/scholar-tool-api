@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose'
-import { RootUser } from '@/utils/types'
+import { RootUser } from '@/interfaces/dtos/models'
 
 const userRootSchema = new Schema<RootUser>(
   {

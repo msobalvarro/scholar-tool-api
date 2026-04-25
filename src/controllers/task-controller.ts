@@ -15,7 +15,7 @@ import { Service } from 'typedi'
 export class TaskController {
   constructor(private taskService: TaskService) { }
 
-   create = async (c: Context) => {
+  create = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = TaskSchema.parse(body) as Task
@@ -29,7 +29,7 @@ export class TaskController {
     }
   }
 
-   update = async (c: Context) => {
+  update = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = TaskUpdateSchema.parse(body) as TaskUpdate
@@ -41,7 +41,7 @@ export class TaskController {
     }
   }
 
-   delete = async (c: Context) => {
+  delete = async (c: Context) => {
     try {
       const { _id } = await c.req.json()
 
@@ -54,7 +54,7 @@ export class TaskController {
     }
   }
 
-   getTasksByAsignature = async (c: Context) => {
+  getTasksByAsignature = async (c: Context) => {
     try {
       const params = await c.req.param()
       const parsedParams = TaskGetByAsignatureSchema.parse(params) as TaskGetByAsignature

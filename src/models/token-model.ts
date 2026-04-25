@@ -1,4 +1,4 @@
-import { Token } from '@/utils/types'
+import { Token } from '@/interfaces/dtos/models'
 import { Schema, model } from 'mongoose'
 
 const TokenSchema = new Schema<Token>(

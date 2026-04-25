@@ -6,7 +6,8 @@ import { Service } from 'typedi'
 @Service()
 export class CourseController {
   constructor(private courseService: CourseService) { }
-   create = async (c: Context) => {
+
+  create = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = courseSchema.parse(body) as Course
@@ -20,7 +21,7 @@ export class CourseController {
     }
   }
 
-   update = async (c: Context) => {
+  update = async (c: Context) => {
     try {
       const { id } = await c.req.param() as { id: string }
       const body = await c.req.json()
@@ -33,7 +34,7 @@ export class CourseController {
     }
   }
 
-   delete = async (c: Context) => {
+  delete = async (c: Context) => {
     try {
       const { id } = await c.req.param() as { id: string }
       const course = await this.courseService.deleteCourse(id)
@@ -43,7 +44,7 @@ export class CourseController {
     }
   }
 
-   getAll = async (c: Context) => {
+  getAll = async (c: Context) => {
     try {
       const user = c.get('jwtPayload')
       const courses = await this.courseService.getAllCourses(user.institutionId)
@@ -53,7 +54,7 @@ export class CourseController {
     }
   }
 
-   getById = async (c: Context) => {
+  getById = async (c: Context) => {
     try {
       const { id } = await c.req.param() as { id: string }
       const course = await this.courseService.getCourseById(id)

@@ -12,7 +12,8 @@ import { Service } from 'typedi'
 @Service()
 export class ScheduleController {
   constructor(private scheduleService: ScheduleService) { }
-   createSchedule = async (c: Context) => {
+
+  createSchedule = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = await scheduleSchema.parse(body) as Schedule
@@ -24,7 +25,7 @@ export class ScheduleController {
     }
   }
 
-   getScheduleById = async (c: Context) => {
+  getScheduleById = async (c: Context) => {
     try {
       const id = c.req.param('id')
       const schedule = await this.scheduleService.getScheduleById(id)
@@ -34,7 +35,7 @@ export class ScheduleController {
     }
   }
 
-   getScheduleByCourseId = async (c: Context) => {
+  getScheduleByCourseId = async (c: Context) => {
     try {
       const courseId = c.req.param('courseId')
       const schedule = await this.scheduleService.getScheduleByCourseId(courseId)
@@ -44,7 +45,7 @@ export class ScheduleController {
     }
   }
 
-   getScheduleByTeacherId = async (c: Context) => {
+  getScheduleByTeacherId = async (c: Context) => {
     try {
       const teacherId = c.req.param('teacherId')
       const schedule = await this.scheduleService.getScheduleByTeacherId(teacherId)
@@ -54,7 +55,7 @@ export class ScheduleController {
     }
   }
 
-   getScheduleByAsignatureId = async (c: Context) => {
+  getScheduleByAsignatureId = async (c: Context) => {
     try {
       const asignatureId = c.req.param('asignatureId')
       const schedule = await this.scheduleService.getScheduleByAsignatureId(asignatureId)
@@ -64,7 +65,7 @@ export class ScheduleController {
     }
   }
 
-   updateSchedule = async (c: Context) => {
+  updateSchedule = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = await scheduleUpdateSchema.parse(body) as ScheduleUpdate
@@ -75,7 +76,7 @@ export class ScheduleController {
     }
   }
 
-   deleteSchedule = async (c: Context) => {
+  deleteSchedule = async (c: Context) => {
     try {
       const id = c.req.param('id')
       const scheduleDeleted = await this.scheduleService.deleteSchedule(id)

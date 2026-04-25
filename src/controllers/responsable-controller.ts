@@ -10,7 +10,8 @@ import { Service } from 'typedi'
 @Service()
 export class ResponsableController {
   constructor(private responsableService: ResponsableService) { }
-   create = async (c: Context) => {
+
+  create = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = responsableSchema.parse(body) as ResponsablePerson
@@ -23,7 +24,7 @@ export class ResponsableController {
     }
   }
 
-   update = async (c: Context) => {
+  update = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = responsableSchema.parse(body) as ResponsablePersonUpdate
@@ -36,7 +37,7 @@ export class ResponsableController {
     }
   }
 
-   delete = async (c: Context) => {
+  delete = async (c: Context) => {
     try {
       const { _id } = await c.req.json()
       const responsable = await this.responsableService.deleteResponsable(_id)
@@ -46,7 +47,7 @@ export class ResponsableController {
     }
   }
 
-   getAll = async (c: Context) => {
+  getAll = async (c: Context) => {
     try {
       const responsables = await this.responsableService.getAllResponsables()
       return c.json(responsables)
@@ -55,7 +56,7 @@ export class ResponsableController {
     }
   }
 
-   getById = async (c: Context) => {
+  getById = async (c: Context) => {
     try {
       const { id } = await c.req.param() as { id: string }
       const responsable = await this.responsableService.getResponsableById(id)

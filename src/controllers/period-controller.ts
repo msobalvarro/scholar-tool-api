@@ -7,7 +7,8 @@ import { Service } from 'typedi'
 @Service()
 export class PeriodController {
   constructor(private periodService: PeriodService) { }
-   create = async (c: Context) => {
+
+  create = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = PeriodSchema.parse(body) as Period
@@ -21,7 +22,7 @@ export class PeriodController {
     }
   }
 
-   update = async (c: Context) => {
+  update = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = PeriodUpdateSchema.parse(body) as PeriodUpdate
@@ -33,7 +34,7 @@ export class PeriodController {
     }
   }
 
-   delete = async (c: Context) => {
+  delete = async (c: Context) => {
     try {
       const { _id } = await c.req.json()
       const period = await this.periodService.deletePeriod(_id)
@@ -44,7 +45,7 @@ export class PeriodController {
   }
 
 
-   getById = async (c: Context) => {
+  getById = async (c: Context) => {
     try {
       const { id } = await c.req.param() as { id: string }
 
@@ -57,7 +58,7 @@ export class PeriodController {
     }
   }
 
-   getPeriodsByInstitution = async (c: Context) => {
+  getPeriodsByInstitution = async (c: Context) => {
     try {
       const user = c.get('jwtPayload')
       const periods = await this.periodService.getPeriodsByInstitution(user.institutionId)

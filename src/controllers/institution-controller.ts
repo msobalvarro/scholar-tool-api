@@ -17,7 +17,8 @@ import { Service } from 'typedi'
 @Service()
 export class InstitutionController {
   constructor(private institutionService: InstitutionService) { }
-   getInstitutions = async (c: Context) => {
+
+  getInstitutions = async (c: Context) => {
     try {
       const institutions = await this.institutionService.getInstitutions()
       return c.json(institutions)
@@ -26,7 +27,7 @@ export class InstitutionController {
     }
   }
 
-   getInstitutionById = async (c: Context) => {
+  getInstitutionById = async (c: Context) => {
     try {
       const { id } = c.req.param()
       const institution = await this.institutionService.getInstitutionById(id)
@@ -36,7 +37,7 @@ export class InstitutionController {
     }
   }
 
-   createInstitution = async (c: Context) => {
+  createInstitution = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = institutionSchema.parse(body) as InstitutionSchema
@@ -50,7 +51,7 @@ export class InstitutionController {
     }
   }
 
-   updateInstitution = async (c: Context) => {
+  updateInstitution = async (c: Context) => {
     try {
 
       const body = await c.req.json()
@@ -64,7 +65,7 @@ export class InstitutionController {
     }
   }
 
-   deleteInstitution = async (c: Context) => {
+  deleteInstitution = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = deleteInstitutionSchema.parse(body) as DeleteInstitutionSchema
@@ -77,7 +78,7 @@ export class InstitutionController {
     }
   }
 
-   assignUserToInstitution = async (c: Context) => {
+  assignUserToInstitution = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = assignUserToInstitutionSchema.parse(body) as AssignUserToInstitutionSchema
@@ -90,7 +91,7 @@ export class InstitutionController {
     }
   }
 
-   removeUserFromInstitution = async (c: Context) => {
+  removeUserFromInstitution = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = removeUserFromInstitutionSchema.parse(body) as RemoveUserFromInstitutionSchema

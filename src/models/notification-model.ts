@@ -1,4 +1,4 @@
-import { Notifications } from '@/utils/types'
+import { Notifications } from '@/interfaces/dtos/models'
 import { model, Schema } from 'mongoose'
 
 const NotificationSchema = new Schema<Notifications>({

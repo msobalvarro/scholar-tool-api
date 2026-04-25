@@ -7,7 +7,7 @@ import { Service } from 'typedi'
 @Service()
 export class ObservationController {
   constructor(private observationService: ObservationService) { }
-   createObservation = async (c: Context) => {
+  createObservation = async (c: Context) => {
     try {
       const body = await c.req.json()
       const payload = observationSchema.parse(body) as ObservationSchema

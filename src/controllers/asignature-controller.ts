@@ -1,8 +1,6 @@
 import {
   AsignatureSchema,
-  asignatureSchema,
-  AsignatureUpdateSchema,
-  asignatureUpdateSchema
+  asignatureSchema
 } from '@/schemas/asignature-schema'
 import { AsignatureService } from '@/services/asignature-service'
 import { ErrorValidator } from '@/utils/error-validator'
@@ -12,7 +10,8 @@ import { Service } from 'typedi'
 @Service()
 export class AsignatureController {
   constructor(private asignatureService: AsignatureService) { }
-   createAsignature = async (c: Context) => {
+
+  createAsignature = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = await asignatureSchema.parse(body) as AsignatureSchema
@@ -24,7 +23,7 @@ export class AsignatureController {
     }
   }
 
-   getAsignatureById = async (c: Context) => {
+  getAsignatureById = async (c: Context) => {
     try {
       const id = c.req.param('id')
       const asignature = await this.asignatureService.getAsignatureById(id)
@@ -34,7 +33,7 @@ export class AsignatureController {
     }
   }
 
-   updateAsignature = async (c: Context) => {
+  updateAsignature = async (c: Context) => {
     try {
       const body = await c.req.json()
       const id = c.req.param('id')
@@ -46,7 +45,7 @@ export class AsignatureController {
     }
   }
 
-   deleteAsignature = async (c: Context) => {
+  deleteAsignature = async (c: Context) => {
     try {
       const id = c.req.param('id')
       const asignatureDeleted = await this.asignatureService.deleteAsignature(id)
@@ -56,7 +55,7 @@ export class AsignatureController {
     }
   }
 
-   getAllAsignatures = async (c: Context) => {
+  getAllAsignatures = async (c: Context) => {
     try {
       const user = c.get('jwtPayload')
       const asignatures = await this.asignatureService.getAllAsignatures(user.institutionId)

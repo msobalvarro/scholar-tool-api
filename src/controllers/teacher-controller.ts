@@ -22,7 +22,7 @@ export class TeacherController {
     }
   }
 
-   createTeacher = async (c: Context) => {
+  createTeacher = async (c: Context) => {
     try {
       const body = await c.req.json()
       const payload = teacherSchema.parse(body) as TeacherSchema
@@ -34,7 +34,7 @@ export class TeacherController {
     }
   }
 
-   getTeacherById = async (c: Context) => {
+  getTeacherById = async (c: Context) => {
     try {
       const { id } = c.req.param()
       const teacher = await this.teacherService.getTeacherById(id)
@@ -44,7 +44,7 @@ export class TeacherController {
     }
   }
 
-   updateTeacher = async (c: Context) => {
+  updateTeacher = async (c: Context) => {
     try {
       const { id } = c.req.param()
       const body = await c.req.json()
@@ -57,7 +57,7 @@ export class TeacherController {
     }
   }
 
-   deleteTeacher = async (c: Context) => {
+  deleteTeacher = async (c: Context) => {
     try {
       const { id } = c.req.param()
       const teacher = await this.teacherService.deleteTeacher(id)
@@ -67,7 +67,7 @@ export class TeacherController {
     }
   }
 
-   updatePhoto = async (c: Context) => {
+  updatePhoto = async (c: Context) => {
     try {
       const body = await c.req.json()
       const payload = teacherPhotoSchema.parse(body) as TeacherPhotoSchema

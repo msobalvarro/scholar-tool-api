@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose'
-import { Institution } from '@/utils/types'
+import { Institution } from '@/interfaces/dtos/models'
 
 const institutionSchema = new Schema<Institution>(
   {

@@ -13,7 +13,7 @@ import { Service } from 'typedi'
 export class UserInstitutionController {
   constructor(private userInstitutionService: UserInstitutionService) { }
 
-   createUserInstitution = async (c: Context) => {
+  createUserInstitution = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = createUserInstitutionSchema.parse(body) as CreateUserInstitutionSchema
@@ -25,7 +25,7 @@ export class UserInstitutionController {
     }
   }
 
-   updateUserInstitution = async (c: Context) => {
+  updateUserInstitution = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = updateUserInstitutionSchema.parse(body) as UpdateUserInstitutionSchema
@@ -37,7 +37,7 @@ export class UserInstitutionController {
     }
   }
 
-   getUserInstitutionById = async (c: Context) => {
+  getUserInstitutionById = async (c: Context) => {
     try {
       const { id } = c.req.param()
       const userInstitution = await this.userInstitutionService.getUserInstitutionById(id)
@@ -47,7 +47,7 @@ export class UserInstitutionController {
     }
   }
 
-   getAllUserInstitutions = async (c: Context) => {
+  getAllUserInstitutions = async (c: Context) => {
     try {
       const userInstitutions = await this.userInstitutionService.getAllUserInstitutions()
       return c.json(userInstitutions)

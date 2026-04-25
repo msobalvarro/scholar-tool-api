@@ -1,4 +1,4 @@
-import { Matricule } from '@/utils/types'
+import { Matricule } from '@/interfaces/dtos/models'
 import { model, Schema } from 'mongoose'
 
 const matriculeSchema = new Schema<Matricule>(

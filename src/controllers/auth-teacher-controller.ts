@@ -6,9 +6,9 @@ import { Service } from 'typedi'
 
 @Service()
 export class AuthTeacherController {
-  constructor(private authTeacherService: AuthTeacherService) {}
+  constructor(private authTeacherService: AuthTeacherService) { }
 
-   create = async (c: Context) => {
+  create = async (c: Context) => {
     try {
       const body = await c.req.json()
       const payload = authTeacherSchema.parse(body) as AuthTeacherSchema
@@ -21,7 +21,7 @@ export class AuthTeacherController {
     }
   }
 
-   getAll = async (c: Context) => {
+  getAll = async (c: Context) => {
     try {
       const user = c.get('jwtPayload')
       const teachersAuth = await this.authTeacherService.getAllTeacherAuth(user.institutionId)
@@ -31,7 +31,7 @@ export class AuthTeacherController {
     }
   }
 
-   updatePassword = async (c: Context) => {
+  updatePassword = async (c: Context) => {
     try {
       const body = await c.req.json()
       const payload = authTeacherSchema.parse(body) as AuthTeacherSchema

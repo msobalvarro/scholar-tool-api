@@ -7,7 +7,7 @@ import { Service } from 'typedi'
 @Service()
 export class StudentController {
   constructor(private studentService: StudentService) { }
-   create = async (c: Context) => {
+  create = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = studentSchema.parse(body) as Student
@@ -21,7 +21,7 @@ export class StudentController {
     }
   }
 
-   update = async (c: Context) => {
+  update = async (c: Context) => {
     try {
       const { id } = await c.req.param() as { id: string }
       const body = await c.req.json()
@@ -35,7 +35,7 @@ export class StudentController {
     }
   }
 
-   delete = async (c: Context) => {
+  delete = async (c: Context) => {
     try {
       const user = c.get('jwtPayload')
       const { id } = await c.req.param() as { id: string }
@@ -46,7 +46,7 @@ export class StudentController {
     }
   }
 
-   getAll = async (c: Context) => {
+  getAll = async (c: Context) => {
     try {
       const user = c.get('jwtPayload')
       const students = await this.studentService.getAllStudents(user.institutionId)
@@ -56,7 +56,7 @@ export class StudentController {
     }
   }
 
-   getById = async (c: Context) => {
+  getById = async (c: Context) => {
     try {
       const { id } = await c.req.param() as { id: string }
       const user = c.get('jwtPayload')
@@ -67,7 +67,7 @@ export class StudentController {
     }
   }
 
-   getAllByCourseId = async (c: Context) => {
+  getAllByCourseId = async (c: Context) => {
     try {
       const { courseId } = await c.req.param() as { courseId: string }
       const user = c.get('jwtPayload')
@@ -78,7 +78,7 @@ export class StudentController {
     }
   }
 
-   assignToCourse = async (c: Context) => {
+  assignToCourse = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = assignToCourseSchema.parse(body) as AssignToCourse

@@ -6,7 +6,8 @@ import { Service } from 'typedi'
 @Service()
 export class MatriculeController {
   constructor(private matriculeService: MatriculeService) { }
-   create = async (c: Context) => {
+
+  create = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = matriculeSchema.parse(body) as Matricule
@@ -20,7 +21,7 @@ export class MatriculeController {
     }
   }
 
-   update = async (c: Context) => {
+  update = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = matriculeSchema.parse(body) as MatriculeUpdate
@@ -33,7 +34,7 @@ export class MatriculeController {
     }
   }
 
-   delete = async (c: Context) => {
+  delete = async (c: Context) => {
     try {
       const { _id } = await c.req.json()
       const matricule = await this.matriculeService.deleteMatricule(_id)
@@ -43,7 +44,7 @@ export class MatriculeController {
     }
   }
 
-   getAll = async (c: Context) => {
+  getAll = async (c: Context) => {
     try {
       const user = c.get('jwtPayload')
       const matricules = await this.matriculeService.getAllMatricules(user.institutionId)
@@ -53,7 +54,7 @@ export class MatriculeController {
     }
   }
 
-   getById = async (c: Context) => {
+  getById = async (c: Context) => {
     try {
       const { _id } = await c.req.json()
       const matricule = await this.matriculeService.getMatriculeById(_id)

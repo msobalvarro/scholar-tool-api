@@ -8,7 +8,7 @@ import { Service } from 'typedi'
 export class TokenController {
   constructor(private tokenService: TokenService) { }
 
-   createTokenStudent = async (c: Context) => {
+  createTokenStudent = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = await tokenSchema.parse(body)
@@ -24,7 +24,7 @@ export class TokenController {
     }
   }
 
-   createTokenResponsable = async (c: Context) => {
+  createTokenResponsable = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = await tokenSchema.parse(body) as TokenSchema
@@ -40,7 +40,7 @@ export class TokenController {
     }
   }
 
-   removeToken = async (c: Context) => {
+  removeToken = async (c: Context) => {
     try {
       const body = await c.req.json()
       const parsedBody = await tokenSchema.parse(body) as TokenSchema
