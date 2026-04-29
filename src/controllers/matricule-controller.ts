@@ -1,4 +1,4 @@
-import { matriculeSchema, Matricule, MatriculeUpdate } from '@/schemas/matricule-schema'
+import { matriculeSchema, Matricule, MatriculeUpdate } from '@/infrastructure/database/schemas/matricule-schema'
 import { MatriculeService } from '@/services/matrciule-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'

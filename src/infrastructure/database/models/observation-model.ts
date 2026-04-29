@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose'
-import { Observations } from '@/interfaces/dtos/models'
+import { Observations } from '@/core/interfaces/dtos/models'
 
 const observationSchema = new Schema<Observations>(
   {

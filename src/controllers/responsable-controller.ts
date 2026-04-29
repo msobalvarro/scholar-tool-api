@@ -2,7 +2,7 @@ import {
   ResponsablePerson,
   ResponsablePersonUpdate,
   responsableSchema
-} from '@/schemas/responsable-schema'
+} from '@/infrastructure/database/schemas/responsable-schema'
 import { Context } from 'hono'
 import { ErrorValidator } from '@/utils/error-validator'
 import { ResponsableService } from '@/services/responsable-service'

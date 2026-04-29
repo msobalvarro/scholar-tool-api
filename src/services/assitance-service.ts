@@ -1,8 +1,8 @@
-import { AssistanceModel } from '@/models/assistance-model'
-import { CourseModel } from '@/models/course-model'
-import { StudentModel } from '@/models/student-model'
-import { TeacherModel } from '@/models/teacher-model'
-import { AssitanceSchema } from '@/schemas/assitance-schema'
+import { AssistanceModel } from '@/infrastructure/database/models/assistance-model'
+import { CourseModel } from '@/infrastructure/database/models/course-model'
+import { StudentModel } from '@/infrastructure/database/models/student-model'
+import { TeacherModel } from '@/infrastructure/database/models/teacher-model'
+import { AssitanceSchema } from '@/infrastructure/database/schemas/assitance-schema'
 import { Service } from 'typedi'
 
 @Service()

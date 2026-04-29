@@ -1,4 +1,4 @@
-import { Course, courseSchema, CourseUpdate, courseUpdateSchema } from '@/schemas/course-schema'
+import { Course, courseSchema, CourseUpdate, courseUpdateSchema } from '@/infrastructure/database/schemas/course-schema'
 import { CourseService } from '@/services/course-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'

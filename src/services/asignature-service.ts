@@ -1,6 +1,6 @@
-import { AsignatureModel } from '@/models/asignature-model'
-import { InstitutionModel } from '@/models/institution-model'
-import { AsignatureSchema, AsignatureUpdateSchema } from '@/schemas/asignature-schema'
+import { AsignatureModel } from '@/infrastructure/database/models/asignature-model'
+import { InstitutionModel } from '@/infrastructure/database/models/institution-model'
+import { AsignatureSchema, AsignatureUpdateSchema } from '@/infrastructure/database/schemas/asignature-schema'
 import { Service } from 'typedi'
 
 @Service()

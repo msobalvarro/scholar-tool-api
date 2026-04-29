@@ -1,7 +1,7 @@
-import { ObservationModel } from '@/models/observation-model'
-import { StudentModel } from '@/models/student-model'
-import { TeacherModel } from '@/models/teacher-model'
-import { ObservationSchema } from '@/schemas/observation-schema'
+import { ObservationModel } from '@/infrastructure/database/models/observation-model'
+import { StudentModel } from '@/infrastructure/database/models/student-model'
+import { TeacherModel } from '@/infrastructure/database/models/teacher-model'
+import { ObservationSchema } from '@/infrastructure/database/schemas/observation-schema'
 import { Service } from 'typedi'
 
 @Service()

@@ -1,9 +1,9 @@
-import { AsignatureModel } from '@/models/asignature-model'
-import { CourseModel } from '@/models/course-model'
-import { InstitutionModel } from '@/models/institution-model'
-import { PeriodModel } from '@/models/period-model'
-import { TaskModel } from '@/models/task-model'
-import { Task, TaskUpdate } from '@/schemas/task-schema'
+import { AsignatureModel } from '@/infrastructure/database/models/asignature-model'
+import { CourseModel } from '@/infrastructure/database/models/course-model'
+import { InstitutionModel } from '@/infrastructure/database/models/institution-model'
+import { PeriodModel } from '@/infrastructure/database/models/period-model'
+import { TaskModel } from '@/infrastructure/database/models/task-model'
+import { Task, TaskUpdate } from '@/infrastructure/database/schemas/task-schema'
 import { Service } from 'typedi'
 
 @Service()

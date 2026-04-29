@@ -1,8 +1,8 @@
 import { Context } from "hono"
 import { ErrorValidator } from "@/utils/error-validator"
 import { PeriodService } from "@/services/period-service"
-import { PeriodUpdateSchema, PeriodSchema } from "@/schemas/period-schema"
-import { PeriodUpdate, Period } from "@/schemas/period-schema"
+import { PeriodUpdateSchema, PeriodSchema } from "@/infrastructure/database/schemas/period-schema"
+import { PeriodUpdate, Period } from "@/infrastructure/database/schemas/period-schema"
 import { Service } from 'typedi'
 @Service()
 export class PeriodController {

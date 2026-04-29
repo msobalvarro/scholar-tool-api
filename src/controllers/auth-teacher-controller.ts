@@ -1,4 +1,4 @@
-import { AuthTeacherSchema, authTeacherSchema } from '@/schemas/auth-teacher-schema'
+import { AuthTeacherSchema, authTeacherSchema } from '@/infrastructure/database/schemas/auth-teacher-schema'
 import { AuthTeacherService } from '@/services/auth-teacher-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'

@@ -1,8 +1,8 @@
-import { MatriculeModel } from '@/models/matricule-model'
-import { Matricule, MatriculeUpdate } from '@/schemas/matricule-schema'
-import { InstitutionModel } from '@/models/institution-model'
-import { StudentModel } from '@/models/student-model'
-import { CourseModel } from '@/models/course-model'
+import { MatriculeModel } from '@/infrastructure/database/models/matricule-model'
+import { Matricule, MatriculeUpdate } from '@/infrastructure/database/schemas/matricule-schema'
+import { InstitutionModel } from '@/infrastructure/database/models/institution-model'
+import { StudentModel } from '@/infrastructure/database/models/student-model'
+import { CourseModel } from '@/infrastructure/database/models/course-model'
 import { Service } from 'typedi'
 
 @Service()

@@ -3,7 +3,7 @@ import {
   scheduleSchema,
   ScheduleUpdate,
   scheduleUpdateSchema
-} from '@/schemas/schedule-schema'
+} from '@/infrastructure/database/schemas/schedule-schema'
 import { ScheduleService } from '@/services/schedule-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'

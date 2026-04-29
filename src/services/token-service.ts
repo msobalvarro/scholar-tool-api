@@ -1,7 +1,7 @@
-import { InstitutionModel } from '@/models/institution-model'
-import { ResponsableModel } from '@/models/responsable-model'
-import { StudentModel } from '@/models/student-model'
-import { TokenModel } from '@/models/token-model'
+import { InstitutionModel } from '@/infrastructure/database/models/institution-model'
+import { ResponsableModel } from '@/infrastructure/database/models/responsable-model'
+import { StudentModel } from '@/infrastructure/database/models/student-model'
+import { TokenModel } from '@/infrastructure/database/models/token-model'
 import { Service } from 'typedi'
 
 @Service()

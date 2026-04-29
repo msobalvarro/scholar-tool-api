@@ -3,7 +3,7 @@ import {
   TeacherPhotoSchema,
   teacherSchema,
   TeacherSchema
-} from '@/schemas/teacher-schema'
+} from '@/infrastructure/database/schemas/teacher-schema'
 import { TeacherService } from '@/services/teacher-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'

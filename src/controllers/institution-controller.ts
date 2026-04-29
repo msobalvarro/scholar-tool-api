@@ -9,7 +9,7 @@ import {
   InstitutionSchema,
   institutionSchema,
   UpdateInstitutionSchema
-} from '@/schemas/institution-schema'
+} from '@/infrastructure/database/schemas/institution-schema'
 import { InstitutionService } from '@/services/institution-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'

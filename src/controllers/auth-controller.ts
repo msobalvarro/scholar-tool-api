@@ -1,4 +1,4 @@
-import { AuthSchema, authSchema } from '@/schemas/auth-schema'
+import { AuthSchema, authSchema } from '@/infrastructure/database/schemas/auth-schema'
 import { AuthService } from '@/services/auth-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'

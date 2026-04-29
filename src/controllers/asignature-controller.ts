@@ -1,7 +1,7 @@
 import {
   AsignatureSchema,
   asignatureSchema
-} from '@/schemas/asignature-schema'
+} from '@/infrastructure/database/schemas/asignature-schema'
 import { AsignatureService } from '@/services/asignature-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'

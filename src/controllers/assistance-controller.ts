@@ -1,4 +1,4 @@
-import { assistanceSchema, AssitanceSchema } from '@/schemas/assitance-schema'
+import { assistanceSchema, AssitanceSchema } from '@/infrastructure/database/schemas/assitance-schema'
 import { AssitanceService } from '@/services/assitance-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'

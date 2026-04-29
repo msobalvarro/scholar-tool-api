@@ -1,5 +1,5 @@
-import { UserRootModel } from '@/models/root-user-model'
-import { UpdateUserRootSchema, UserRootSchema } from '@/schemas/user-root-schema'
+import { UserRootModel } from '@/infrastructure/database/models/root-user-model'
+import { UpdateUserRootSchema, UserRootSchema } from '@/infrastructure/database/schemas/user-root-schema'
 import { createHash } from '@/utils/encrypt'
 import { Service } from 'typedi'
 

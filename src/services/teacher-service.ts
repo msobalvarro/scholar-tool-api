@@ -1,6 +1,6 @@
-import { InstitutionModel } from '@/models/institution-model'
-import { TeacherModel } from '@/models/teacher-model'
-import { TeacherSchema } from '@/schemas/teacher-schema'
+import { InstitutionModel } from '@/infrastructure/database/models/institution-model'
+import { TeacherModel } from '@/infrastructure/database/models/teacher-model'
+import { TeacherSchema } from '@/infrastructure/database/schemas/teacher-schema'
 import { Service } from 'typedi'
 
 @Service()

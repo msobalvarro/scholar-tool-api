@@ -1,12 +1,12 @@
-import { InstitutionModel } from '@/models/institution-model'
-import { UserInstitutionModel } from '@/models/user-institution-model'
+import { InstitutionModel } from '@/infrastructure/database/models/institution-model'
+import { UserInstitutionModel } from '@/infrastructure/database/models/user-institution-model'
 import {
   AssignUserToInstitutionSchema,
   DeleteInstitutionSchema,
   InstitutionSchema,
   RemoveUserFromInstitutionSchema,
   UpdateInstitutionSchema
-} from '@/schemas/institution-schema'
+} from '@/infrastructure/database/schemas/institution-schema'
 
 import { Service } from 'typedi'
 

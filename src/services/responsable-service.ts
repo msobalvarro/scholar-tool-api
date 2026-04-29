@@ -1,5 +1,5 @@
-import { ResponsableModel } from '@/models/responsable-model'
-import { ResponsablePerson, ResponsablePersonUpdate } from '@/schemas/responsable-schema'
+import { ResponsableModel } from '@/infrastructure/database/models/responsable-model'
+import { ResponsablePerson, ResponsablePersonUpdate } from '@/infrastructure/database/schemas/responsable-schema'
 import { Service } from 'typedi'
 
 @Service()

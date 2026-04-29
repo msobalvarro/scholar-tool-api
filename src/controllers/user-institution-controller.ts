@@ -3,7 +3,7 @@ import {
   createUserInstitutionSchema,
   UpdateUserInstitutionSchema,
   updateUserInstitutionSchema
-} from '@/schemas/user-institution-schema'
+} from '@/infrastructure/database/schemas/user-institution-schema'
 import { UserInstitutionService } from '@/services/user-institution-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'

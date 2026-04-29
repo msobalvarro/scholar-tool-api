@@ -1,4 +1,4 @@
-import { TokenSchema, tokenSchema } from '@/schemas/token-schema'
+import { TokenSchema, tokenSchema } from '@/infrastructure/database/schemas/token-schema'
 import { TokenService } from '@/services/token-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'

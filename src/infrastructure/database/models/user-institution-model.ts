@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose'
-import { UserInstitution } from '@/interfaces/dtos/models'
+import { UserInstitution } from '@/core/interfaces/dtos/models'
 
 const userInstitutionSchema = new Schema<UserInstitution>(
   {

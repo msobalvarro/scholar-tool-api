@@ -1,6 +1,6 @@
-import { InstitutionModel } from '@/models/institution-model'
-import { TeacherAuthModel } from '@/models/teacher-auth-model'
-import { TeacherModel } from '@/models/teacher-model'
+import { InstitutionModel } from '@/infrastructure/database/models/institution-model'
+import { TeacherAuthModel } from '@/infrastructure/database/models/teacher-auth-model'
+import { TeacherModel } from '@/infrastructure/database/models/teacher-model'
 import { createHash } from '@/utils/encrypt'
 import { Service } from 'typedi'
 

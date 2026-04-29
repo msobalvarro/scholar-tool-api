@@ -1,32 +1,55 @@
-import { CourseModel } from '@/models/course-model'
-import { InstitutionModel } from '@/models/institution-model'
-import { MatriculeModel } from '@/models/matricule-model'
-import { ResponsableModel } from '@/models/responsable-model'
-import { StudentModel } from '@/models/student-model'
-import { Student, StudentUpdate, AssignToCourse } from '@/schemas/student-schema'
-import { Service } from 'typedi'
+import { Student } from '@/core/interfaces/dtos/models'
+import { ORM } from '@/infrastructure/database'
+import { CourseModel, InstitutionModel, MatriculeModel, ResponsableModel, StudentModel } from '@/infrastructure/database/models'
+import { StudentSchema, StudentUpdateSchema, AssignToCourseSchema } from '@/infrastructure/database/schemas/student-schema'
+import mongoose from 'mongoose'
+import { Inject, Service } from 'typedi'
 
 @Service()
 export class StudentService {
-  async createStudent(student: Student, institutionId: string) {
 
-    const { responsableId, ...rest } = student
+  async createStudent(student: StudentSchema, institutionId: string): Promise<Student> {
+    const { responsableId, courseId, ...rest } = student
+    const session = await mongoose.startSession()
 
-    const institution = await InstitutionModel.findById(institutionId)
-    if (!institution) throw 'Institución no encontrada'
-    if (institution.status !== 'active') throw 'La institución no está activa'
+    try {
+      const institution = await InstitutionModel.findById(institutionId)
+      if (!institution) throw 'Institución no encontrada'
+      if (institution.status !== 'active') throw 'La institución no está activa'
 
-    const responsable = await ResponsableModel.findById(responsableId)
-    if (!responsable) throw 'Responsable no encontrado'
+      const responsable = await ResponsableModel.findById(responsableId)
+      if (!responsable) throw 'Responsable no encontrado'
 
-    return await StudentModel.create({
-      ...rest,
-      responsable,
-      institution
-    })
+      const course = await CourseModel.findById(courseId)
+      if (!course) throw 'Curso no encontrado'
+
+      const student = await StudentModel.create(
+        {
+          ...rest,
+          responsable,
+          institution
+        }
+      )
+
+      const matricule = await MatriculeModel.create(
+        {
+          student,
+          institution,
+          course
+        }
+      )
+
+      return student
+
+    } catch (error) {
+      await await session.abortTransaction()
+      throw error
+    } finally {
+      await session.endSession()
+    }
   }
 
-  async updateStudent(student: StudentUpdate, institutionId: string, studentId: string) {
+  async updateStudent(student: StudentUpdateSchema, institutionId: string, studentId: string) {
     const institution = await InstitutionModel.findById(institutionId)
     if (!institution) throw 'Institución no encontrada'
     if (institution.status !== 'active') throw 'La institución no está activa'
@@ -66,7 +89,7 @@ export class StudentService {
       .populate('responsable')
   }
 
-  async assignStudentToCourse({ courseId, studentId }: AssignToCourse, institutionId: string) {
+  async assignStudentToCourse({ courseId, studentId }: AssignToCourseSchema, institutionId: string) {
     const institution = await InstitutionModel.findById(institutionId)
     if (!institution) throw 'Institución no encontrada'
     if (institution.status !== 'active') throw 'La institución no está activa'

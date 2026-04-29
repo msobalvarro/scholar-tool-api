@@ -1,9 +1,9 @@
 import * as serviceAccount from '@/config/firebase-config.json'
 import * as admin from 'firebase-admin'
-import { InstitutionModel } from '@/models/institution-model'
-import { NotificationModel } from '@/models/notification-model'
-import { Notification } from '@/schemas/notification-schema'
-import { TokenModel } from '@/models/token-model'
+import { InstitutionModel } from '@/infrastructure/database/models/institution-model'
+import { NotificationModel } from '@/infrastructure/database/models/notification-model'
+import { Notification } from '@/infrastructure/database/schemas/notification-schema'
+import { TokenModel } from '@/infrastructure/database/models/token-model'
 import { Service } from 'typedi'
 
 admin.initializeApp({

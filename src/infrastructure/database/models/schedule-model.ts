@@ -1,4 +1,4 @@
-import { Schedule } from '@/interfaces/dtos/models'
+import { Schedule } from '@/core/interfaces/dtos/models'
 import { model, Schema } from 'mongoose'
 
 const scheduleSchema = new Schema<Schedule>(

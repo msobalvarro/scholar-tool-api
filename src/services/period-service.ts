@@ -1,6 +1,6 @@
-import { InstitutionModel } from '@/models/institution-model'
-import { PeriodModel } from '@/models/period-model'
-import { PeriodUpdate, Period } from '@/schemas/period-schema'
+import { InstitutionModel } from '@/infrastructure/database/models/institution-model'
+import { PeriodModel } from '@/infrastructure/database/models/period-model'
+import { PeriodUpdate, Period } from '@/infrastructure/database/schemas/period-schema'
 import { Service } from 'typedi'
 
 @Service()

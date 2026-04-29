@@ -1,10 +1,10 @@
-import { InstitutionModel } from '@/models/institution-model'
-import { UserInstitutionModel } from '@/models/user-institution-model'
+import { InstitutionModel } from '@/infrastructure/database/models/institution-model'
+import { UserInstitutionModel } from '@/infrastructure/database/models/user-institution-model'
 import {
   CreateUserInstitutionSchema,
   DeleteUserInstitutionSchema,
   UpdateUserInstitutionSchema
-} from '@/schemas/user-institution-schema'
+} from '@/infrastructure/database/schemas/user-institution-schema'
 import { createHash } from '@/utils/encrypt'
 import { Service } from 'typedi'
 

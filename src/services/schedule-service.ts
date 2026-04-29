@@ -1,8 +1,8 @@
-import { AsignatureModel } from '@/models/asignature-model'
-import { CourseModel } from '@/models/course-model'
-import { ScheduleModel } from '@/models/schedule-model'
-import { TeacherModel } from '@/models/teacher-model'
-import { Schedule, ScheduleUpdate } from '@/schemas/schedule-schema'
+import { AsignatureModel } from '@/infrastructure/database/models/asignature-model'
+import { CourseModel } from '@/infrastructure/database/models/course-model'
+import { ScheduleModel } from '@/infrastructure/database/models/schedule-model'
+import { TeacherModel } from '@/infrastructure/database/models/teacher-model'
+import { Schedule, ScheduleUpdate } from '@/infrastructure/database/schemas/schedule-schema'
 import { Service } from 'typedi'
 
 @Service()

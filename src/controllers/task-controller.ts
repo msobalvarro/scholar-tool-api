@@ -8,7 +8,7 @@ import {
   TaskSchema,
   TaskGetByAsignature,
   TaskGetByAsignatureSchema
-} from '@/schemas/task-schema'
+} from '@/infrastructure/database/schemas/task-schema'
 import { Service } from 'typedi'
 
 @Service()

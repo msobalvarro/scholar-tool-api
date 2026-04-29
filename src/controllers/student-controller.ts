@@ -1,16 +1,18 @@
-import { AssignToCourse, assignToCourseSchema, Student, studentSchema, StudentUpdate } from '@/schemas/student-schema'
+import { AssignToCourseSchema, assignToCourseSchema, StudentSchema, studentSchema, StudentUpdateSchema } from '@/infrastructure/database/schemas/student-schema'
 import { StudentService } from '@/services/student-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
-import { Service } from 'typedi'
+import { Inject, Service } from 'typedi'
 
 @Service()
 export class StudentController {
-  constructor(private studentService: StudentService) { }
+  @Inject(() => StudentService)
+  studentService!: StudentService
+
   create = async (c: Context) => {
     try {
       const body = await c.req.json()
-      const parsedBody = studentSchema.parse(body) as Student
+      const parsedBody = studentSchema.parse(body) as StudentSchema
       const user = c.get('jwtPayload')
 
       const student = await this.studentService.createStudent(parsedBody, user.institutionId)
@@ -25,7 +27,7 @@ export class StudentController {
     try {
       const { id } = await c.req.param() as { id: string }
       const body = await c.req.json()
-      const parsedBody = studentSchema.parse(body) as StudentUpdate
+      const parsedBody = studentSchema.parse(body) as StudentUpdateSchema
       const user = c.get('jwtPayload')
       const student = await this.studentService.updateStudent(parsedBody, user.institutionId, id)
 
@@ -81,7 +83,7 @@ export class StudentController {
   assignToCourse = async (c: Context) => {
     try {
       const body = await c.req.json()
-      const parsedBody = assignToCourseSchema.parse(body) as AssignToCourse
+      const parsedBody = assignToCourseSchema.parse(body) as AssignToCourseSchema
       const user = c.get('jwtPayload')
       const student = await this.studentService.assignStudentToCourse(parsedBody, user.institutionId)
       return c.json(student)

@@ -1,4 +1,4 @@
-import { ObservationSchema, observationSchema } from '@/schemas/observation-schema'
+import { ObservationSchema, observationSchema } from '@/infrastructure/database/schemas/observation-schema'
 import { ObservationService } from '@/services/observation-service'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
