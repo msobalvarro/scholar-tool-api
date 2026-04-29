@@ -1,6 +1,6 @@
 import Container from 'typedi'
 import { Hono } from 'hono'
-import { AuthController } from '@/controllers/auth-controller'
+import { AuthController } from '@/infrastructure/rest/controllers/auth-controller'
 
 const controller = Container.get(AuthController)
 export const authRoute = new Hono()

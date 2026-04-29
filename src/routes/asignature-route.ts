@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
-import { jwtUserInstitution } from '@/utils/jtw'
-import { AsignatureController } from '@/controllers/asignature-controller'
+import { jwtUserInstitution } from '@/infrastructure/rest/middlewares'
+import { AsignatureController } from '@/infrastructure/rest/controllers/asignature-controller'
 import Container from 'typedi'
 
 export const asignatureRoute = new Hono()

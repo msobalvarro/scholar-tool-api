@@ -1,4 +1,4 @@
-import { UserInstitutionController } from '@/controllers/user-institution-controller'
+import { UserInstitutionController } from '@/infrastructure/rest/controllers/user-institution-controller'
 import { Hono } from 'hono'
 import Container from 'typedi'
 

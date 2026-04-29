@@ -1,12 +1,12 @@
 import { assistanceSchema, AssitanceSchema } from '@/infrastructure/database/schemas/assitance-schema'
-import { AssitanceService } from '@/services/assitance-service'
+import { AssitanceRepository } from '@/infrastructure/database/repositories/assitance-repository'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
 import { Service } from 'typedi'
 
 @Service()
 export class AssistanceController {
-  constructor(private assistanceService: AssitanceService) { }
+  constructor(private assistanceService: AssitanceRepository) { }
 
   createAssistance = async (c: Context) => {
     try {

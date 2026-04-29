@@ -1,5 +1,5 @@
-import { ScheduleController } from '@/controllers/schedule-controller'
-import { jwtUserInstitution } from '@/utils/jtw'
+import { ScheduleController } from '@/infrastructure/rest/controllers/schedule-controller'
+import { jwtUserInstitution } from '@/infrastructure/rest/middlewares'
 import { Hono } from 'hono'
 import Container from 'typedi'
 

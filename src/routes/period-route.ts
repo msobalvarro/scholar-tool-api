@@ -1,5 +1,5 @@
-import { PeriodController } from '@/controllers/period-controller'
-import { jwtUserInstitution, jwtUserStudent, jwtUserTeacher } from '@/utils/jtw'
+import { PeriodController } from '@/infrastructure/rest/controllers/period-controller'
+import { jwtUserInstitution, jwtUserStudent, jwtUserTeacher } from '@/infrastructure/rest/middlewares'
 import { Hono } from 'hono'
 import Container from 'typedi'
 

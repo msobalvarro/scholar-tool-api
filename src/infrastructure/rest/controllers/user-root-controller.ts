@@ -5,7 +5,7 @@ import {
   UserRootSchema,
   userRootSchema
 } from '@/infrastructure/database/schemas/user-root-schema'
-import { UserRootService } from '@/services/user-root-service'
+import { UserRootService } from '@/infrastructure/database/repositories/user-root-repository'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Service } from 'typedi'
 

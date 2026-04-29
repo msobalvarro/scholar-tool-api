@@ -1,5 +1,5 @@
-import { MatriculeController } from '@/controllers/matricule-controller'
-import { jwtUserInstitution } from '@/utils/jtw'
+import { MatriculeController } from '@/infrastructure/rest/controllers/matricule-controller'
+import { jwtUserInstitution } from '@/infrastructure/rest/middlewares'
 import { Hono } from 'hono'
 import Container from 'typedi'
 

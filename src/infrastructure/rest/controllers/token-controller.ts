@@ -1,5 +1,5 @@
 import { TokenSchema, tokenSchema } from '@/infrastructure/database/schemas/token-schema'
-import { TokenService } from '@/services/token-service'
+import { TokenService } from '@/infrastructure/database/repositories/token-repository'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
 import { Service } from 'typedi'

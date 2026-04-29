@@ -1,5 +1,5 @@
-import { TokenController } from '@/controllers/token-controller'
-import { jwtUserResponsable, jwtUserStudent } from '@/utils/jtw'
+import { TokenController } from '@/infrastructure/rest/controllers/token-controller'
+import { jwtUserResponsable, jwtUserStudent } from '@/infrastructure/rest/middlewares'
 import { Hono } from 'hono'
 import Container from 'typedi'
 

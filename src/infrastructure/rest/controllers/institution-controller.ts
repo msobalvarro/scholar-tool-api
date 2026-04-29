@@ -10,7 +10,7 @@ import {
   institutionSchema,
   UpdateInstitutionSchema
 } from '@/infrastructure/database/schemas/institution-schema'
-import { InstitutionService } from '@/services/institution-service'
+import { InstitutionService } from '@/infrastructure/database/repositories/institution-repository'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
 import { Service } from 'typedi'

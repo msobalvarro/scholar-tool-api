@@ -1,12 +1,13 @@
 import { AuthSchema, authSchema } from '@/infrastructure/database/schemas/auth-schema'
-import { AuthService } from '@/services/auth-service'
+import { AuthRepository } from '@/infrastructure/database/repositories/auth-repository'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
-import { Service } from 'typedi'
+import { Inject, Service } from 'typedi'
 
 @Service()
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  @Inject(() => AuthRepository)
+  private authService!: AuthRepository
 
   authUserInstitution = async (c: Context) => {
     try {

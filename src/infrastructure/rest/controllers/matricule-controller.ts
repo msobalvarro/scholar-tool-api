@@ -1,5 +1,5 @@
 import { matriculeSchema, Matricule, MatriculeUpdate } from '@/infrastructure/database/schemas/matricule-schema'
-import { MatriculeService } from '@/services/matrciule-service'
+import { MatriculeService } from '@/infrastructure/database/repositories/matrciule-repository'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
 import { Service } from 'typedi'

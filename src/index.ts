@@ -2,17 +2,16 @@ import 'reflect-metadata'
 import { Hono } from 'hono'
 import { logger } from 'hono/logger'
 import { cors } from 'hono/cors'
-import { connect } from 'mongoose'
-import { environments } from './utils/constanst'
 import { router } from './routes'
 import { z } from 'zod'
+import { Container } from 'typedi'
+import { ORM } from './infrastructure/database'
 
 z.config(z.locales.es())
 const app = new Hono()
+const orm = Container.get(ORM)
 
-connect(environments.DB, { autoIndex: false })
-  .then(() => console.log('Mongoose DB connected'))
-  .catch((err) => console.log(err))
+orm.connectDB()
 
 app.use(logger())
 app.use(cors({ origin: '*' }))

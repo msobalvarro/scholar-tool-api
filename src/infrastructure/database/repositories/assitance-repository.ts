@@ -6,7 +6,7 @@ import { AssitanceSchema } from '@/infrastructure/database/schemas/assitance-sch
 import { Service } from 'typedi'
 
 @Service()
-export class AssitanceService {
+export class AssitanceRepository {
   async createAssistance(assitance: AssitanceSchema) {
     const {
       courseId,

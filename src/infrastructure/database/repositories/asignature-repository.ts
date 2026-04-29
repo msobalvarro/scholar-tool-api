@@ -4,7 +4,7 @@ import { AsignatureSchema, AsignatureUpdateSchema } from '@/infrastructure/datab
 import { Service } from 'typedi'
 
 @Service()
-export class AsignatureService {
+export class AsignatureRepository {
   async createAsignature(asignature: AsignatureSchema, institutionId: string) {
     const { name, description, status } = asignature
 

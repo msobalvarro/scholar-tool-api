@@ -5,7 +5,7 @@ import {
 } from '@/infrastructure/database/schemas/responsable-schema'
 import { Context } from 'hono'
 import { ErrorValidator } from '@/utils/error-validator'
-import { ResponsableService } from '@/services/responsable-service'
+import { ResponsableService } from '@/infrastructure/database/repositories/responsable-repository'
 import { Service } from 'typedi'
 @Service()
 export class ResponsableController {

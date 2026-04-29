@@ -4,7 +4,7 @@ import {
   teacherSchema,
   TeacherSchema
 } from '@/infrastructure/database/schemas/teacher-schema'
-import { TeacherService } from '@/services/teacher-service'
+import { TeacherService } from '@/infrastructure/database/repositories/teacher-repository'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
 import { Service } from 'typedi'

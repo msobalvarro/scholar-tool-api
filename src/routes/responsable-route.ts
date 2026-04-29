@@ -1,6 +1,6 @@
-import { ResponsableController } from '@/controllers/responsable-controller'
+import { ResponsableController } from '@/infrastructure/rest/controllers/responsable-controller'
 import { Hono } from 'hono'
-import { jwtUserInstitution } from '@/utils/jtw'
+import { jwtUserInstitution } from '@/infrastructure/rest/middlewares'
 import Container from 'typedi'
 
 export const responsableRoute = new Hono()

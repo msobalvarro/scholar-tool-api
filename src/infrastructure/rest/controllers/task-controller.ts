@@ -1,6 +1,6 @@
 import { Context } from 'hono'
 import { ErrorValidator } from '@/utils/error-validator'
-import { TaskService } from '@/services/task-service'
+import { TaskService } from '@/infrastructure/database/repositories/task-repository'
 import {
   TaskUpdate,
   Task,
@@ -9,11 +9,12 @@ import {
   TaskGetByAsignature,
   TaskGetByAsignatureSchema
 } from '@/infrastructure/database/schemas/task-schema'
-import { Service } from 'typedi'
+import { Inject, Service } from 'typedi'
 
 @Service()
 export class TaskController {
-  constructor(private taskService: TaskService) { }
+  @Inject(() => TaskService)
+  private taskService!: TaskService
 
   create = async (c: Context) => {
     try {

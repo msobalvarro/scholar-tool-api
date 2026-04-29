@@ -1,7 +1,7 @@
 import Container from 'typedi'
 import { Hono } from 'hono'
-import { AuthTeacherController } from '@/controllers/auth-teacher-controller'
-import { jwtUserInstitution, jwtUserTeacher } from '@/utils/jtw'
+import { AuthTeacherController } from '@/infrastructure/rest/controllers/auth-teacher-controller'
+import { jwtUserInstitution, jwtUserTeacher } from '@/infrastructure/rest/middlewares'
 
 const controller = Container.get(AuthTeacherController)
 export const authTeacherRoute = new Hono()

@@ -1,5 +1,5 @@
 import { ObservationSchema, observationSchema } from '@/infrastructure/database/schemas/observation-schema'
-import { ObservationService } from '@/services/observation-service'
+import { ObservationService } from '@/infrastructure/database/repositories/observation-repository'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
 import { Service } from 'typedi'

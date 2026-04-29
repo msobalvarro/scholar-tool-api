@@ -1,5 +1,5 @@
 import { AuthTeacherSchema, authTeacherSchema } from '@/infrastructure/database/schemas/auth-teacher-schema'
-import { AuthTeacherService } from '@/services/auth-teacher-service'
+import { AuthTeacherService } from '@/infrastructure/database/repositories/auth-teacher-repository'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
 import { Service } from 'typedi'

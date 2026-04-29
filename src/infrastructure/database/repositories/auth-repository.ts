@@ -10,7 +10,7 @@ import { sign } from 'hono/jwt'
 import { Service } from 'typedi'
 
 @Service()
-export class AuthService {
+export class AuthRepository {
   async loginUserRoot(email: string, password: string) {
     const user = await UserRootModel
       .findOneAndUpdate({ email, password: createHash(password) }, { lastLogin: new Date() }, { new: true })

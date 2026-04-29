@@ -1,9 +1,8 @@
+import mongoose from 'mongoose'
 import { Student } from '@/core/interfaces/dtos/models'
-import { ORM } from '@/infrastructure/database'
 import { CourseModel, InstitutionModel, MatriculeModel, ResponsableModel, StudentModel } from '@/infrastructure/database/models'
 import { StudentSchema, StudentUpdateSchema, AssignToCourseSchema } from '@/infrastructure/database/schemas/student-schema'
-import mongoose from 'mongoose'
-import { Inject, Service } from 'typedi'
+import { Service } from 'typedi'
 
 @Service()
 export class StudentService {

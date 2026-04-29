@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
-import { TeacherController } from '@/controllers/teacher-controller'
-import { jwtUserInstitution, jwtUserTeacher } from '@/utils/jtw'
+import { TeacherController } from '@/infrastructure/rest/controllers/teacher-controller'
+import { jwtUserInstitution, jwtUserTeacher } from '@/infrastructure/rest/middlewares'
 import Container from 'typedi'
 
 export const teacherRoute = new Hono()

@@ -1,5 +1,5 @@
-import { CourseController } from '@/controllers/course-controller'
-import { jwtUserInstitution } from '@/utils/jtw'
+import { CourseController } from '@/infrastructure/rest/controllers/course-controller'
+import { jwtUserInstitution } from '@/infrastructure/rest/middlewares'
 import { Hono } from 'hono'
 import Container from 'typedi'
 

@@ -2,14 +2,15 @@ import {
   AsignatureSchema,
   asignatureSchema
 } from '@/infrastructure/database/schemas/asignature-schema'
-import { AsignatureService } from '@/services/asignature-service'
+import { AsignatureRepository } from '@/infrastructure/database/repositories/asignature-repository'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
-import { Service } from 'typedi'
+import { Service, Inject, Inject } from 'typedi'
 
 @Service()
 export class AsignatureController {
-  constructor(private asignatureService: AsignatureService) { }
+  @Inject(() => AsignatureRepository)
+  private asignatureService!: AsignatureRepository
 
   createAsignature = async (c: Context) => {
     try {

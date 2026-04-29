@@ -1,5 +1,5 @@
-import { TaskController } from '@/controllers/task-controller'
-import { jwtUserInstitution } from '@/utils/jtw'
+import { TaskController } from '@/infrastructure/rest/controllers/task-controller'
+import { jwtUserInstitution } from '@/infrastructure/rest/middlewares'
 import { Hono } from 'hono'
 import Container from 'typedi'
 

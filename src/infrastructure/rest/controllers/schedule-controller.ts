@@ -4,7 +4,7 @@ import {
   ScheduleUpdate,
   scheduleUpdateSchema
 } from '@/infrastructure/database/schemas/schedule-schema'
-import { ScheduleService } from '@/services/schedule-service'
+import { ScheduleService } from '@/infrastructure/database/repositories/schedule-repository'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
 import { Service } from 'typedi'
