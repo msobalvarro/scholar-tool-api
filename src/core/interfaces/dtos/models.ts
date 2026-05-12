@@ -6,7 +6,6 @@ export type ResponsablePerson = {
   phoneNumber: string
   direction: string
   type: 'father' | 'mother' | 'grandfather' | 'uncle' | 'other'
-  city: string
 }
 
 export type Student = {
