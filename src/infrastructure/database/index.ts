@@ -1,5 +1,5 @@
+import mongoose, { connect } from 'mongoose'
 import { Service } from 'typedi'
-import { connect } from 'mongoose'
 import { ModelORM } from './models'
 import { environments } from '@/utils/constanst';
 import { DBConnectionError } from '@/core/errors/dbConnectionError';
@@ -8,8 +8,12 @@ import { DBConnectionError } from '@/core/errors/dbConnectionError';
 export class ORM {
   private _models!: ModelORM;
 
+  startSession(): Promise<mongoose.ClientSession> {
+    return mongoose.startSession()
+  }
+
   async connectDB() {
-    const connection = await connect(environments.DB, { autoIndex: false })
+    await connect(environments.DB, { autoIndex: false })
     console.log("DB connected")
   }
 

@@ -1,16 +1,19 @@
-import { InstitutionModel } from '@/infrastructure/database/models/institution-model'
 import { TeacherAuthModel } from '@/infrastructure/database/models/teacher-auth-model'
-import { TeacherModel } from '@/infrastructure/database/models/teacher-model'
 import { createHash } from '@/utils/encrypt'
-import { Service } from 'typedi'
+import { Inject, Service } from 'typedi'
+import { ORM } from '..'
 
 @Service()
 export class AuthTeacherService {
+
+  @Inject(() => ORM)
+  private readonly orm!: ORM
+
   async createTeacherAuth(teacherId: string, password: string) {
-    const teacher = await TeacherModel.findById(teacherId)
+    const teacher = await this.orm.models.TeacherModel.findById(teacherId)
     if (!teacher) throw 'Profesor no encontrado'
 
-    const user = await TeacherAuthModel.create({
+    const user = await this.orm.models.TeacherAuthModel.create({
       teacher,
       password: createHash(password)
     })
@@ -19,11 +22,17 @@ export class AuthTeacherService {
   }
 
   async getAllTeacherAuth(institutionId: string) {
-    const institution = await InstitutionModel.findById(institutionId)
+    const institution = await this.orm.models.InstitutionModel.findById(institutionId)
     if (!institution) throw 'Institución no encontrada'
 
-    const teachers = await TeacherAuthModel
-      .find({ teacher: { $in: institution.teachers } })
+    const teacherByInstitution = await this.orm.models.TeacherModel
+      .find({ institution })
+      .select('_id')
+
+    const teachers = await this.orm.models.TeacherAuthModel
+      .find({
+        teacher: { $in: teacherByInstitution }
+      })
       .select('-password')
       .populate('teacher')
 
@@ -31,7 +40,7 @@ export class AuthTeacherService {
   }
 
   async updatePassword(teacherId: string, password: string) {
-    const teacher = await TeacherAuthModel.findById(teacherId)
+    const teacher = await this.orm.models.TeacherAuthModel.findById(teacherId)
     if (!teacher) throw 'Profesor no encontrado'
 
     teacher.password = createHash(password)
