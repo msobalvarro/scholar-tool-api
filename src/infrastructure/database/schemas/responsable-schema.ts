@@ -3,11 +3,11 @@ import { z } from 'zod'
 export const responsableSchema = z.object({
   fullName: z.string().min(3).max(100),
   identification: z.string().min(3).max(100),
-  email: z.string().email(),
+  email: z.email(),
   phoneNumber: z.string().min(3).max(100),
   direction: z.string().min(3).max(100),
-  city: z.string().min(3).max(100),
-  type: z.enum(['father', 'mother', 'grandfather', 'uncle', 'other'])
+  type: z.enum(['father', 'mother', 'grandfather', 'uncle', 'other']),
+  isEmergencyContact: z.boolean()
 })
 
 export type ResponsablePersonSchema = z.infer<typeof responsableSchema>

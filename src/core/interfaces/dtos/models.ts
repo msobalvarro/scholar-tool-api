@@ -5,6 +5,7 @@ export type ResponsablePerson = {
   email: string | null
   phoneNumber: string
   direction: string
+  isEmergencyContact: boolean
   type: 'father' | 'mother' | 'grandfather' | 'uncle' | 'other'
 }
 

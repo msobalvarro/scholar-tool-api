@@ -8,6 +8,7 @@ const responsableSchema = new Schema<ResponsablePerson>(
     email: { type: String, required: true, unique: true, sparse: true },
     phoneNumber: { type: String, required: true, unique: true },
     direction: { type: String, required: true },
+    isEmergencyContact: { type: Boolean, required: true, default: false },
     type: {
       type: String,
       enum: ['father', 'mother', 'grandfather', 'uncle', 'other'],
