@@ -1,33 +1,43 @@
-import { ResponsableModel } from '@/infrastructure/database/models/responsable-model'
-import { ResponsablePerson, ResponsablePersonUpdate } from '@/infrastructure/database/schemas/responsable-schema'
-import { Service } from 'typedi'
+import { ResponsablePersonSchema, ResponsablePersonUpdate } from '@/infrastructure/database/schemas/responsable-schema'
+import { IResponsableRepository } from '@/core/interfaces/repositories/responsable-repository'
+import { Inject, Service } from 'typedi'
+import { ORM } from '..'
+import { ResponsablePerson } from '@/core/interfaces/dtos/models'
 
 @Service()
-export class ResponsableService {
-  async createResponsable(responsable: ResponsablePerson) {
-    const createdResponsable = await ResponsableModel.create(responsable)
-    return createdResponsable
+export class ResponsableRepository implements IResponsableRepository {
+  @Inject(() => ORM)
+  private ORM!: ORM
+
+  async createResponsable(responsable: ResponsablePersonSchema): Promise<ResponsablePerson> {
+    return await this.ORM.models.ResponsableModel.create(responsable)
   }
 
   async updateResponsable(responsable: ResponsablePersonUpdate) {
     const { _id, ...rest } = responsable
-
-    const responsableUpdated = await ResponsableModel.updateOne({ _id }, rest)
-    return responsableUpdated
+    await this.ORM.models.ResponsableModel.updateOne({ _id }, rest)
   }
 
-  async deleteResponsable(_id: string) {
-    const deletedResponsable = await ResponsableModel.deleteOne({ _id })
-    return deletedResponsable
+  async deleteResponsable(id: string) {
+    const deleted = await this.ORM.models.ResponsableModel.findByIdAndDelete(id)
+    if (!deleted) throw new Error('Responsable no encontrado')
   }
 
   async getAllResponsables() {
-    const responsables = await ResponsableModel.find()
-    return responsables
+    return await this.ORM.models.ResponsableModel.find()
   }
 
   async getResponsableById(_id: string) {
-    const responsable = await ResponsableModel.findById(_id)
-    return responsable
+    return await this.ORM.models.ResponsableModel.findById(_id)
+  }
+
+  async searchResponsable(search: string): Promise<ResponsablePerson[]> {
+    return await this.ORM.models.ResponsableModel.find({
+      $or: [
+        { fullName: { $regex: search, $options: 'i' } },
+        { identification: { $regex: search, $options: 'i' } },
+        { phoneNumber: { $regex: search, $options: 'i' } },
+      ]
+    })
   }
 }

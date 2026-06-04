@@ -9,6 +9,7 @@ const controller = Container.get(ResponsableController)
 responsableRoute.use('/*', jwtUserInstitution)
 
 responsableRoute.get('/', controller.getAll)
+responsableRoute.get('/search', controller.search)
 responsableRoute.get('/:id', controller.getById)
 responsableRoute.post('/', controller.create)
 responsableRoute.put('/', controller.update)

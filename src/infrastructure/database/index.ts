@@ -1,6 +1,25 @@
 import mongoose, { connect } from 'mongoose'
 import { Service } from 'typedi'
-import { ModelORM } from './models'
+import {
+  ModelORM,
+  AsignatureModel,
+  AssistanceModel,
+  CourseModel,
+  InstitutionModel,
+  MatriculeModel,
+  NotificationModel,
+  ObservationModel,
+  PeriodModel,
+  ResponsableModel,
+  UserRootModel,
+  ScheduleModel,
+  StudentModel,
+  TaskModel,
+  TeacherAuthModel,
+  TeacherModel,
+  TokenModel,
+  UserInstitutionModel,
+} from './models'
 import { environments } from '@/utils/constanst';
 import { DBConnectionError } from '@/core/errors/dbConnectionError';
 
@@ -12,9 +31,31 @@ export class ORM {
     return mongoose.startSession()
   }
 
+  private assignModels(): ModelORM {
+    return {
+      AsignatureModel,
+      AssistanceModel,
+      CourseModel,
+      InstitutionModel,
+      MatriculeModel,
+      NotificationModel,
+      ObservationModel,
+      PeriodModel,
+      ResponsableModel,
+      UserRootModel,
+      ScheduleModel,
+      StudentModel,
+      TaskModel,
+      TeacherAuthModel,
+      TeacherModel,
+      TokenModel,
+      UserInstitutionModel,
+    }
+  }
+
   async connectDB() {
     await connect(environments.DB, { autoIndex: false })
-    console.log("DB connected")
+    this._models = this.assignModels()
   }
 
   get models(): ModelORM {

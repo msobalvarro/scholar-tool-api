@@ -13,6 +13,7 @@ export class StudentService implements IStudentRepository {
   async createStudent(student: StudentSchema, institutionId: string): Promise<Student> {
     const { responsableId, courseId, ...rest } = student
     const session = await this.ORM.startSession()
+    session.startTransaction()
 
     try {
       const institution = await this.ORM.models.InstitutionModel.findById(institutionId)
@@ -25,26 +26,22 @@ export class StudentService implements IStudentRepository {
       const course = await this.ORM.models.CourseModel.findById(courseId)
       if (!course) throw 'Curso no encontrado'
 
-      const student = await this.ORM.models.StudentModel.create(
-        {
-          ...rest,
-          responsable,
-          institution
-        }
+      const [student] = await this.ORM.models.StudentModel.create(
+        [{ ...rest, responsable, institution }],
+        { session }
       )
 
       await this.ORM.models.MatriculeModel.create(
-        {
-          student,
-          institution,
-          course
-        }
+        [{ student, institution, course }],
+        { session }
       )
+
+      await session.commitTransaction()
 
       return student
 
     } catch (error) {
-      await await session.abortTransaction()
+      await session.abortTransaction()
       throw error
     } finally {
       await session.endSession()

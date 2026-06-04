@@ -10,7 +10,7 @@ export const responsableSchema = z.object({
   type: z.enum(['father', 'mother', 'grandfather', 'uncle', 'other'])
 })
 
-export type ResponsablePerson = z.infer<typeof responsableSchema>
+export type ResponsablePersonSchema = z.infer<typeof responsableSchema>
 
 export const responsableSchemaUpdate = responsableSchema.extend({ _id: z.string() })
 export type ResponsablePersonUpdate = z.infer<typeof responsableSchemaUpdate>

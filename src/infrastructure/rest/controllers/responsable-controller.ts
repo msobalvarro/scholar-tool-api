@@ -1,22 +1,23 @@
 import {
-  ResponsablePerson,
+  ResponsablePersonSchema,
   ResponsablePersonUpdate,
   responsableSchema
 } from '@/infrastructure/database/schemas/responsable-schema'
 import { Context } from 'hono'
 import { ErrorValidator } from '@/utils/error-validator'
-import { ResponsableService } from '@/infrastructure/database/repositories/responsable-repository'
-import { Service } from 'typedi'
+import { ResponsableRepository } from '@/infrastructure/database/repositories/responsable-repository'
+import { Inject, Service } from 'typedi'
 @Service()
 export class ResponsableController {
-  constructor(private responsableService: ResponsableService) { }
+  @Inject(() => ResponsableRepository)
+  private responsableRepository!: ResponsableRepository
 
   create = async (c: Context) => {
     try {
       const body = await c.req.json()
-      const parsedBody = responsableSchema.parse(body) as ResponsablePerson
+      const parsedBody = responsableSchema.parse(body) as ResponsablePersonSchema
 
-      const responsable = await this.responsableService.createResponsable(parsedBody)
+      const responsable = await this.responsableRepository.createResponsable(parsedBody)
 
       return c.json(responsable)
     } catch (error) {
@@ -29,7 +30,7 @@ export class ResponsableController {
       const body = await c.req.json()
       const parsedBody = responsableSchema.parse(body) as ResponsablePersonUpdate
 
-      const responsable = await this.responsableService.updateResponsable(parsedBody)
+      const responsable = await this.responsableRepository.updateResponsable(parsedBody)
 
       return c.json(responsable)
     } catch (error) {
@@ -40,7 +41,7 @@ export class ResponsableController {
   delete = async (c: Context) => {
     try {
       const { _id } = await c.req.json()
-      const responsable = await this.responsableService.deleteResponsable(_id)
+      const responsable = await this.responsableRepository.deleteResponsable(_id)
       return c.json(responsable)
     } catch (error) {
       return ErrorValidator(error, c)
@@ -49,8 +50,19 @@ export class ResponsableController {
 
   getAll = async (c: Context) => {
     try {
-      const responsables = await this.responsableService.getAllResponsables()
+      const responsables = await this.responsableRepository.getAllResponsables()
       return c.json(responsables)
+    } catch (error) {
+      return ErrorValidator(error, c)
+    }
+  }
+
+  search = async (c: Context) => {
+    try {
+      const { q } = await c.req.query()
+      if (!q) throw new Error('Query is required')
+      const responsable = await this.responsableRepository.searchResponsable(q)
+      return c.json(responsable)
     } catch (error) {
       return ErrorValidator(error, c)
     }
@@ -59,7 +71,7 @@ export class ResponsableController {
   getById = async (c: Context) => {
     try {
       const { id } = await c.req.param() as { id: string }
-      const responsable = await this.responsableService.getResponsableById(id)
+      const responsable = await this.responsableRepository.getResponsableById(id)
       return c.json(responsable)
     } catch (error) {
       return ErrorValidator(error, c)
