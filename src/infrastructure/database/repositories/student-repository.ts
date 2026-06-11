@@ -11,6 +11,7 @@ export class StudentService implements IStudentRepository {
   private ORM!: ORM
 
   async createStudent(student: StudentSchema, institutionId: string): Promise<Student> {
+    console.log(student)
     const { responsableId, courseId, ...rest } = student
     const session = await this.ORM.startSession()
     session.startTransaction()

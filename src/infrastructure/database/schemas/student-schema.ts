@@ -7,6 +7,8 @@ export const studentSchema = z.object({
   gender: z.enum(['male', 'female']),
   photo: z.string().optional(),
   email: z.string().optional(),
+  phone: z.string().optional(),
+  direction: z.string().optional(),
   responsableId: z.string().length(24),
   courseId: z.string().length(24),
 })

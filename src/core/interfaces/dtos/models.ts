@@ -96,6 +96,7 @@ export type Course = {
   institution: Institution
   order: number
   breakTime: string
+  maxCapacity: number
 }
 
 export type Matricule = {
