@@ -1,6 +1,6 @@
 import { AssignToCourseSchema, StudentSchema, StudentUpdateSchema } from "@/infrastructure/database/schemas/student-schema";
 import { UpdateWriteOpResult } from 'mongoose';
-import { Student } from '../dtos/models';
+import { Student } from '../dtos';
 
 export interface IStudentRepository {
   createStudent(student: StudentSchema, institutionId: string): Promise<Student>

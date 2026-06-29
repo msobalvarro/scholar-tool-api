@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose'
-import { Assistance } from '@/core/interfaces/dtos/models'
+import { Assistance } from '@/core/interfaces/dtos'
 
 const assistanceSchema = new Schema<Assistance>(
   {

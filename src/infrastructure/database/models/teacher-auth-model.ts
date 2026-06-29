@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose'
-import { TeacherAuth } from '@/core/interfaces/dtos/models'
+import { TeacherAuth } from '@/core/interfaces/dtos'
 
 const teacherAuthSchema = new Schema<TeacherAuth>(
   {

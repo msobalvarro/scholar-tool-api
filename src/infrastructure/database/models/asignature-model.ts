@@ -1,4 +1,4 @@
-import { Asignature } from '@/core/interfaces/dtos/models'
+import { Asignature } from '@/core/interfaces/dtos'
 import { model, Schema } from 'mongoose'
 
 const asignatureSchema = new Schema<Asignature>(

@@ -1,5 +1,5 @@
 import { ResponsablePersonSchema, ResponsablePersonUpdate } from '@/infrastructure/database/schemas/responsable-schema'
-import { ResponsablePerson } from '../dtos/models'
+import { ResponsablePerson } from '../dtos'
 
 export interface IResponsableRepository {
   createResponsable(responsable: ResponsablePersonSchema): Promise<ResponsablePerson>

@@ -1,4 +1,4 @@
-import { ResponsablePerson } from '@/core/interfaces/dtos/models'
+import { ResponsablePerson } from '@/core/interfaces/dtos'
 import { model, Schema } from "mongoose"
 
 const responsableSchema = new Schema<ResponsablePerson>(

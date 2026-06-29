@@ -1,4 +1,4 @@
-import { Task } from '@/core/interfaces/dtos/models'
+import { Task } from '@/core/interfaces/dtos'
 import { model, Schema } from 'mongoose'
 
 const TaskSchema = new Schema<Task>(

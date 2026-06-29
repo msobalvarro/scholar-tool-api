@@ -1,4 +1,4 @@
-import { Period } from '@/core/interfaces/dtos/models'
+import { Period } from '@/core/interfaces/dtos'
 import { model, Schema } from 'mongoose'
 
 const PeriodSchema = new Schema<Period>(

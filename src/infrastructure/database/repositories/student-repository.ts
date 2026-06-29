@@ -1,4 +1,4 @@
-import { Student } from '@/core/interfaces/dtos/models'
+import { Student } from '@/core/interfaces/dtos'
 import { StudentSchema, StudentUpdateSchema, AssignToCourseSchema } from '@/infrastructure/database/schemas/student-schema'
 import { Service } from 'typedi'
 import { IStudentRepository } from '@/core/interfaces/repositories/student-repository'

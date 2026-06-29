@@ -2,7 +2,7 @@ import { ResponsablePersonSchema, ResponsablePersonUpdate } from '@/infrastructu
 import { IResponsableRepository } from '@/core/interfaces/repositories/responsable-repository'
 import { Inject, Service } from 'typedi'
 import { ORM } from '..'
-import { ResponsablePerson } from '@/core/interfaces/dtos/models'
+import { ResponsablePerson } from '@/core/interfaces/dtos'
 
 @Service()
 export class ResponsableRepository implements IResponsableRepository {

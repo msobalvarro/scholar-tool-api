@@ -1,4 +1,4 @@
-import { Student } from '@/core/interfaces/dtos/models'
+import { Student } from '@/core/interfaces/dtos'
 import { model, Schema } from "mongoose"
 
 const studentSchema = new Schema<Student>(
