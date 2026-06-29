@@ -1,10 +1,11 @@
 import { TeacherAuthModel } from '@/infrastructure/database/models/teacher-auth-model'
 import { createHash } from '@/utils/encrypt'
 import { Inject, Service } from 'typedi'
+import { IAuthTeacherRepository } from '@/core/interfaces/repositories/auth-teacher-repository'
 import { ORM } from '..'
 
 @Service()
-export class AuthTeacherService {
+export class AuthTeacherService implements IAuthTeacherRepository {
 
   @Inject(() => ORM)
   private readonly orm!: ORM

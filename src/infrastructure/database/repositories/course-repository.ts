@@ -3,10 +3,11 @@ import { InstitutionModel } from '@/infrastructure/database/models/institution-m
 import { MatriculeModel } from '@/infrastructure/database/models/matricule-model'
 import { TeacherModel } from '@/infrastructure/database/models/teacher-model'
 import { Course } from '@/infrastructure/database/schemas/course-schema'
+import { ICourseRepository } from '@/core/interfaces/repositories/course-repository'
 import { Service } from 'typedi'
 
 @Service()
-export class CourseService {
+export class CourseService implements ICourseRepository {
   async createCourse(course: Course, institutionId: string) {
     const institution = await InstitutionModel.findById(institutionId)
     if (!institution) throw 'Institución no encontrada'

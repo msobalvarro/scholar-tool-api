@@ -7,10 +7,11 @@ import { UserInstitutionModel } from '@/infrastructure/database/models/user-inst
 import { environments } from '@/utils/constanst'
 import { createHash } from '@/utils/encrypt'
 import { sign } from 'hono/jwt'
+import { IAuthRepository } from '@/core/interfaces/repositories/auth-repository'
 import { Service } from 'typedi'
 
 @Service()
-export class AuthRepository {
+export class AuthRepository implements IAuthRepository {
   async loginUserRoot(email: string, password: string) {
     const user = await UserRootModel
       .findOneAndUpdate({ email, password: createHash(password) }, { lastLogin: new Date() }, { new: true })

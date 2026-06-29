@@ -2,10 +2,11 @@ import { ObservationModel } from '@/infrastructure/database/models/observation-m
 import { StudentModel } from '@/infrastructure/database/models/student-model'
 import { TeacherModel } from '@/infrastructure/database/models/teacher-model'
 import { ObservationSchema } from '@/infrastructure/database/schemas/observation-schema'
+import { IObservationRepository } from '@/core/interfaces/repositories/observation-repository'
 import { Service } from 'typedi'
 
 @Service()
-export class ObservationService {
+export class ObservationService implements IObservationRepository {
   async createObservation(payload: ObservationSchema, teacherId: string) {
     const { studentId, type, observation } = payload
 

@@ -3,10 +3,11 @@ import { Matricule, MatriculeUpdate } from '@/infrastructure/database/schemas/ma
 import { InstitutionModel } from '@/infrastructure/database/models/institution-model'
 import { StudentModel } from '@/infrastructure/database/models/student-model'
 import { CourseModel } from '@/infrastructure/database/models/course-model'
+import { IMatriculeRepository } from '@/core/interfaces/repositories/matrciule-repository'
 import { Service } from 'typedi'
 
 @Service()
-export class MatriculeService {
+export class MatriculeService implements IMatriculeRepository {
   async createMatricule(matricule: Matricule, institutionId: string) {
     const institution = await InstitutionModel.findById(institutionId)
     if (!institution) throw 'Institución no encontrada'

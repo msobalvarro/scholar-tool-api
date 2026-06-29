@@ -3,10 +3,11 @@ import { CourseModel } from '@/infrastructure/database/models/course-model'
 import { StudentModel } from '@/infrastructure/database/models/student-model'
 import { TeacherModel } from '@/infrastructure/database/models/teacher-model'
 import { AssitanceSchema } from '@/infrastructure/database/schemas/assitance-schema'
+import { IAssistanceRepository } from '@/core/interfaces/repositories/assitance-repository'
 import { Service } from 'typedi'
 
 @Service()
-export class AssitanceRepository {
+export class AssitanceRepository implements IAssistanceRepository {
   async createAssistance(assitance: AssitanceSchema) {
     const {
       courseId,

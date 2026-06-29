@@ -1,9 +1,10 @@
-import * as serviceAccount from '@/config/firebase-config.json'
+import * as serviceAccount from '@/core/config/firebase-config.json'
 import * as admin from 'firebase-admin'
 import { InstitutionModel } from '@/infrastructure/database/models/institution-model'
 import { NotificationModel } from '@/infrastructure/database/models/notification-model'
 import { Notification } from '@/infrastructure/database/schemas/notification-schema'
 import { TokenModel } from '@/infrastructure/database/models/token-model'
+import { INotificationRepository } from '@/core/interfaces/repositories/notification-repository'
 import { Service } from 'typedi'
 
 admin.initializeApp({
@@ -11,7 +12,7 @@ admin.initializeApp({
 })
 
 @Service()
-export class NotificationService {
+export class NotificationService implements INotificationRepository {
   async createNotification(notification: Notification, institutionId: string) {
     const institution = await InstitutionModel.findById(institutionId)
     if (!institution) throw 'Institución no encontrada'

@@ -7,11 +7,12 @@ import {
   RemoveUserFromInstitutionSchema,
   UpdateInstitutionSchema
 } from '@/infrastructure/database/schemas/institution-schema'
+import { IInstitutionRepository } from '@/core/interfaces/repositories/institution-repository'
 
 import { Service } from 'typedi'
 
 @Service()
-export class InstitutionService {
+export class InstitutionService implements IInstitutionRepository {
   async getInstitutions() {
     const insitutions = await InstitutionModel.find()
     return insitutions
