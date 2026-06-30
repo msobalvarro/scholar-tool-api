@@ -1,4 +1,4 @@
-import { Course as CourseSchema } from '@/infrastructure/database/schemas/course-schema'
+import { CreateCourseDto as CourseSchema } from '@/infrastructure/database/schemas/course-schema'
 import { Course as CourseDto } from '../dtos'
 
 export interface ICourseRepository {

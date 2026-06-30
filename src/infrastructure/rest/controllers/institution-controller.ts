@@ -14,6 +14,7 @@ import { InstitutionService } from '@/infrastructure/database/repositories/insti
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
 import { Service } from 'typedi'
+
 @Service()
 export class InstitutionController {
   constructor(private institutionService: InstitutionService) { }
@@ -53,7 +54,6 @@ export class InstitutionController {
 
   updateInstitution = async (c: Context) => {
     try {
-
       const body = await c.req.json()
       const parsedBody = updateInstitutionSchema.parse(body) as UpdateInstitutionSchema
 

@@ -1,4 +1,4 @@
-import { Course, courseSchema, CourseUpdate, courseUpdateSchema } from '@/infrastructure/database/schemas/course-schema'
+import { CreateCourseDto, courseSchema, CourseUpdate, courseUpdateSchema } from '@/infrastructure/database/schemas/course-schema'
 import { CourseService } from '@/infrastructure/database/repositories/course-repository'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
@@ -10,7 +10,7 @@ export class CourseController {
   create = async (c: Context) => {
     try {
       const body = await c.req.json()
-      const parsedBody = courseSchema.parse(body) as Course
+      const parsedBody = courseSchema.parse(body) as CreateCourseDto
       const user = c.get('jwtPayload')
 
       const course = await this.courseService.createCourse(parsedBody, user.institutionId)
@@ -25,7 +25,7 @@ export class CourseController {
     try {
       const { id } = await c.req.param() as { id: string }
       const body = await c.req.json()
-      const parsedBody = courseSchema.parse(body) as Course
+      const parsedBody = courseSchema.parse(body) as CreateCourseDto
       const course = await this.courseService.updateCourse(parsedBody, id)
 
       return c.json(course)

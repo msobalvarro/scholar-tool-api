@@ -2,13 +2,13 @@ import { CourseModel } from '@/infrastructure/database/models/course-model'
 import { InstitutionModel } from '@/infrastructure/database/models/institution-model'
 import { MatriculeModel } from '@/infrastructure/database/models/matricule-model'
 import { TeacherModel } from '@/infrastructure/database/models/teacher-model'
-import { Course } from '@/infrastructure/database/schemas/course-schema'
+import { CreateCourseDto } from '@/infrastructure/database/schemas/course-schema'
 import { ICourseRepository } from '@/core/interfaces/repositories/course-repository'
 import { Service } from 'typedi'
 
 @Service()
 export class CourseService implements ICourseRepository {
-  async createCourse(course: Course, institutionId: string) {
+  async createCourse(course: CreateCourseDto, institutionId: string) {
     const institution = await InstitutionModel.findById(institutionId)
     if (!institution) throw 'Institución no encontrada'
 
@@ -19,7 +19,7 @@ export class CourseService implements ICourseRepository {
     return newCourse
   }
 
-  async updateCourse(course: Course, _id: string) {
+  async updateCourse(course: CreateCourseDto, _id: string) {
     const teacherLead = await TeacherModel.findById(course.teacherLeadId)
     if (!teacherLead) throw 'Profesor titular no encontrado'
 

@@ -8,4 +8,4 @@ export const courseSchema = z.object({
   breakTime: z.string()
 })
 
-export type Course = z.infer<typeof courseSchema>
+export type CreateCourseDto = z.infer<typeof courseSchema>
