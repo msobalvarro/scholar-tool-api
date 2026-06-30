@@ -44,7 +44,6 @@ export class CalendarEventsController {
 
   update = async (c: Context) => {
     try {
-      const { id } = c.req.param()
       const body = await c.req.json()
       const parsedBody = updateCalendarEventSchema.parse(body)
       const calendarEvent = await this.calendarEventsService.updateCalendarEvent(parsedBody)
