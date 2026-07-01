@@ -4,7 +4,7 @@ import { model, Schema } from 'mongoose'
 const calendarEventSchema = new Schema<CalendarEvents>(
   {
     date: { type: Date, required: true },
-    type: { type: String, required: true, enum: ['exam', 'task', 'meeting', 'holiday', 'class'] },
+    type: { type: String, required: true, enum: ['exam', 'task', 'meeting', 'holiday', 'class', 'other'] },
     title: { type: String, required: true },
     description: { type: String, required: true },
     course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
