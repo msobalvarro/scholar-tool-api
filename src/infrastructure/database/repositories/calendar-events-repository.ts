@@ -3,7 +3,6 @@ import { Inject, Service } from 'typedi'
 import { ICalendarEventsRepository } from '@/core/interfaces/repositories/calendar-event-repository'
 import { CreateCalendarEventDto, UpdateCalendarEventDto } from '../schemas/calendar-events-schema'
 import { NotificationRepository } from './notification-repository'
-import { ICreateNotificationFilterDto } from '@/core/interfaces/repositories/notification-repository'
 import { CreateNotificationDto } from '../schemas/notification-schema'
 
 @Service()
@@ -27,9 +26,9 @@ export class CalendarEventsRepository implements ICalendarEventsRepository {
 
     // si solamente el curso esta indicado, enviar notficacion solamente a ese curso si no a toda la institucion
     if (course) {
-      this.notificationRepository.createNotification(notificationPayload, { courseId: course._id.toString() })
+      await this.notificationRepository.createNotification(notificationPayload, { courseId: course._id.toString() })
     } else {
-      this.notificationRepository.createNotification(notificationPayload, { institutionId })
+      await this.notificationRepository.createNotification(notificationPayload, { institutionId })
     }
 
     const calendarEventCreated = await this.ORM.models.CalendarEventModel.create({

@@ -1,20 +1,17 @@
-import * as serviceAccount from '@/core/config/firebase-config.json'
-import * as admin from 'firebase-admin'
 import { CreateNotificationDto } from '@/infrastructure/database/schemas/notification-schema'
 import { ICreateNotificationFilterDto, INotificationRepository } from '@/core/interfaces/repositories/notification-repository'
 import { Inject, Service } from 'typedi'
 import { Token } from '@/core/interfaces/dtos'
 import { ORM } from '..'
-
-// TODO: separar y agrear en un adaptador
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount as admin.ServiceAccount)
-})
+import { FirebasePushNotificationAdapter } from '@/infrastructure/adapters/firebase-push-notification-adapter'
 
 @Service()
 export class NotificationRepository implements INotificationRepository {
   @Inject(() => ORM)
   private readonly ORM!: ORM
+
+  @Inject(() => FirebasePushNotificationAdapter)
+  private readonly pushNotificationAdapter!: FirebasePushNotificationAdapter
 
   private async getTokens(filters: ICreateNotificationFilterDto): Promise<Token[]> {
     const tokens: Token[] = []
@@ -51,7 +48,7 @@ export class NotificationRepository implements INotificationRepository {
 
     try {
       for (const { token } of tokens) {
-        await admin.messaging().send({ token, notification })
+        await this.pushNotificationAdapter.sendPushNotification(token, notification)
       }
     } catch (error) {
       console.log('Error al enviar notificación:', error)
@@ -66,7 +63,7 @@ export class NotificationRepository implements INotificationRepository {
     data?: Record<string, string>
   ) {
     for (const token of tokens) {
-      await admin.messaging().send({ token, notification, data })
+      await this.pushNotificationAdapter.sendPushNotification(token, notification, data)
     }
   }
 
