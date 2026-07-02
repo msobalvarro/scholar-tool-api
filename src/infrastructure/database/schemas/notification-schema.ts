@@ -5,7 +5,7 @@ export const notificationSchema = z.object({
   body: z.string(),
 })
 
-export type Notification = z.infer<typeof notificationSchema>
+export type CreateNotificationDto = z.infer<typeof notificationSchema>
 
 
 export const notificationIdSchema = z.object({

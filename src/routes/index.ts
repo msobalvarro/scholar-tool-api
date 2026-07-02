@@ -14,12 +14,12 @@ import { authTeacherRoute } from './auth-teacher-route'
 import { observationRoute } from './observation-route'
 import { periodRoute } from './period-route'
 import { taskRoute } from './task-route'
+import { calendarEventsRoute } from './calendar-events-route'
 
 export const router = new Hono()
 
 router.route('/institutions', institutionRoute)
 router.route('/user-institutions', userInstitutionRoute)
-router.route('/auth', authRoute)
 router.route('/user-root', userRootRoute)
 router.route('/teachers', teacherRoute)
 router.route('/matricules', matriculeRoute)
@@ -32,3 +32,4 @@ router.route('/auth-teacher', authTeacherRoute)
 router.route('/observations', observationRoute)
 router.route('/periods', periodRoute)
 router.route('/tasks', taskRoute)
+router.route('/calendar-events', calendarEventsRoute)
