@@ -4,6 +4,7 @@ import { ICalendarEventsRepository } from '@/core/interfaces/repositories/calend
 import { CreateCalendarEventDto, UpdateCalendarEventDto } from '../schemas/calendar-events-schema'
 import { NotificationRepository } from './notification-repository'
 import { CreateNotificationDto } from '../schemas/notification-schema'
+import { DateFormatterAdapter } from '@/infrastructure/adapters/date-formats'
 
 @Service()
 export class CalendarEventsRepository implements ICalendarEventsRepository {
@@ -13,10 +14,14 @@ export class CalendarEventsRepository implements ICalendarEventsRepository {
   @Inject(() => NotificationRepository)
   private readonly notificationRepository!: NotificationRepository
 
+  @Inject(() => DateFormatterAdapter)
+  private readonly dateFormatterAdapter!: DateFormatterAdapter
+
   async createCalendarEvent(calendarEvent: CreateCalendarEventDto, institutionId: string) {
-    const { courseId, ...payload } = calendarEvent
+    const { courseId, time, date, ...payload } = calendarEvent
     const course = courseId ? await this.ORM.models.CourseModel.findById(courseId) : null
     const institution = await this.ORM.models.InstitutionModel.findById(institutionId)
+    const dateAndTime = this.dateFormatterAdapter.formatToISO8601(date, time)
     const notificationPayload: CreateNotificationDto = {
       title: calendarEvent.title,
       body: calendarEvent.description
@@ -33,6 +38,7 @@ export class CalendarEventsRepository implements ICalendarEventsRepository {
 
     const calendarEventCreated = await this.ORM.models.CalendarEventModel.create({
       ...payload,
+      date: dateAndTime,
       course,
       institution
     })
