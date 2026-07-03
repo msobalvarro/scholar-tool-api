@@ -7,7 +7,7 @@ export const createCalendarEventSchema = z.object({
   type: z.enum(['exam', 'task', 'meeting', 'holiday', 'class', 'other']),
   title: z.string(),
   description: z.string(),
-  courseId: z.string().optional()
+  courseId: z.string().nullable().optional(),
 })
 
 export type CreateCalendarEventDto = z.infer<typeof createCalendarEventSchema>

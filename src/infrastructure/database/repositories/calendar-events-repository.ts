@@ -29,6 +29,13 @@ export class CalendarEventsRepository implements ICalendarEventsRepository {
 
     if (!institution) throw new Error('Institution not found')
 
+    const calendarEventCreated = await this.ORM.models.CalendarEventModel.create({
+      ...payload,
+      date: dateAndTime,
+      course,
+      institution
+    })
+
     // si solamente el curso esta indicado, enviar notficacion solamente a ese curso si no a toda la institucion
     if (course) {
       await this.notificationRepository.createNotification(notificationPayload, { courseId: course._id.toString() })
@@ -36,12 +43,6 @@ export class CalendarEventsRepository implements ICalendarEventsRepository {
       await this.notificationRepository.createNotification(notificationPayload, { institutionId })
     }
 
-    const calendarEventCreated = await this.ORM.models.CalendarEventModel.create({
-      ...payload,
-      date: dateAndTime,
-      course,
-      institution
-    })
     return calendarEventCreated
   }
 
