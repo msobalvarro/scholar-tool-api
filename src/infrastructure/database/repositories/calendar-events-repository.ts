@@ -47,16 +47,17 @@ export class CalendarEventsRepository implements ICalendarEventsRepository {
   }
 
   async getCalendarEvents(institutionId: string, startDate: string, endDate: string) {
-    const calendarEvents = await this.ORM.models.CalendarEventModel.find({
-      institution: {
-        _id: institutionId,
-      },
-      date: {
-        $gte: startDate,
-        $lte: endDate
-      }
-    }).populate('course')
-    return calendarEvents
+    return await this.ORM.models.CalendarEventModel
+      .find({
+        institution: {
+          _id: institutionId,
+        },
+        date: {
+          $gte: startDate,
+          $lte: endDate
+        }
+      })
+      .populate('course')
   }
 
   async getCalendarEventById(calendarEventId: string) {

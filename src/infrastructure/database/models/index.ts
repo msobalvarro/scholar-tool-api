@@ -16,6 +16,7 @@ import { TeacherModel } from './teacher-model'
 import { TokenModel } from './token-model'
 import { UserInstitutionModel } from './user-institution-model'
 import { CalendarEventModel } from './calendar-events-model'
+import { EnrollmentModel } from './enrollment-model'
 
 export {
   AsignatureModel,
@@ -35,7 +36,8 @@ export {
   TeacherModel,
   TokenModel,
   UserInstitutionModel,
-  CalendarEventModel
+  CalendarEventModel,
+  EnrollmentModel,
 }
 
 export type ModelORM = {
@@ -57,4 +59,5 @@ export type ModelORM = {
   TokenModel: typeof TokenModel,
   UserInstitutionModel: typeof UserInstitutionModel,
   CalendarEventModel: typeof CalendarEventModel,
+  EnrollmentModel: typeof EnrollmentModel,
 }

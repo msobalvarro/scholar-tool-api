@@ -5,7 +5,7 @@ import {
 import { AsignatureRepository } from '@/infrastructure/database/repositories/asignature-repository'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
-import { Service, Inject, Inject } from 'typedi'
+import { Service, Inject } from 'typedi'
 
 @Service()
 export class AsignatureController {
