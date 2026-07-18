@@ -20,6 +20,7 @@ import {
   TokenModel,
   UserInstitutionModel,
   CalendarEventModel,
+  EnrollmentModel,
 } from './models'
 import { environments } from '@/utils/constanst';
 import { DBConnectionError } from '@/core/errors/dbConnectionError';
@@ -52,6 +53,7 @@ export class ORM {
       TokenModel,
       UserInstitutionModel,
       CalendarEventModel,
+      EnrollmentModel,
     }
   }
 

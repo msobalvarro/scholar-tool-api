@@ -52,5 +52,4 @@ export class CalendarEventsController {
       return ErrorValidator(error, c)
     }
   }
-
 }

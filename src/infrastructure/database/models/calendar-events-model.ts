@@ -7,7 +7,7 @@ const calendarEventSchema = new Schema<CalendarEvents>(
     type: { type: String, required: true, enum: ['exam', 'task', 'meeting', 'holiday', 'class', 'other'] },
     title: { type: String, required: true },
     description: { type: String, required: true },
-    course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
+    course: { type: Schema.Types.ObjectId, ref: 'Course', required: false },
     institution: { type: Schema.Types.ObjectId, ref: 'Institution', required: true },
   },
   {

@@ -15,6 +15,7 @@ import { observationRoute } from './observation-route'
 import { periodRoute } from './period-route'
 import { taskRoute } from './task-route'
 import { calendarEventsRoute } from './calendar-events-route'
+import { enrollmentRoute } from './enrollment-route'
 
 export const router = new Hono()
 
@@ -33,3 +34,4 @@ router.route('/observations', observationRoute)
 router.route('/periods', periodRoute)
 router.route('/tasks', taskRoute)
 router.route('/calendar-events', calendarEventsRoute)
+router.route('/enrollments', enrollmentRoute)
