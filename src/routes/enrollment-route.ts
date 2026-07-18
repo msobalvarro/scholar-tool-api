@@ -9,4 +9,5 @@ const controller = Container.get(EnrollmentController)
 enrollmentRoute.use('/*', jwtUserInstitution)
 
 enrollmentRoute.post('/', controller.createEnrollment)
+enrollmentRoute.put('/', controller.updateEnrollment)
 enrollmentRoute.get('/', controller.getEnrollments)

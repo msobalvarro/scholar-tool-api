@@ -9,3 +9,9 @@ export const enrollmentSchema = z.object({
 })
 
 export type EnrollmentInput = z.infer<typeof enrollmentSchema>
+
+export const enrollmentUpdateSchema = enrollmentSchema.extend({
+  _id: z.string(),
+})
+
+export type EnrollmentUpdateInput = z.infer<typeof enrollmentUpdateSchema>
