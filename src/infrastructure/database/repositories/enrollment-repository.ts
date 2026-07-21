@@ -46,10 +46,14 @@ export class EnrollmentRepository implements IEnrollmentRepository {
 
     const courses = await this.ORM.models.AsignatureModel.find({
       _id: { $in: enrollment.coursesId },
-      institution: {
-        _id: institutionId
-      }
+
+
+      // institution: {
+      //   _id: institutionId
+      // }
     })
+
+    console.log(institutionId)
 
     if (courses.length !== enrollment.coursesId.length) throw new Error('Courses not found')
     return await this.ORM.models.EnrollmentModel.create({

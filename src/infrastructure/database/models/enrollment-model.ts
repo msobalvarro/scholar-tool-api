@@ -6,7 +6,7 @@ const enrollment = new Schema<IEnrollment>(
     name: { type: String, required: true },
     courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
     year: { type: Number, required: true, default: now().getFullYear() },
-    enrolementPrice: { type: Number, required: true },
+    enrollmentPrice: { type: Number, required: true },
     monthlyPaymentPrice: { type: Number, required: true },
     institution: { type: Schema.Types.ObjectId, ref: 'Institution' },
   },

@@ -1,10 +1,10 @@
 import { z } from 'zod'
 
 export const enrollmentSchema = z.object({
-  coursesId: z.array(z.string()),
+  coursesId: z.string().array(),
   name: z.string(),
   year: z.number().int(),
-  enrolementPrice: z.number(),
+  enrollmentPrice: z.number(),
   monthlyPaymentPrice: z.number(),
 })
 
