@@ -2,6 +2,7 @@ import { CreateCourseDto } from '@/infrastructure/database/schemas/course-schema
 import { ICourseRepository } from '@/core/interfaces/repositories/course-repository'
 import { Inject, Service } from 'typedi'
 import { ORM } from '..'
+import { Course } from '@/core/interfaces/dtos'
 
 @Service()
 export class CourseService implements ICourseRepository {
@@ -61,16 +62,28 @@ export class CourseService implements ICourseRepository {
     return await this.ORM.models.CourseModel.findById(courseId)
   }
 
-  async getAllCoursesNotInEnrollment(institutionId: string, enrollmentId: string) {
-    const enrollment = await this.ORM.models.EnrollmentModel.findById(enrollmentId)
-    if (!enrollment) throw 'Matrícula no encontrada'
+  async getAllCoursesNotInEnrollment(institutionId: string) {
+    const enrollments = await this.ORM.models.EnrollmentModel
+      .find({
+        institution: { _id: institutionId },
+        year: new Date().getFullYear()
+      })
+      .populate({ path: 'courses', select: '_id name' })
 
-    const courses = await this.ORM.models.EnrollmentModel.distinct('courses', {
-      _id: { $ne: enrollmentId },
-      institution: { _id: institutionId },
-      year: enrollment.year
+    const allCoursesIdWithEnrollemts = enrollments.reduce((acc: string[] = [], enrollment) => {
+      enrollment.courses?.forEach((course: Course) => {
+        if (!acc.includes(course._id)) {
+          acc.push(course._id)
+        }
+      })
+
+      return acc
+    }, [])
+
+    return await this.ORM.models.CourseModel.find({
+      _id: {
+        $nin: allCoursesIdWithEnrollemts
+      }
     })
-
-    return courses
   }
 }
