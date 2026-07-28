@@ -1,5 +1,5 @@
 import { EnrollmentInput, EnrollmentUpdateInput } from '@/infrastructure/database/schemas/enrollment-schema';
-import { IEnrollment } from '../dtos/enrollement';
+import { IEnrollment } from '../dtos/enrollment';
 
 export interface IEnrollmentRepository {
   getEnrollments(institutionId: string): Promise<IEnrollment[]>

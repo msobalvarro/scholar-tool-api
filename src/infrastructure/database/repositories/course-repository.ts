@@ -1,40 +1,44 @@
-import { CourseModel } from '@/infrastructure/database/models/course-model'
-import { InstitutionModel } from '@/infrastructure/database/models/institution-model'
-import { MatriculeModel } from '@/infrastructure/database/models/matricule-model'
-import { TeacherModel } from '@/infrastructure/database/models/teacher-model'
 import { CreateCourseDto } from '@/infrastructure/database/schemas/course-schema'
 import { ICourseRepository } from '@/core/interfaces/repositories/course-repository'
-import { Service } from 'typedi'
+import { Inject, Service } from 'typedi'
+import { ORM } from '..'
 
 @Service()
 export class CourseService implements ICourseRepository {
+  @Inject(() => ORM)
+  private readonly ORM!: ORM
+
   async createCourse(course: CreateCourseDto, institutionId: string) {
-    const institution = await InstitutionModel.findById(institutionId)
+    const institution = await this.ORM.models.InstitutionModel.findById(institutionId)
     if (!institution) throw 'Institución no encontrada'
 
-    const teacherLead = await TeacherModel.findById(course.teacherLeadId)
+    const teacherLead = await this.ORM.models.TeacherModel.findById(course.teacherLeadId)
     if (!teacherLead) throw 'Profesor titular no encontrado'
 
-    const newCourse = await CourseModel.create({ ...course, institution, teacherLead })
+    const newCourse = await this.ORM.models.CourseModel.create({ ...course, institution, teacherLead })
     return newCourse
   }
 
   async updateCourse(course: CreateCourseDto, _id: string) {
-    const teacherLead = await TeacherModel.findById(course.teacherLeadId)
+    const teacherLead = await this.ORM.models.TeacherModel.findById(course.teacherLeadId)
     if (!teacherLead) throw 'Profesor titular no encontrado'
 
-    const updatedCourse = await CourseModel.updateOne({ _id }, { ...course, teacherLead })
+    const updatedCourse = await this.ORM.models.CourseModel.updateOne({ _id }, { ...course, teacherLead })
 
     return updatedCourse
   }
 
   async deleteCourse(courseId: string) {
-    const deletedCourse = await CourseModel.findByIdAndDelete(courseId)
-    return deletedCourse
+    const enrollmentsByCourse = await this.ORM.models.EnrollmentModel.find({
+      courses: { _id: courseId }
+    })
+    if (enrollmentsByCourse.length > 0) throw 'El curso está asignado a una matrícula'
+
+    return await this.ORM.models.CourseModel.findByIdAndDelete(courseId)
   }
 
   async getAllCourses(institutionId: string) {
-    const courses = await CourseModel
+    const courses = await this.ORM.models.CourseModel
       .find({ institution: { _id: institutionId } })
       .select('-schedules -institution')
       .populate({
@@ -45,7 +49,7 @@ export class CourseService implements ICourseRepository {
     const response = []
 
     for (const course of courses) {
-      const matricules = await MatriculeModel.find({ course: { _id: course._id } })
+      const matricules = await this.ORM.models.MatriculeModel.find({ course: { _id: course._id } })
 
       response.push({ ...course.toObject(), studentCount: matricules.length })
     }
@@ -54,7 +58,19 @@ export class CourseService implements ICourseRepository {
   }
 
   async getCourseById(courseId: string) {
-    const course = await CourseModel.findById(courseId)
-    return course
+    return await this.ORM.models.CourseModel.findById(courseId)
+  }
+
+  async getAllCoursesNotInEnrollment(institutionId: string, enrollmentId: string) {
+    const enrollment = await this.ORM.models.EnrollmentModel.findById(enrollmentId)
+    if (!enrollment) throw 'Matrícula no encontrada'
+
+    const courses = await this.ORM.models.EnrollmentModel.distinct('courses', {
+      _id: { $ne: enrollmentId },
+      institution: { _id: institutionId },
+      year: enrollment.year
+    })
+
+    return courses
   }
 }

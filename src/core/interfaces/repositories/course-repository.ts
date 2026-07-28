@@ -7,4 +7,13 @@ export interface ICourseRepository {
   deleteCourse(courseId: string): Promise<any>
   getAllCourses(institutionId: string): Promise<any[]>
   getCourseById(courseId: string): Promise<CourseDto | null>
+
+  /**
+   * Retorna todos los Cursos disponibles que no tengan ningun enrollment
+   * 
+   * @param institutionId Id de la institución
+   * @param enrollmentId Id de la matrícula
+   * @returns Cursos disponibles
+   */
+  getAllCoursesNotInEnrollment(institutionId: string, enrollmentId: string): Promise<CourseDto[]>
 }

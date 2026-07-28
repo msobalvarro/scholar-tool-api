@@ -1,4 +1,4 @@
-import { IEnrollment } from '@/core/interfaces/dtos/enrollement';
+import { IEnrollment } from '@/core/interfaces/dtos/enrollment';
 import { Schema, model, now } from 'mongoose';
 
 const enrollment = new Schema<IEnrollment>(
