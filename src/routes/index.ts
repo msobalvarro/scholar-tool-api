@@ -21,6 +21,7 @@ export const router = new Hono()
 
 router.route('/institutions', institutionRoute)
 router.route('/user-institutions', userInstitutionRoute)
+router.route('/auth', authRoute)
 router.route('/user-root', userRootRoute)
 router.route('/teachers', teacherRoute)
 router.route('/matricules', matriculeRoute)

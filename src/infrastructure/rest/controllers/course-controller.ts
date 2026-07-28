@@ -1,4 +1,4 @@
-import { CreateCourseDto, courseSchema, CourseUpdate, courseUpdateSchema } from '@/infrastructure/database/schemas/course-schema'
+import { CreateCourseDto, courseSchema } from '@/infrastructure/database/schemas/course-schema'
 import { CourseService } from '@/infrastructure/database/repositories/course-repository'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
@@ -59,6 +59,17 @@ export class CourseController {
       const { id } = await c.req.param() as { id: string }
       const course = await this.courseService.getCourseById(id)
       return c.json(course)
+    } catch (error) {
+      return ErrorValidator(error, c)
+    }
+  }
+
+  getAllNotInEnrollment = async (c: Context) => {
+    try {
+      const user = c.get('jwtPayload')
+      const { enrollmentId } = await c.req.param() as { enrollmentId: string }
+      const courses = await this.courseService.getAllCoursesNotInEnrollment(user.institutionId, enrollmentId)
+      return c.json(courses)
     } catch (error) {
       return ErrorValidator(error, c)
     }

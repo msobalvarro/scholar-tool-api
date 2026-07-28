@@ -59,6 +59,7 @@ export class ORM {
 
   async connectDB() {
     await connect(environments.DB, { autoIndex: false })
+    console.log('✅ Conexión exitosa a la base de datos')
     this._models = this.assignModels()
   }
 
