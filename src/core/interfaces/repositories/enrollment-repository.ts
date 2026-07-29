@@ -3,6 +3,6 @@ import { IEnrollment } from '../dtos/enrollment';
 
 export interface IEnrollmentRepository {
   getEnrollments(institutionId: string): Promise<IEnrollment[]>
-  updateEnrollment(enrollment: EnrollmentUpdateInput, institutionId: string): Promise<IEnrollment | null>
+  updateEnrollment(enrollment: EnrollmentUpdateInput, institutionId: string, userId: string): Promise<IEnrollment | null>
   createEnrollment(enrollment: EnrollmentInput, institutionId: string): Promise<IEnrollment>
 }

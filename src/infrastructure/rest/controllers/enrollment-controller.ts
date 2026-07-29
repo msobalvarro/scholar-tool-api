@@ -1,4 +1,4 @@
-import { EnrollmentInput, enrollmentSchema, enrollmentUpdateSchema } from '@/infrastructure/database/schemas/enrollment-schema'
+import { enrollmentSchema, enrollmentUpdateSchema } from '@/infrastructure/database/schemas/enrollment-schema'
 import { EnrollmentRepository } from '@/infrastructure/database/repositories/enrollment-repository'
 import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
@@ -26,7 +26,7 @@ export class EnrollmentController {
       const body = await c.req.json()
       const parsedBody = await enrollmentUpdateSchema.parseAsync(body)
       const user = c.get('jwtPayload')
-      const enrollmentUpdated = await this.enrollmentService.updateEnrollment(parsedBody, user.institutionId)
+      const enrollmentUpdated = await this.enrollmentService.updateEnrollment(parsedBody, user.institutionId, user._id)
       return c.json(enrollmentUpdated)
     } catch (error) {
       return ErrorValidator(error, c)
