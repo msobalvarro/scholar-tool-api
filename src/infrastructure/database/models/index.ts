@@ -17,6 +17,7 @@ import { TokenModel } from './token-model'
 import { UserInstitutionModel } from './user-institution-model'
 import { CalendarEventModel } from './calendar-events-model'
 import { EnrollmentModel } from './enrollment-model'
+import { EnrollmentHistoryChangesModel } from './enrollment-history-changes-model'
 
 export {
   AsignatureModel,
@@ -38,6 +39,7 @@ export {
   UserInstitutionModel,
   CalendarEventModel,
   EnrollmentModel,
+  EnrollmentHistoryChangesModel
 }
 
 export type ModelORM = {
@@ -60,4 +62,5 @@ export type ModelORM = {
   UserInstitutionModel: typeof UserInstitutionModel,
   CalendarEventModel: typeof CalendarEventModel,
   EnrollmentModel: typeof EnrollmentModel,
+  EnrollmentHistoryChangesModel: typeof EnrollmentHistoryChangesModel,
 }
