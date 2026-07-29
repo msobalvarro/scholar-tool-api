@@ -1,12 +1,8 @@
 import { Student } from './student'
 import { Course } from './course'
 import { Institution } from './institution'
+import { IEnrollment } from './enrollment'
 
-/*
-# DEPRECATED
-Este modelo está siendo usado en varias partes del proyecto.
-
-*/
 export type Matricule = {
   _id?: any
   student: Student
@@ -14,4 +10,5 @@ export type Matricule = {
   status: 'active' | 'inactive'
   institution: Institution
   year: number
+  enrollment: IEnrollment
 }

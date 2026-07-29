@@ -1,14 +1,36 @@
-import { Student } from '@/core/interfaces/dtos'
+import { Course, Institution, Student } from '@/core/interfaces/dtos'
 import { StudentSchema, StudentUpdateSchema, AssignToCourseSchema } from '@/infrastructure/database/schemas/student-schema'
 import { Service } from 'typedi'
 import { IStudentRepository } from '@/core/interfaces/repositories/student-repository'
 import { Inject } from 'typedi'
 import { ORM } from '..'
+import { ClientSession } from 'mongoose'
 
 @Service()
 export class StudentService implements IStudentRepository {
   @Inject(() => ORM)
   private ORM!: ORM
+
+  private async createEnrollment({ course, institution, student, session }: { course: Course, institution: Institution, student: Student, session: ClientSession }): Promise<void> {
+    const enrollment = await this.ORM.models.EnrollmentModel.findOne({
+      courses: {
+        _id: course._id,
+        institution: institution._id
+      }
+    }, { session })
+
+    if (!enrollment) throw 'La matrícula no se encuentra'
+
+    await this.ORM.models.MatriculeModel.create(
+      [{
+        student,
+        institution,
+        course,
+        enrollment
+      }],
+      { session }
+    )
+  }
 
   async createStudent(student: StudentSchema, institutionId: string): Promise<Student> {
     console.log(student)
@@ -32,15 +54,9 @@ export class StudentService implements IStudentRepository {
         { session }
       )
 
-      await this.ORM.models.MatriculeModel.create(
-        [{ student, institution, course }],
-        { session }
-      )
-
+      await this.createEnrollment({ course, institution, student, session })
       await session.commitTransaction()
-
       return student
-
     } catch (error) {
       await session.abortTransaction()
       throw error
