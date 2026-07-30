@@ -8,6 +8,7 @@ const matriculeSchema = new Schema<Matricule>(
     year: { type: Number, required: true, default: new Date().getFullYear() },
     status: { type: String, enum: ['active', 'inactive'], default: 'active' },
     institution: { type: Schema.Types.ObjectId, ref: 'Institution', required: true },
+    enrollment: { type: Schema.Types.ObjectId, ref: 'Enrollment', required: true },
   },
   {
     timestamps: true,

@@ -62,7 +62,7 @@ export class CourseService implements ICourseRepository {
     return await this.ORM.models.CourseModel.findById(courseId)
   }
 
-  async getAllCoursesNotInEnrollment(institutionId: string) {
+  async getAllCoursesNotInEnrollment(institutionId: string, enrollmentId?: string) {
     const enrollments = await this.ORM.models.EnrollmentModel
       .find({
         institution: { _id: institutionId },
