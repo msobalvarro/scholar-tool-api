@@ -15,5 +15,5 @@ export interface ICourseRepository {
    * @param enrollmentId Id de la matrícula
    * @returns Cursos disponibles
    */
-  getAllCoursesNotInEnrollment(institutionId: string, enrollmentId: string): Promise<CourseDto[]>
+  getAllCoursesNotInEnrollment(institutionId: string): Promise<CourseDto[]>
 }

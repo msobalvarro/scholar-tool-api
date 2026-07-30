@@ -5,7 +5,6 @@ import {
   scheduleUpdateSchema
 } from '@/infrastructure/database/schemas/schedule-schema'
 import { ScheduleService } from '@/infrastructure/database/repositories/schedule-repository'
-import { ErrorValidator } from '@/utils/error-validator'
 import { Context } from 'hono'
 import { Service } from 'typedi'
 
@@ -14,75 +13,47 @@ export class ScheduleController {
   constructor(private scheduleService: ScheduleService) { }
 
   createSchedule = async (c: Context) => {
-    try {
-      const body = await c.req.json()
-      const parsedBody = await scheduleSchema.parse(body) as Schedule
-      const scheduleCreated = await this.scheduleService.createSchedule(parsedBody)
+    const body = await c.req.json()
+    const parsedBody = await scheduleSchema.parse(body) as Schedule
+    const scheduleCreated = await this.scheduleService.createSchedule(parsedBody)
 
-      return c.json(scheduleCreated)
-    } catch (error) {
-      return ErrorValidator(error, c)
-    }
+    return c.json(scheduleCreated)
   }
 
   getScheduleById = async (c: Context) => {
-    try {
-      const id = c.req.param('id')
-      const schedule = await this.scheduleService.getScheduleById(id)
-      return c.json(schedule)
-    } catch (error) {
-      return ErrorValidator(error, c)
-    }
+    const id = c.req.param('id')
+    const schedule = await this.scheduleService.getScheduleById(id)
+    return c.json(schedule)
   }
 
   getScheduleByCourseId = async (c: Context) => {
-    try {
-      const courseId = c.req.param('courseId')
-      const schedule = await this.scheduleService.getScheduleByCourseId(courseId)
-      return c.json(schedule)
-    } catch (error) {
-      return ErrorValidator(error, c)
-    }
+    const courseId = c.req.param('courseId')
+    const schedule = await this.scheduleService.getScheduleByCourseId(courseId)
+    return c.json(schedule)
   }
 
   getScheduleByTeacherId = async (c: Context) => {
-    try {
-      const teacherId = c.req.param('teacherId')
-      const schedule = await this.scheduleService.getScheduleByTeacherId(teacherId)
-      return c.json(schedule)
-    } catch (error) {
-      return ErrorValidator(error, c)
-    }
+    const teacherId = c.req.param('teacherId')
+    const schedule = await this.scheduleService.getScheduleByTeacherId(teacherId)
+    return c.json(schedule)
   }
 
   getScheduleByAsignatureId = async (c: Context) => {
-    try {
-      const asignatureId = c.req.param('asignatureId')
-      const schedule = await this.scheduleService.getScheduleByAsignatureId(asignatureId)
-      return c.json(schedule)
-    } catch (error) {
-      return ErrorValidator(error, c)
-    }
+    const asignatureId = c.req.param('asignatureId')
+    const schedule = await this.scheduleService.getScheduleByAsignatureId(asignatureId)
+    return c.json(schedule)
   }
 
   updateSchedule = async (c: Context) => {
-    try {
-      const body = await c.req.json()
-      const parsedBody = await scheduleUpdateSchema.parse(body) as ScheduleUpdate
-      const scheduleUpdated = await this.scheduleService.updateSchedule(parsedBody)
-      return c.json(scheduleUpdated)
-    } catch (error) {
-      return ErrorValidator(error, c)
-    }
+    const body = await c.req.json()
+    const parsedBody = await scheduleUpdateSchema.parse(body) as ScheduleUpdate
+    const scheduleUpdated = await this.scheduleService.updateSchedule(parsedBody)
+    return c.json(scheduleUpdated)
   }
 
   deleteSchedule = async (c: Context) => {
-    try {
-      const id = c.req.param('id')
-      const scheduleDeleted = await this.scheduleService.deleteSchedule(id)
-      return c.json(scheduleDeleted)
-    } catch (error) {
-      return ErrorValidator(error, c)
-    }
+    const id = c.req.param('id')
+    const scheduleDeleted = await this.scheduleService.deleteSchedule(id)
+    return c.json(scheduleDeleted)
   }
 }
