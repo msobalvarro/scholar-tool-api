@@ -1,7 +1,8 @@
 {
   "name": "scholar-tool-api",
   "scripts": {
-    "dev": "bun run --hot src/index.ts"
+    "dev": "bun run --hot src/index.ts",
+    "seed:auth": "bun run src/infrastructure/database/seeders/auth-seeder.ts"
   },
   "dependencies": {
     "dayjs": "^1.11.19",
