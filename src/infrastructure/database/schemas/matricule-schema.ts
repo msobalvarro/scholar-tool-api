@@ -6,7 +6,7 @@ export const matriculeSchema = z.object({
   year: z.number(),
 })
 
-export type Matricule = z.infer<typeof matriculeSchema>
+export type MatriculeSchema = z.infer<typeof matriculeSchema>
 
 export const matriculeSchemaUpdate = matriculeSchema.extend({ _id: z.string() })
-export type MatriculeUpdate = z.infer<typeof matriculeSchemaUpdate>
+export type MatriculeUpdateSchema = z.infer<typeof matriculeSchemaUpdate>

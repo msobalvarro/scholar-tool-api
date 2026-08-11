@@ -1,22 +1,23 @@
-import { MatriculeModel } from '@/infrastructure/database/models/matricule-model'
-import { Matricule, MatriculeUpdate } from '@/infrastructure/database/schemas/matricule-schema'
-import { InstitutionModel } from '@/infrastructure/database/models/institution-model'
-import { StudentModel } from '@/infrastructure/database/models/student-model'
-import { CourseModel } from '@/infrastructure/database/models/course-model'
+import { ORM } from '..'
+import { MatriculeSchema, MatriculeUpdateSchema } from '@/infrastructure/database/schemas/matricule-schema'
 import { IMatriculeRepository } from '@/core/interfaces/repositories/matrciule-repository'
-import { Service } from 'typedi'
+import { Inject, Service } from 'typedi'
+import { Matricule } from '@/core/interfaces/dtos'
 
 @Service()
-export class MatriculeService implements IMatriculeRepository {
-  async createMatricule(matricule: Matricule, institutionId: string) {
-    const institution = await InstitutionModel.findById(institutionId)
+export class MatriculeRepository implements IMatriculeRepository {
+  @Inject(() => ORM)
+  private readonly ORM!: ORM
+
+  async createMatricule(matricule: MatriculeSchema, institutionId: string) {
+    const institution = await this.ORM.models.InstitutionModel.findById(institutionId)
     if (!institution) throw 'Institución no encontrada'
     if (institution.status !== 'active') throw 'La institución no está activa'
 
-    const student = await StudentModel.findById(matricule.studentId)
+    const student = await this.ORM.models.StudentModel.findById(matricule.studentId)
     if (!student) throw 'Estudiante no encontrado'
 
-    const matriculeExists = await MatriculeModel.findOne({
+    const matriculeExists = await this.ORM.models.MatriculeModel.findOne({
       year: matricule.year,
       studentId: matricule.studentId,
       institutionId
@@ -24,10 +25,10 @@ export class MatriculeService implements IMatriculeRepository {
 
     if (matriculeExists) throw 'La matrícula ya existe'
 
-    const course = await CourseModel.findById(matricule.courseId)
+    const course = await this.ORM.models.CourseModel.findById(matricule.courseId)
     if (!course) throw 'Curso no encontrado'
 
-    const createdMatricule = await MatriculeModel.create({
+    const createdMatricule = await this.ORM.models.MatriculeModel.create({
       year: matricule.year,
       institution,
       student,
@@ -36,20 +37,20 @@ export class MatriculeService implements IMatriculeRepository {
     return createdMatricule
   }
 
-  async updateMatricule(matricule: MatriculeUpdate) {
+  async updateMatricule(matricule: MatriculeUpdateSchema) {
     const { _id, ...rest } = matricule
 
-    const updatedMatricule = await MatriculeModel.updateOne({ _id }, rest)
+    const updatedMatricule = await this.ORM.models.MatriculeModel.updateOne({ _id }, rest)
     return updatedMatricule
   }
 
   async deleteMatricule(_id: string) {
-    const deletedMatricule = await MatriculeModel.deleteOne({ _id })
+    const deletedMatricule = await this.ORM.models.MatriculeModel.deleteOne({ _id })
     return deletedMatricule
   }
 
   async getAllMatricules(institutionId: string) {
-    const matricules = await MatriculeModel
+    const matricules = await this.ORM.models.MatriculeModel
       .find({ institution: { _id: institutionId } })
       .populate('student')
       .populate('course')
@@ -59,7 +60,18 @@ export class MatriculeService implements IMatriculeRepository {
   }
 
   async getMatriculeById(_id: string) {
-    const matricule = await MatriculeModel.findById(_id)
+    const matricule = await this.ORM.models.MatriculeModel.findById(_id)
+    return matricule
+  }
+
+  async getActiveMatricule(studentId: string): Promise<Matricule> {
+    const matricule = await this.ORM.models.MatriculeModel.findOne({
+      student: { _id: studentId },
+      year: new Date().getFullYear()
+    })
+
+    if (!matricule) throw new Error('Matrícula no encontrada')
+    if (matricule.status !== 'active') throw new Error('La matrícula no está activa')
     return matricule
   }
 }

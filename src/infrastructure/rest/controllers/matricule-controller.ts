@@ -1,14 +1,14 @@
-import { matriculeSchema, Matricule, MatriculeUpdate } from '@/infrastructure/database/schemas/matricule-schema'
-import { MatriculeService } from '@/infrastructure/database/repositories/matrciule-repository'
+import { matriculeSchema, MatriculeSchema, MatriculeUpdateSchema } from '@/infrastructure/database/schemas/matricule-schema'
+import { MatriculeRepository } from '@/infrastructure/database/repositories/matrciule-repository'
 import { Context } from 'hono'
 import { Service } from 'typedi'
 @Service()
 export class MatriculeController {
-  constructor(private matriculeService: MatriculeService) { }
+  constructor(private matriculeService: MatriculeRepository) { }
 
   create = async (c: Context) => {
     const body = await c.req.json()
-    const parsedBody = matriculeSchema.parse(body) as Matricule
+    const parsedBody = matriculeSchema.parse(body) as MatriculeSchema
     const user = c.get('jwtPayload')
 
     const matricule = await this.matriculeService.createMatricule(parsedBody, user.institutionId)
@@ -18,7 +18,7 @@ export class MatriculeController {
 
   update = async (c: Context) => {
     const body = await c.req.json()
-    const parsedBody = matriculeSchema.parse(body) as MatriculeUpdate
+    const parsedBody = matriculeSchema.parse(body) as MatriculeUpdateSchema
 
     const matricule = await this.matriculeService.updateMatricule(parsedBody)
 

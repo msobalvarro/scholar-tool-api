@@ -22,6 +22,7 @@ import {
   CalendarEventModel,
   EnrollmentModel,
   EnrollmentHistoryChangesModel,
+  StudentAssistenceModel
 } from './models'
 import { environments } from '@/utils/constanst';
 import { DBConnectionError } from '@/core/errors/dbConnectionError';
@@ -56,6 +57,7 @@ export class ORM {
       CalendarEventModel,
       EnrollmentModel,
       EnrollmentHistoryChangesModel,
+      StudentAssistenceModel,
     }
   }
 
