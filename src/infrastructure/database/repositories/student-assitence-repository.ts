@@ -15,12 +15,12 @@ export class StudentAssistenceRepository implements IStudentAssistenceRepository
   private studentRepository!: StudentRepository
 
   @Inject(() => MatriculeRepository)
-  private matriculeService!: MatriculeRepository
+  private matriculeRepository!: MatriculeRepository
 
   async createAssitence(assistence: StudentAssistenceSchema, institutionId: string): Promise<StudentAssistence> {
     const { studentId, ...assistenceData } = assistence
     const student = await this.studentRepository.getActiveStudent(studentId, institutionId)
-    const matricule = await this.matriculeService.getActiveMatricule(student._id)
+    const matricule = await this.matriculeRepository.getActiveMatricule(student._id)
 
     return await this.orm.models.StudentAssistenceModel.create({
       ...assistenceData,

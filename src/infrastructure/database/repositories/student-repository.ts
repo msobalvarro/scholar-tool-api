@@ -134,14 +134,14 @@ export class StudentRepository implements IStudentRepository {
 
   async getActiveStudent(studentId: string, institutionId: string): Promise<Student> {
     const institution = await this.ORM.models.InstitutionModel.findById(institutionId)
-    if (!institution) throw 'Institución no encontrada'
+    if (!institution) throw new Error('Institución no encontrada')
 
     const student = await this.ORM.models.StudentModel.findById(studentId)
-    if (!student) throw 'Estudiante no encontrado'
+    if (!student) throw new Error('Estudiante no encontrado')
 
     const matricule = await this.ORM.models.MatriculeModel.findOne({ student, institution })
-    if (!matricule) throw 'El estudiante no está asignado a esta institución'
-    if (matricule.status !== 'active') throw 'El estudiante no está activo'
+    if (!matricule) throw new Error('El estudiante no está asignado a esta institución')
+    if (matricule.status !== 'active') throw new Error('El estudiante no está activo')
 
     return student
   }

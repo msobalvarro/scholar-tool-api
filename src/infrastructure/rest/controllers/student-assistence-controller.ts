@@ -12,7 +12,7 @@ export class StudentAssistenceController {
     const body = await c.req.json()
     const parsedBody = studentAssistenceSchema.parse(body) as StudentAssistenceSchema
     const user = c.get('jwtPayload')
-    const assistenceCreated = await this.studentAssistenceRepository.createAssitence(parsedBody)
+    const assistenceCreated = await this.studentAssistenceRepository.createAssitence(parsedBody, user.institutionId)
     return c.json(assistenceCreated)
   }
 
