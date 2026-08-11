@@ -1,10 +1,11 @@
 import { CreateCourseDto, courseSchema } from '@/infrastructure/database/schemas/course-schema'
 import { CourseService } from '@/infrastructure/database/repositories/course-repository'
 import { Context } from 'hono'
-import { Service } from 'typedi'
+import { Inject, Service } from 'typedi'
 @Service()
 export class CourseController {
-  constructor(private courseService: CourseService) { }
+  @Inject(() => CourseService)
+  private courseService!: CourseService
 
   create = async (c: Context) => {
     const body = await c.req.json()
@@ -45,8 +46,7 @@ export class CourseController {
 
   getAllNotInEnrollment = async (c: Context) => {
     const user = c.get('jwtPayload')
-    const { enrollmentId } = await c.req.param() as { enrollmentId: string }
-    const courses = await this.courseService.getAllCoursesNotInEnrollment(user.institutionId, enrollmentId)
+    const courses = await this.courseService.getAllCoursesNotInEnrollment(user.institutionId)
     return c.json(courses)
   }
 }

@@ -18,6 +18,7 @@ import { UserInstitutionModel } from './user-institution-model'
 import { CalendarEventModel } from './calendar-events-model'
 import { EnrollmentModel } from './enrollment-model'
 import { EnrollmentHistoryChangesModel } from './enrollment-history-changes-model'
+import { StudentAssistenceModel } from './student-assitence-model'
 
 export {
   AsignatureModel,
@@ -39,7 +40,8 @@ export {
   UserInstitutionModel,
   CalendarEventModel,
   EnrollmentModel,
-  EnrollmentHistoryChangesModel
+  EnrollmentHistoryChangesModel,
+  StudentAssistenceModel,
 }
 
 export type ModelORM = {
@@ -63,4 +65,5 @@ export type ModelORM = {
   CalendarEventModel: typeof CalendarEventModel,
   EnrollmentModel: typeof EnrollmentModel,
   EnrollmentHistoryChangesModel: typeof EnrollmentHistoryChangesModel,
+  StudentAssistenceModel: typeof StudentAssistenceModel,
 }

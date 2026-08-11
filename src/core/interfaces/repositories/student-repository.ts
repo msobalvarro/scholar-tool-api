@@ -10,4 +10,5 @@ export interface IStudentRepository {
   getAllStudentsByCourse(courseId: string, institutionId: string): Promise<Student[]>
   assignStudentToCourse({ courseId, studentId }: AssignToCourseSchema, institutionId: string): Promise<void>
   getStudentById(studentId: string, institutionId: string): Promise<Student | null>
+  getActiveStudent(studentId: string, institutionId: string): Promise<Student | null>
 }
