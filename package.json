@@ -5,11 +5,13 @@
     "seed:auth": "bun run src/infrastructure/database/seeders/auth-seeder.ts"
   },
   "dependencies": {
+    "@socket.io/bun-engine": "^0.1.1",
     "dayjs": "^1.11.19",
     "firebase-admin": "^13.6.0",
     "hono": "^4.10.6",
     "mongoose": "^9.0.0",
     "reflect-metadata": "^0.2.2",
+    "socket.io": "^4.8.3",
     "typedi": "^0.10.0",
     "zod": "^4.1.13"
   },

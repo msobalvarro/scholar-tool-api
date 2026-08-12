@@ -1,30 +1,29 @@
 import 'reflect-metadata'
-import { Hono } from 'hono'
-import { logger } from 'hono/logger'
-import { cors } from 'hono/cors'
-import { router } from './routes'
-import { z } from 'zod'
 import { Container } from 'typedi'
-import { ORM } from './infrastructure/database'
-import { ErrorValidator } from './utils/error-validator'
+import { ORM } from '@/infrastructure/database'
+import type { WebSocketData } from '@socket.io/bun-engine'
+import { SocketAdapter } from '@/infrastructure/adapters/socket'
+import { createApp } from '@/infrastructure/rest/app'
 
-z.config(z.locales.es())
-const app = new Hono()
 const orm = Container.get(ORM)
+await orm.connectDB()
 
-orm.connectDB()
+const app = createApp()
+const socketAdapter = Container.get(SocketAdapter)
 
-app.use(logger())
-app.use(cors({ origin: '*' }))
+export default {
+  port: 3000,
+  idleTimeout: 30, // must be greater than the "pingInterval" option of the engine
 
-app.get('/', (c) => {
-  return c.text(`api running`)
-})
+  fetch(req: Request, server: Bun.Server<WebSocketData>) {
+    const url = new URL(req.url)
 
-app.onError((err, c) => {
-  return ErrorValidator(err, c)
-})
+    if (url.pathname === '/socket.io/') {
+      return socketAdapter.handleRequest(req, server)
+    }
 
-app.route('/', router)
+    return app.fetch(req, server)
+  },
 
-export default app
+  websocket: socketAdapter.websocketHandler
+}
