@@ -17,4 +17,11 @@ export class DateFormatterAdapter implements IDareFormatterAdapter {
     }
     return new Date(dayjs(date).format())
   }
+
+  toGteAndLteDate(date: string | Date): { gte: Date; lte: Date } {
+    return {
+      gte: dayjs(date).startOf('day').toDate(),
+      lte: dayjs(date).endOf('day').toDate()
+    }
+  }
 }
