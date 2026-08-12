@@ -9,4 +9,4 @@ const controller = Container.get(StudentAssistenceController)
 studentAssistenceRoute.use('/*', jwtUserInstitution)
 
 studentAssistenceRoute.post('/', controller.createAssitence)
-studentAssistenceRoute.get('/', controller.getAllAssitences)
+studentAssistenceRoute.get('/student/:studentId', controller.getAllAssitencesByStudent)

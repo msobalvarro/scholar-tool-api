@@ -12,13 +12,14 @@ export class StudentAssistenceController {
     const body = await c.req.json()
     const parsedBody = studentAssistenceSchema.parse(body) as StudentAssistenceSchema
     const user = c.get('jwtPayload')
-    const assistenceCreated = await this.studentAssistenceRepository.createAssitence(parsedBody)
+    const assistenceCreated = await this.studentAssistenceRepository.createAssitence(parsedBody, user.institutionId)
     return c.json(assistenceCreated)
   }
 
-  getAllAssitences = async (c: Context) => {
+  getAllAssitencesByStudent = async (c: Context) => {
     const user = c.get('jwtPayload')
-    const assistences = await this.studentAssistenceRepository.getAllAssitences(user.institutionId)
+    const { studentId } = c.req.param()
+    const assistences = await this.studentAssistenceRepository.getAllAssitencesByStudent(studentId, user.institutionId)
     return c.json(assistences)
   }
 }

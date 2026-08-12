@@ -13,4 +13,11 @@ export interface IDareFormatterAdapter {
    * @returns Fecha en formato Date
    */
   formatToISO8601(date: string, time: string): Date
+
+  /**
+   * Formatea una fecha a formato 'YYYY-MM-DD'
+   * @param string Fecha a formatear 'dd/mm/YYYY'
+   * @returns Fecha en formato 'YYYY-MM-DD'
+   */
+  toGteAndLteDate(date: string | Date): { gte: Date, lte: Date }
 }
