@@ -1,13 +1,13 @@
-import { AssistanceModel } from '@/infrastructure/database/models/assistance-model'
-import { CourseModel } from '@/infrastructure/database/models/course-model'
-import { StudentModel } from '@/infrastructure/database/models/student-model'
-import { TeacherModel } from '@/infrastructure/database/models/teacher-model'
 import { AssitanceSchema } from '@/infrastructure/database/schemas/assitance-schema'
 import { IAssistanceRepository } from '@/core/interfaces/repositories/assitance-repository'
-import { Service } from 'typedi'
+import { Inject, Service } from 'typedi'
+import { ORM } from '..'
 
 @Service()
 export class AssitanceRepository implements IAssistanceRepository {
+  @Inject(() => ORM)
+  private readonly ORM!: ORM
+
   async createAssistance(assitance: AssitanceSchema) {
     const {
       courseId,
@@ -18,12 +18,12 @@ export class AssitanceRepository implements IAssistanceRepository {
       studentsAbsentId
     } = assitance
 
-    const course = await CourseModel.findById(courseId)
-    const teacher = await TeacherModel.findById(teacherId)
+    const course = await this.ORM.models.CourseModel.findById(courseId)
+    const teacher = await this.ORM.models.TeacherModel.findById(teacherId)
 
     if (!course || !teacher) throw 'Curso o profesor no encontrado'
 
-    const assistance = new AssistanceModel({
+    const assistance = new this.ORM.models.AssistanceModel({
       teacher,
       date: new Date(date),
       observation,
@@ -32,7 +32,7 @@ export class AssitanceRepository implements IAssistanceRepository {
     })
 
     for (const studentId of studentsPresentsId) {
-      const student = await StudentModel.findById(studentId)
+      const student = await this.ORM.models.StudentModel.findById(studentId)
       if (!student) throw 'Estudiante no encontrado'
 
       if (studentsAbsentId.find((id) => id === studentId)) {
@@ -46,7 +46,7 @@ export class AssitanceRepository implements IAssistanceRepository {
     }
 
     for (const studentId of studentsAbsentId) {
-      const student = await StudentModel.findById(studentId)
+      const student = await this.ORM.models.StudentModel.findById(studentId)
       if (!student) throw 'Estudiante no encontrado'
 
       assistance.studentsAbsent.push(student)

@@ -1,6 +1,6 @@
 import { ORM } from '..';
-import { IStudentAssistenceRepository } from '../../../core/interfaces/repositories/student-assistence-repository';
-import { StudentAssistence } from '../../../core/interfaces/dtos/student-assistence';
+import { IStudentAssistenceRepository } from '@/core/interfaces/repositories/student-assistence-repository';
+import { StudentAssistence } from '@/core/interfaces/dtos/student-assistence';
 import { Inject, Service } from 'typedi';
 import { StudentAssistenceSchema } from '../schemas/student-assistence-schema';
 import { StudentRepository } from './student-repository';
@@ -29,15 +29,8 @@ export class StudentAssistenceRepository implements IStudentAssistenceRepository
     })
   }
 
-  async getAllAssitences(insutionId: string): Promise<StudentAssistence[]> {
-    return await this.orm.models.StudentAssistenceModel
-      .find({
-        matricule: {
-          institution: {
-            _id: insutionId
-          }
-        }
-      })
-      .populate('student', 'matricule')
+  async getAllAssitencesByStudent(studentId: string, institutionId: string): Promise<StudentAssistence[]> {
+    const student = await this.studentRepository.getActiveStudent(studentId, institutionId)
+    return await this.orm.models.StudentAssistenceModel.find({ student })
   }
 }

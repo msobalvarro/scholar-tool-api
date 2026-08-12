@@ -16,9 +16,10 @@ export class StudentAssistenceController {
     return c.json(assistenceCreated)
   }
 
-  getAllAssitences = async (c: Context) => {
+  getAllAssitencesByStudent = async (c: Context) => {
     const user = c.get('jwtPayload')
-    const assistences = await this.studentAssistenceRepository.getAllAssitences(user.institutionId)
+    const { studentId } = c.req.param()
+    const assistences = await this.studentAssistenceRepository.getAllAssitencesByStudent(studentId, user.institutionId)
     return c.json(assistences)
   }
 }
