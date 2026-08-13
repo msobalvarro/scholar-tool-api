@@ -1,0 +1,32 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: scholar-tool-api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+    # If using local MongoDB in docker, uncomment the lines below:
+    # depends_on:
+    #   - mongodb
+    # environment:
+    #   - DB=mongodb://mongodb:27017/scholar-tool
+
+  # Optional local MongoDB service for development/offline testing
+  # mongodb:
+  #   image: mongo:7.0
+  #   container_name: scholar-tool-db
+  #   restart: unless-stopped
+  #   ports:
+  #     - "27017:27017"
+  #   volumes:
+  #     - mongo_data:/data/db
+
+# volumes:
+#   mongo_data:

@@ -4,6 +4,7 @@ import { ORM } from '@/infrastructure/database'
 import type { WebSocketData } from '@socket.io/bun-engine'
 import { SocketAdapter } from '@/infrastructure/adapters/socket'
 import { createApp } from '@/infrastructure/rest/app'
+import { environments } from './utils/constanst'
 
 const orm = Container.get(ORM)
 await orm.connectDB()
@@ -12,8 +13,8 @@ const app = createApp()
 const socketAdapter = Container.get(SocketAdapter)
 
 export default {
-  port: 3000,
-  idleTimeout: 30, // must be greater than the "pingInterval" option of the engine
+  port: Number(environments.PORT),
+  idleTimeout: 30,
 
   fetch(req: Request, server: Bun.Server<WebSocketData>) {
     const url = new URL(req.url)
