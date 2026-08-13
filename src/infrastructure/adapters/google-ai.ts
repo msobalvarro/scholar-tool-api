@@ -1,5 +1,6 @@
 import { ExecutePromptOptions, GeminiModel } from '@/core/interfaces/dtos/google-ai';
 import { IAIService } from '@/core/interfaces/repositories/google-ai';
+import { environments } from '@/utils/constanst';
 import { GoogleGenAI, GenerateContentParameters } from '@google/genai';
 import { Service } from 'typedi';
 
@@ -8,6 +9,10 @@ import { Service } from 'typedi';
 export class GeminiService implements IAIService {
   private ai!: GoogleGenAI;
   private readonly defaultModel: GeminiModel = 'gemini-2.5-flash';
+
+  constructor() {
+    this.ai = new GoogleGenAI({ apiKey: environments.GOOGLE_API_KEY });
+  }
 
   async executePrompt(prompt: string, options: ExecutePromptOptions = {}): Promise<string> {
     const {
