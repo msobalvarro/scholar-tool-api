@@ -21,16 +21,24 @@ export class StudentAssistenceRepository implements IStudentAssistenceRepository
   @Inject(() => DateFormatterAdapter)
   private readonly dateFormatterAdapter!: DateFormatterAdapter
 
-  private readonly verifyExistingAssistence = async (studentId: string, date: Date) => {
-    return await this.orm.models.StudentAssistenceModel.findOne({
-      student: {
-        _id: studentId
-      },
-      date: {
-        $gte: this.dateFormatterAdapter.toGteAndLteDate(date).gte,
-        $lt: this.dateFormatterAdapter.toGteAndLteDate(date).lte
-      }
+  private readonly verifyExistingAssistence = async (studentId: string, date: string | Date, institutionId: string): Promise<void> => {
+    const student = await this.studentRepository.getStudentById(studentId, institutionId)
+    const assistence = await this.orm.models.StudentAssistenceModel.find({
+      student,
+      // date: {
+      //   $gte: this.dateFormatterAdapter.formatToISOString(date),
+      //   $lte: this.dateFormatterAdapter.formatToISOString(date)
+      // }
     })
+
+    console.log({
+      $gte: this.dateFormatterAdapter.formatToISOString(date),
+      $lte: this.dateFormatterAdapter.formatToISOString(date)
+    })
+
+    if (assistence) {
+      throw new Error('Assistence already exists')
+    }
   }
 
   async createAssitence(assistence: StudentAssistenceSchema, institutionId: string): Promise<StudentAssistence> {
@@ -38,10 +46,8 @@ export class StudentAssistenceRepository implements IStudentAssistenceRepository
     const student = await this.studentRepository.getActiveStudent(studentId, institutionId)
     const matricule = await this.matriculeRepository.getActiveMatricule(student._id)
 
-    const assistenceVerify = await this.verifyExistingAssistence(student._id, assistenceData.date)
-    if (assistenceVerify) {
-      throw new Error('Assistence already exists')
-    }
+    await this.verifyExistingAssistence(student._id, assistenceData.date, institutionId)
+
 
     return await this.orm.models.StudentAssistenceModel.create({
       ...assistenceData,

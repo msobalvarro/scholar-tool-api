@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Git & IDEs
+.git/
+.gitignore
+.github/
+.vscode/
+.idea/
+.DS_Store
+
+# Logs & temp files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+bun.lockb
+dist/
+tmp/
+coverage/
+firebase-config.json
