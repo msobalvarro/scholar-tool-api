@@ -1,30 +1,32 @@
-import { InstitutionModel } from '@/infrastructure/database/models/institution-model'
-import { PeriodModel } from '@/infrastructure/database/models/period-model'
 import { PeriodUpdate, Period } from '@/infrastructure/database/schemas/period-schema'
-import { Service } from 'typedi'
+import { Inject, Service } from 'typedi'
+import { ORM } from '..'
 
 @Service()
 export class PeriodService {
+  @Inject(() => ORM)
+  private readonly orm!: ORM
+
   async createPeriod(period: Period, institutionId: string) {
-    const institution = await InstitutionModel.findById(institutionId)
+    const institution = await this.orm.models.InstitutionModel.findById(institutionId)
     if (!institution) throw 'Institución no encontrada'
 
-    return await PeriodModel.create({ ...period, institution })
+    return await this.orm.models.PeriodModel.create({ ...period, institution })
   }
 
   async updatePeriod(period: PeriodUpdate) {
-    return await PeriodModel.findByIdAndUpdate(period._id, period)
+    return await this.orm.models.PeriodModel.findByIdAndUpdate(period._id, period)
   }
 
   async deletePeriod(periodId: string) {
-    return await PeriodModel.findByIdAndDelete(periodId)
+    return await this.orm.models.PeriodModel.findByIdAndDelete(periodId)
   }
 
   async getPeriodsByInstitution(institutionId: string) {
-    return await PeriodModel.find({ institution: { _id: institutionId } })
+    return await this.orm.models.PeriodModel.find({ institution: { _id: institutionId } })
   }
 
   async getPeriodById(periodId: string) {
-    return await PeriodModel.findById(periodId)
+    return await this.orm.models.PeriodModel.findById(periodId)
   }
 }

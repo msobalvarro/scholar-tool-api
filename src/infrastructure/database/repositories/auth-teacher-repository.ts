@@ -1,4 +1,3 @@
-import { TeacherAuthModel } from '@/infrastructure/database/models/teacher-auth-model'
 import { createHash } from '@/utils/encrypt'
 import { Inject, Service } from 'typedi'
 import { IAuthTeacherRepository } from '@/core/interfaces/repositories/auth-teacher-repository'
