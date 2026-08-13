@@ -1,5 +1,3 @@
-import { InstitutionModel } from '@/infrastructure/database/models/institution-model'
-import { UserInstitutionModel } from '@/infrastructure/database/models/user-institution-model'
 import {
   AssignUserToInstitutionSchema,
   DeleteInstitutionSchema,
@@ -8,18 +6,21 @@ import {
   UpdateInstitutionSchema
 } from '@/infrastructure/database/schemas/institution-schema'
 import { IInstitutionRepository } from '@/core/interfaces/repositories/institution-repository'
-
-import { Service } from 'typedi'
+import { Inject, Service } from 'typedi'
+import { ORM } from '..'
 
 @Service()
 export class InstitutionService implements IInstitutionRepository {
+  @Inject(() => ORM)
+  private readonly orm!: ORM
+
   async getInstitutions() {
-    const insitutions = await InstitutionModel.find()
+    const insitutions = await this.orm.models.InstitutionModel.find()
     return insitutions
   }
 
   async getInstitutionById(id: string) {
-    const institution = await InstitutionModel.findById(id)
+    const institution = await this.orm.models.InstitutionModel.findById(id)
       .populate(
         [
           {
@@ -34,7 +35,7 @@ export class InstitutionService implements IInstitutionRepository {
   }
 
   async createInstitution(payload: InstitutionSchema) {
-    const institution = await InstitutionModel.create({
+    const institution = await this.orm.models.InstitutionModel.create({
       name: payload.name,
       logo: payload.logo
     })
@@ -44,38 +45,38 @@ export class InstitutionService implements IInstitutionRepository {
 
   async updateInstitution(payload: UpdateInstitutionSchema) {
     const { _id, ...rest } = payload
-    const institution = await InstitutionModel.findByIdAndUpdate(_id, rest, { new: true })
+    const institution = await this.orm.models.InstitutionModel.findByIdAndUpdate(_id, rest, { new: true })
     return institution
   }
 
   async deleteInstitution(payload: DeleteInstitutionSchema) {
     const { _id } = payload
-    const institution = await InstitutionModel.findByIdAndDelete(_id)
+    const institution = await this.orm.models.InstitutionModel.findByIdAndDelete(_id)
     return institution
   }
 
   async assignUserToInstitution(payload: AssignUserToInstitutionSchema) {
     const { userId, institutionId } = payload
-    const user = await UserInstitutionModel.findById(userId)
-    const institution = await InstitutionModel.findById(institutionId)
+    const user = await this.orm.models.UserInstitutionModel.findById(userId)
+    const institution = await this.orm.models.InstitutionModel.findById(institutionId)
 
     if (!user) throw 'Usuario no encontrado'
     if (!institution) throw 'Institucion no encontrada'
 
-    await UserInstitutionModel.updateOne({ _id: user._id }, { institution })
+    await this.orm.models.UserInstitutionModel.updateOne({ _id: user._id }, { institution })
 
     return institution
   }
 
   async removeUserFromInstitution(payload: RemoveUserFromInstitutionSchema) {
     const { userId, institutionId } = payload
-    const user = await UserInstitutionModel.findById(userId)
-    const institution = await InstitutionModel.findById(institutionId)
+    const user = await this.orm.models.UserInstitutionModel.findById(userId)
+    const institution = await this.orm.models.InstitutionModel.findById(institutionId)
 
     if (!user) throw 'Usuario no encontrado'
     if (!institution) throw 'Institución no encontrada'
 
-    await InstitutionModel.updateOne({ _id: institutionId }, { $pull: { users: { _id: user._id } } })
+    await this.orm.models.InstitutionModel.updateOne({ _id: institutionId }, { $pull: { users: { _id: user._id } } })
     return institution
   }
 }

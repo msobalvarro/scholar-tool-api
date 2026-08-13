@@ -1,24 +1,24 @@
-import { AsignatureModel } from '@/infrastructure/database/models/asignature-model'
-import { CourseModel } from '@/infrastructure/database/models/course-model'
-import { ScheduleModel } from '@/infrastructure/database/models/schedule-model'
-import { TeacherModel } from '@/infrastructure/database/models/teacher-model'
 import { Schedule, ScheduleUpdate } from '@/infrastructure/database/schemas/schedule-schema'
-import { Service } from 'typedi'
+import { Inject, Service } from 'typedi'
+import { ORM } from '..'
 
 @Service()
 export class ScheduleService {
+  @Inject(() => ORM)
+  private readonly orm!: ORM
+
   async createSchedule(schedule: Schedule) {
     const { asignatureId, courseId, teacherId, ...rest } = schedule
 
-    const asignature = await AsignatureModel.findById(asignatureId)
-    const course = await CourseModel.findById(courseId)
-    const teacher = await TeacherModel.findById(teacherId)
+    const asignature = await this.orm.models.AsignatureModel.findById(asignatureId)
+    const course = await this.orm.models.CourseModel.findById(courseId)
+    const teacher = await this.orm.models.TeacherModel.findById(teacherId)
 
     if (!asignature) throw 'Asignatura no encontrada'
     if (!course) throw 'Curso no encontrado'
     if (!teacher) throw 'Profesor no encontrado'
 
-    const scheduleCreated = await ScheduleModel.create({
+    const scheduleCreated = await this.orm.models.ScheduleModel.create({
       ...rest,
       asignature,
       teacher,
@@ -34,38 +34,38 @@ export class ScheduleService {
   }
 
   async getScheduleById(id: string) {
-    const schedule = await ScheduleModel.findById(id)
+    const schedule = await this.orm.models.ScheduleModel.findById(id)
     return schedule
   }
 
   async getScheduleByCourseId(courseId: string) {
-    const schedule = await ScheduleModel.find({ courseId })
+    const schedule = await this.orm.models.ScheduleModel.find({ courseId })
     return schedule
   }
 
   async getScheduleByTeacherId(teacherId: string) {
-    const schedule = await ScheduleModel.find({ teacherId })
+    const schedule = await this.orm.models.ScheduleModel.find({ teacherId })
     return schedule
   }
 
   async getScheduleByAsignatureId(asignatureId: string) {
-    const schedule = await ScheduleModel.find({ asignatureId })
+    const schedule = await this.orm.models.ScheduleModel.find({ asignatureId })
     return schedule
   }
 
   async updateSchedule(schedule: ScheduleUpdate) {
     const { _id, asignatureId, courseId, teacherId, ...rest } = schedule
 
-    const asignature = await AsignatureModel.findById(asignatureId)
-    const course = await CourseModel.findById(courseId)
-    const teacher = await TeacherModel.findById(teacherId)
+    const asignature = await this.orm.models.AsignatureModel.findById(asignatureId)
+    const course = await this.orm.models.CourseModel.findById(courseId)
+    const teacher = await this.orm.models.TeacherModel.findById(teacherId)
 
     if (!asignature) throw 'Asignatura no encontrada'
     if (!course) throw 'Curso no encontrado'
     if (!teacher) throw 'Profesor no encontrado'
 
 
-    const scheduleUpdated = await ScheduleModel.findByIdAndUpdate(
+    const scheduleUpdated = await this.orm.models.ScheduleModel.findByIdAndUpdate(
       _id,
       {
         ...rest,
@@ -80,12 +80,12 @@ export class ScheduleService {
   }
 
   async deleteSchedule(id: string) {
-    const scheduleDeleted = await ScheduleModel.findByIdAndDelete(id)
+    const scheduleDeleted = await this.orm.models.ScheduleModel.findByIdAndDelete(id)
     return scheduleDeleted
   }
 
   async getAllSchedules(insititutionId: string) {
-    // const schedules = await ScheduleModel.find({ ins: insititutionId })
+    // const schedules = await this.orm.models.ScheduleModel.find({ ins: insititutionId })
     // return schedules
   }
 }

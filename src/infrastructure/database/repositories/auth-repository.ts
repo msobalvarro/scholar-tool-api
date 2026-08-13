@@ -1,19 +1,18 @@
 import { UserRoles } from '@/core/interfaces/dtos/user'
-import { InstitutionModel } from '@/infrastructure/database/models/institution-model'
-import { UserRootModel } from '@/infrastructure/database/models/root-user-model'
-import { TeacherAuthModel } from '@/infrastructure/database/models/teacher-auth-model'
-import { TeacherModel } from '@/infrastructure/database/models/teacher-model'
-import { UserInstitutionModel } from '@/infrastructure/database/models/user-institution-model'
 import { environments } from '@/utils/constanst'
 import { createHash } from '@/utils/encrypt'
 import { sign } from 'hono/jwt'
 import { IAuthRepository } from '@/core/interfaces/repositories/auth-repository'
-import { Service } from 'typedi'
+import { Inject, Service } from 'typedi'
+import { ORM } from '..'
 
 @Service()
 export class AuthRepository implements IAuthRepository {
+  @Inject(() => ORM)
+  private readonly orm!: ORM
+
   async loginUserRoot(email: string, password: string) {
-    const user = await UserRootModel
+    const user = await this.orm.models.UserRootModel
       .findOneAndUpdate({ email, password: createHash(password) }, { lastLogin: new Date() }, { new: true })
       .select({
         password: 0,
@@ -28,7 +27,7 @@ export class AuthRepository implements IAuthRepository {
   }
 
   async loginUserInstitution(email: string, password: string) {
-    const user = await UserInstitutionModel
+    const user = await this.orm.models.UserInstitutionModel
       .findOneAndUpdate({ email, password: createHash(password) }, { lastLogin: new Date() }, { new: true })
       .select({
         password: 0,
@@ -38,7 +37,7 @@ export class AuthRepository implements IAuthRepository {
 
     if (!user) throw 'Usuario no encontrado'
 
-    const institution = await InstitutionModel.findOne(user.institution)
+    const institution = await this.orm.models.InstitutionModel.findOne(user.institution)
     if (!institution) throw 'Institución no encontrada'
 
     const token = await sign(
@@ -54,7 +53,7 @@ export class AuthRepository implements IAuthRepository {
   }
 
   async loginTeacher(email: string, password: string) {
-    const teacher = await TeacherModel
+    const teacher = await this.orm.models.TeacherModel
       .findOne({ email })
       .select({
         createdAt: 0,
@@ -63,11 +62,11 @@ export class AuthRepository implements IAuthRepository {
 
     if (!teacher) throw 'Profesor no encontrado'
 
-    const institution = await InstitutionModel.findOne(teacher.institution)
+    const institution = await this.orm.models.InstitutionModel.findOne(teacher.institution)
     if (!institution) throw 'Institución no encontrada'
 
 
-    const user = await TeacherAuthModel
+    const user = await this.orm.models.TeacherAuthModel
       .findOneAndUpdate({ teacher, password: createHash(password) }, { lastLogin: new Date() }, { new: true })
       .select({
         password: 0,

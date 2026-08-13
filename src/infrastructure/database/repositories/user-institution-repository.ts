@@ -1,25 +1,27 @@
-import { InstitutionModel } from '@/infrastructure/database/models/institution-model'
-import { UserInstitutionModel } from '@/infrastructure/database/models/user-institution-model'
 import {
   CreateUserInstitutionSchema,
   DeleteUserInstitutionSchema,
   UpdateUserInstitutionSchema
 } from '@/infrastructure/database/schemas/user-institution-schema'
 import { createHash } from '@/utils/encrypt'
-import { Service } from 'typedi'
+import { Inject, Service } from 'typedi'
+import { ORM } from '..'
 
 @Service()
 export class UserInstitutionService {
+  @Inject(() => ORM)
+  private readonly orm!: ORM
+
   async createUserInstitution(payload: CreateUserInstitutionSchema) {
     const { institutionId, ...rest } = payload
 
-    const institution = await InstitutionModel.findById(institutionId)
+    const institution = await this.orm.models.InstitutionModel.findById(institutionId)
     if (!institution) throw 'Institucion no encontrada'
 
-    const userEmailExist = await UserInstitutionModel.findOne({ email: rest.email })
+    const userEmailExist = await this.orm.models.UserInstitutionModel.findOne({ email: rest.email })
     if (userEmailExist) throw 'Email ya registrado'
 
-    const userInstitution = new UserInstitutionModel({
+    const userInstitution = new this.orm.models.UserInstitutionModel({
       ...rest,
       password: createHash(rest.password),
       institution
@@ -31,18 +33,18 @@ export class UserInstitutionService {
 
   async updateUserInstitution(payload: UpdateUserInstitutionSchema) {
     const { _id, ...rest } = payload
-    const userInstitution = await UserInstitutionModel.findByIdAndUpdate(_id, rest, { new: true })
+    const userInstitution = await this.orm.models.UserInstitutionModel.findByIdAndUpdate(_id, rest, { new: true })
     return userInstitution
   }
 
   async deleteUserInstitution(payload: DeleteUserInstitutionSchema) {
     const { _id } = payload
-    const userInstitution = await UserInstitutionModel.findByIdAndDelete(_id)
+    const userInstitution = await this.orm.models.UserInstitutionModel.findByIdAndDelete(_id)
     return userInstitution
   }
 
   async getUserByEmailAndPassword(email: string, password: string) {
-    const userInstitution = await UserInstitutionModel
+    const userInstitution = await this.orm.models.UserInstitutionModel
       .findOne({
         email,
         password: createHash(password)
@@ -56,12 +58,12 @@ export class UserInstitutionService {
   }
 
   async getUserInstitutionById(id: string) {
-    const userInstitution = await UserInstitutionModel.findById(id)
+    const userInstitution = await this.orm.models.UserInstitutionModel.findById(id)
     return userInstitution
   }
 
   async getAllUserInstitutions() {
-    const userInstitutions = await UserInstitutionModel.find()
+    const userInstitutions = await this.orm.models.UserInstitutionModel.find()
     return userInstitutions
   }
 }

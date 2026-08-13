@@ -1,52 +1,54 @@
-import { InstitutionModel } from '@/infrastructure/database/models/institution-model'
-import { TeacherModel } from '@/infrastructure/database/models/teacher-model'
 import { TeacherSchema } from '@/infrastructure/database/schemas/teacher-schema'
-import { Service } from 'typedi'
+import { Inject, Service } from 'typedi'
+import { ORM } from '..'
 
 @Service()
 export class TeacherService {
+  @Inject(() => ORM)
+  private readonly orm!: ORM
+
   async createTeacher(institutionId: string, payload: TeacherSchema) {
-    const institution = await InstitutionModel.findById(institutionId)
+    const institution = await this.orm.models.InstitutionModel.findById(institutionId)
     if (!institution) throw 'Institucion no encontrada'
 
-    const teacher = await TeacherModel.create({ ...payload, institution })
+    const teacher = await this.orm.models.TeacherModel.create({ ...payload, institution })
     return teacher
   }
 
   async getTeachers(institutionId: string) {
-    const teachers = await TeacherModel.find({ institution: { _id: institutionId } })
+    const teachers = await this.orm.models.TeacherModel.find({ institution: { _id: institutionId } })
     return teachers
   }
 
   async getAllTeachers() {
-    const teachers = await TeacherModel.find()
+    const teachers = await this.orm.models.TeacherModel.find()
     return teachers
   }
 
   async getTeacherById(id: string) {
-    const teacher = await TeacherModel.findById(id)
+    const teacher = await this.orm.models.TeacherModel.findById(id)
     return teacher
   }
 
   async updateTeacher(institutionId: string, payload: TeacherSchema, _id: string) {
-    const teacher = await TeacherModel.findById(_id)
-    const institution = await InstitutionModel.findById(institutionId)
+    const teacher = await this.orm.models.TeacherModel.findById(_id)
+    const institution = await this.orm.models.InstitutionModel.findById(institutionId)
     if (!teacher) throw 'Profesor no encontrado'
     if (!institution) throw 'Institucion no encontrada'
 
     // if (institution._id.toString() !== teacher.institution) throw 'Institución no válida'
 
-    await TeacherModel.updateOne({ _id }, { $set: payload })
+    await this.orm.models.TeacherModel.updateOne({ _id }, { $set: payload })
 
     return teacher
   }
 
   async deleteTeacher(_id: string) {
-    const teacher = await TeacherModel.findByIdAndDelete(_id)
+    const teacher = await this.orm.models.TeacherModel.findByIdAndDelete(_id)
     return teacher
   }
 
   async updatePhoto(teacherId: string, imageName: string) {
-    return await TeacherModel.findByIdAndUpdate(teacherId, { photo: imageName }, { new: true })
+    return await this.orm.models.TeacherModel.findByIdAndUpdate(teacherId, { photo: imageName }, { new: true })
   }
 }
