@@ -6,6 +6,7 @@ import { StudentAssistenceSchema } from '../schemas/student-assistence-schema';
 import { StudentRepository } from './student-repository';
 import { MatriculeRepository } from './matrciule-repository';
 import { DateFormatterAdapter } from '@/infrastructure/adapters/date-formats';
+import { Student } from '@/core/interfaces/dtos';
 
 @Service()
 export class StudentAssistenceRepository implements IStudentAssistenceRepository {
@@ -21,38 +22,33 @@ export class StudentAssistenceRepository implements IStudentAssistenceRepository
   @Inject(() => DateFormatterAdapter)
   private readonly dateFormatterAdapter!: DateFormatterAdapter
 
-  private readonly verifyExistingAssistence = async (studentId: string, date: string | Date, institutionId: string): Promise<void> => {
-    const student = await this.studentRepository.getStudentById(studentId, institutionId)
+  private readonly verifyExistingAssistence = async (student: Student, date: string | Date): Promise<void> => {
     const assistence = await this.orm.models.StudentAssistenceModel.find({
       student,
-      // date: {
-      //   $gte: this.dateFormatterAdapter.formatToISOString(date),
-      //   $lte: this.dateFormatterAdapter.formatToISOString(date)
-      // }
+      date: {
+        $gte: this.dateFormatterAdapter.toGteAndLteDate(date).gte,
+        $lte: this.dateFormatterAdapter.toGteAndLteDate(date).lte
+      }
     })
 
-    console.log({
-      $gte: this.dateFormatterAdapter.formatToISOString(date),
-      $lte: this.dateFormatterAdapter.formatToISOString(date)
-    })
+    console.log(assistence)
 
-    if (assistence) {
-      throw new Error('Assistence already exists')
-    }
+    if (assistence.length > 0) throw new Error('Assistence already exists')
   }
 
   async createAssitence(assistence: StudentAssistenceSchema, institutionId: string): Promise<StudentAssistence> {
     const { studentId, ...assistenceData } = assistence
+    const date = this.dateFormatterAdapter.getCurrentDateUTC()
     const student = await this.studentRepository.getActiveStudent(studentId, institutionId)
     const matricule = await this.matriculeRepository.getActiveMatricule(student._id)
 
-    await this.verifyExistingAssistence(student._id, assistenceData.date, institutionId)
-
+    await this.verifyExistingAssistence(student, date)
 
     return await this.orm.models.StudentAssistenceModel.create({
       ...assistenceData,
       student,
       matricule,
+      date
     })
   }
 

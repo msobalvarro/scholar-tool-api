@@ -2,7 +2,6 @@ import { z } from 'zod'
 
 export const studentAssistenceSchema = z.object({
   studentId: z.string(),
-  date: z.coerce.date(),
   assistence: z.boolean(),
   justification: z.string().optional(),
 })
