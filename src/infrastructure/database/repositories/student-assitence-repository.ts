@@ -7,11 +7,15 @@ import { StudentRepository } from './student-repository';
 import { MatriculeRepository } from './matrciule-repository';
 import { DateFormatterAdapter } from '@/infrastructure/adapters/date-formats';
 import { Student } from '@/core/interfaces/dtos';
+import { InstitutionService } from './institution-repository';
 
 @Service()
 export class StudentAssistenceRepository implements IStudentAssistenceRepository {
   @Inject(() => ORM)
   private readonly orm!: ORM;
+
+  @Inject(() => InstitutionService)
+  private readonly institutionService!: InstitutionService
 
   @Inject(() => StudentRepository)
   private studentRepository!: StudentRepository
@@ -44,16 +48,33 @@ export class StudentAssistenceRepository implements IStudentAssistenceRepository
 
     await this.verifyExistingAssistence(student, date)
 
-    return await this.orm.models.StudentAssistenceModel.create({
-      ...assistenceData,
-      student,
-      matricule,
-      date
-    })
+    return {
+      ...await this.orm.models.StudentAssistenceModel.create({
+        ...assistenceData,
+        student,
+        matricule,
+        date
+      }),
+      student
+    }
   }
 
   async getAllAssitencesByStudent(studentId: string, institutionId: string): Promise<StudentAssistence[]> {
     const student = await this.studentRepository.getActiveStudent(studentId, institutionId)
     return await this.orm.models.StudentAssistenceModel.find({ student })
+  }
+
+  async getLastAssitences(institutionId: string): Promise<StudentAssistence[]> {
+
+
+    return await this.orm.models.StudentAssistenceModel
+      .find({
+        institution: {
+          _id: institutionId
+        }
+      })
+      .populate('student')
+      .sort({ date: -1 })
+      .limit(10)
   }
 }

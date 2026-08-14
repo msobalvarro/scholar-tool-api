@@ -22,4 +22,10 @@ export class StudentAssistenceController {
     const assistences = await this.studentAssistenceRepository.getAllAssitencesByStudent(studentId, user.institutionId)
     return c.json(assistences)
   }
+
+  getLastAssitences = async (c: Context) => {
+    const user = c.get('jwtPayload')
+    const assistences = await this.studentAssistenceRepository.getLastAssitences(user.institutionId)
+    return c.json(assistences)
+  }
 }
