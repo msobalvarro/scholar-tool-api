@@ -26,6 +26,11 @@ export class StudentAssistenceRepository implements IStudentAssistenceRepository
   @Inject(() => DateFormatterAdapter)
   private readonly dateFormatterAdapter!: DateFormatterAdapter
 
+  /**
+   * Verifica que no exista una asistencia para el estudiante en la fecha dada.
+   * @param Student 
+   * @param Date
+   */
   private readonly verifyExistingAssistence = async (student: Student, date: string | Date): Promise<void> => {
     const assistence = await this.orm.models.StudentAssistenceModel.find({
       student,
@@ -43,6 +48,7 @@ export class StudentAssistenceRepository implements IStudentAssistenceRepository
   async createAssitence(assistence: StudentAssistenceSchema, institutionId: string): Promise<StudentAssistence> {
     const { studentId, ...assistenceData } = assistence
     const date = this.dateFormatterAdapter.getCurrentDateUTC()
+    const institution = await this.institutionService.getActiveInstitution(institutionId)
     const student = await this.studentRepository.getActiveStudent(studentId, institutionId)
     const matricule = await this.matriculeRepository.getActiveMatricule(student._id)
 
@@ -53,6 +59,7 @@ export class StudentAssistenceRepository implements IStudentAssistenceRepository
         ...assistenceData,
         student,
         matricule,
+        institution,
         date
       }),
       student
@@ -65,8 +72,6 @@ export class StudentAssistenceRepository implements IStudentAssistenceRepository
   }
 
   async getLastAssitences(institutionId: string): Promise<StudentAssistence[]> {
-
-
     return await this.orm.models.StudentAssistenceModel
       .find({
         institution: {

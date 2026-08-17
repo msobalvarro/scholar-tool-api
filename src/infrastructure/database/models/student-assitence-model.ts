@@ -7,6 +7,7 @@ const assistenceSchema = new mongoose.Schema<StudentAssistence>(
     date: { type: Date, required: true },
     assistence: { type: Boolean, required: true },
     matricule: { type: mongoose.Types.ObjectId, required: true, ref: 'Matricule' },
+    institution: { type: mongoose.Types.ObjectId, required: true, ref: 'Institution' },
     justification: { type: String, required: false },
   },
   {
