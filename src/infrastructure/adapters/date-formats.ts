@@ -20,10 +20,11 @@ export class DateFormatterAdapter implements IDareFormatterAdapter {
     return new Date(dayjs(date).format())
   }
 
-  toGteAndLteDate(date: string | Date): { gte: Date; lte: Date } {
+  toGteAndLteDate(date?: string | Date): { gte: Date; lte: Date } {
+    const dateInput = date || dayjs()
     return {
-      gte: dayjs(date).utc().startOf('day').toDate(),
-      lte: dayjs(date).utc().endOf('day').toDate()
+      gte: dayjs(dateInput).utc().startOf('day').toDate(),
+      lte: dayjs(dateInput).utc().endOf('day').toDate()
     }
   }
 

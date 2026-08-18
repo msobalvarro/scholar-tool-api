@@ -8,6 +8,7 @@ import { MatriculeRepository } from './matrciule-repository';
 import { DateFormatterAdapter } from '@/infrastructure/adapters/date-formats';
 import { Student } from '@/core/interfaces/dtos';
 import { InstitutionService } from './institution-repository';
+import { StudentAlreadyAssistedError } from '@/core/errors/student-assistence-error';
 
 @Service()
 export class StudentAssistenceRepository implements IStudentAssistenceRepository {
@@ -40,9 +41,7 @@ export class StudentAssistenceRepository implements IStudentAssistenceRepository
       }
     })
 
-    console.log(assistence)
-
-    if (assistence.length > 0) throw new Error('Assistence already exists')
+    if (assistence.length > 0) throw new StudentAlreadyAssistedError()
   }
 
   async createAssitence(assistence: StudentAssistenceSchema, institutionId: string): Promise<StudentAssistence> {
@@ -76,10 +75,29 @@ export class StudentAssistenceRepository implements IStudentAssistenceRepository
       .find({
         institution: {
           _id: institutionId
+        },
+        date: {
+          $gte: this.dateFormatterAdapter.toGteAndLteDate().gte,
+          $lte: this.dateFormatterAdapter.toGteAndLteDate().lte
         }
       })
       .populate('student')
       .sort({ date: -1 })
       .limit(10)
+  }
+
+  async getAssitencesByDate(institutionId: string, date?: string): Promise<StudentAssistence[]> {
+    return await this.orm.models.StudentAssistenceModel
+      .find({
+        institution: {
+          _id: institutionId
+        },
+        date: {
+          $gte: this.dateFormatterAdapter.toGteAndLteDate(date).gte,
+          $lte: this.dateFormatterAdapter.toGteAndLteDate(date).lte
+        }
+      })
+      .populate('student')
+      .sort({ date: -1 })
   }
 }

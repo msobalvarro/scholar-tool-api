@@ -25,7 +25,7 @@ import {
   StudentAssistenceModel
 } from './models'
 import { environments } from '@/utils/constanst';
-import { DBConnectionError } from '@/core/errors/dbConnectionError';
+import { DBConnectionError } from '@/core/errors/db-connection-error';
 
 @Service()
 export class ORM {
@@ -62,9 +62,11 @@ export class ORM {
   }
 
   async connectDB() {
+    process.stdout.write(`Conectando a la base de datos...`)
     await connect(environments.DB, { autoIndex: false })
-    console.log('✅ Conexión exitosa a la base de datos')
+    process.stdout.write(`Conexión exitosa a la base de datos...\n`)
     this._models = this.assignModels()
+    process.stdout.write(`Modelos cargados...\n`)
   }
 
   get models(): ModelORM {

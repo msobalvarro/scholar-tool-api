@@ -22,4 +22,11 @@ export interface IStudentAssistenceRepository {
    * @param institutionId 
    */
   getLastAssitences(institutionId: string): Promise<StudentAssistence[]>
+
+  /**
+   * Obtiene las asistencia del dia o fecha personalizada
+   * @param institutionId 
+   * @param date 
+   */
+  getAssitencesByDate(institutionId: string, date?: string): Promise<StudentAssistence[]>
 }

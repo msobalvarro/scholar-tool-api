@@ -19,7 +19,7 @@ export interface IDareFormatterAdapter {
    * @param string Fecha a formatear 'dd/mm/YYYY'
    * @returns Fecha en formato 'YYYY-MM-DD'
    */
-  toGteAndLteDate(date: string | Date): { gte: Date, lte: Date }
+  toGteAndLteDate(date?: string | Date): { gte: Date, lte: Date }
 
   /**
    * Obtiene la fecha actual con utc
