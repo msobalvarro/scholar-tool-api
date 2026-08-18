@@ -2,7 +2,7 @@ import { Institution } from './institution'
 import { ResponsablePerson } from './responsable'
 
 export type Student = {
-  _id?: any
+  _id: string
   birthday: Date
   firstName: string
   lastName: string

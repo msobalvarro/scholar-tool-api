@@ -1,3 +1,4 @@
+import { Institution } from './institution';
 import { Matricule } from './matricule';
 import { Student } from './student';
 
@@ -6,5 +7,6 @@ export interface StudentAssistence {
   date: Date
   assistence: boolean
   matricule: Matricule
+  institution: Institution
   justification?: string
 }

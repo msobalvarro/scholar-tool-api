@@ -10,3 +10,5 @@ studentAssistenceRoute.use('/*', jwtUserInstitution)
 
 studentAssistenceRoute.post('/', controller.createAssitence)
 studentAssistenceRoute.get('/student/:studentId', controller.getAllAssitencesByStudent)
+studentAssistenceRoute.get('/last', controller.getLastAssitences)
+studentAssistenceRoute.get('/date', controller.getAssitencesByDate)

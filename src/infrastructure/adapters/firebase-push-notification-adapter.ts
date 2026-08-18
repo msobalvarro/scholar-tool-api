@@ -1,7 +1,7 @@
 import serviceAccount from '@/core/config/firebase-config.json'
 import admin from 'firebase-admin'
 import { Service } from 'typedi'
-import { IPushNotificationAdapter } from '@/core/interfaces/output/push-notification-adapter'
+import { IPushNotificationAdapter } from '@/core/interfaces/adapters/push-notification-adapter'
 
 @Service()
 export class FirebasePushNotificationAdapter implements IPushNotificationAdapter {

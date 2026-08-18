@@ -12,14 +12,30 @@ export class StudentAssistenceController {
     const body = await c.req.json()
     const parsedBody = studentAssistenceSchema.parse(body) as StudentAssistenceSchema
     const user = c.get('jwtPayload')
-    const assistenceCreated = await this.studentAssistenceRepository.createAssitence(parsedBody, user.institutionId)
-    return c.json(assistenceCreated)
+    return c.json(
+      await this.studentAssistenceRepository.createAssitence(parsedBody, user.institutionId)
+    )
   }
 
   getAllAssitencesByStudent = async (c: Context) => {
     const user = c.get('jwtPayload')
     const { studentId } = c.req.param()
-    const assistences = await this.studentAssistenceRepository.getAllAssitencesByStudent(studentId, user.institutionId)
-    return c.json(assistences)
+    return c.json(
+      await this.studentAssistenceRepository.getAllAssitencesByStudent(studentId, user.institutionId)
+    )
+  }
+
+  getLastAssitences = async (c: Context) => {
+    const user = c.get('jwtPayload')
+    return c.json(
+      await this.studentAssistenceRepository.getLastAssitences(user.institutionId)
+    )
+  }
+
+  getAssitencesByDate = async (c: Context) => {
+    const user = c.get('jwtPayload')
+    return c.json(
+      await this.studentAssistenceRepository.getAssitencesByDate(user.institutionId, c.req.query('date'))
+    )
   }
 }

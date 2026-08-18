@@ -6,11 +6,17 @@ import { StudentAssistenceSchema } from '../schemas/student-assistence-schema';
 import { StudentRepository } from './student-repository';
 import { MatriculeRepository } from './matrciule-repository';
 import { DateFormatterAdapter } from '@/infrastructure/adapters/date-formats';
+import { Student } from '@/core/interfaces/dtos';
+import { InstitutionService } from './institution-repository';
+import { StudentAlreadyAssistedError } from '@/core/errors/student-assistence-error';
 
 @Service()
 export class StudentAssistenceRepository implements IStudentAssistenceRepository {
   @Inject(() => ORM)
   private readonly orm!: ORM;
+
+  @Inject(() => InstitutionService)
+  private readonly institutionService!: InstitutionService
 
   @Inject(() => StudentRepository)
   private studentRepository!: StudentRepository
@@ -21,43 +27,77 @@ export class StudentAssistenceRepository implements IStudentAssistenceRepository
   @Inject(() => DateFormatterAdapter)
   private readonly dateFormatterAdapter!: DateFormatterAdapter
 
-  private readonly verifyExistingAssistence = async (studentId: string, date: string | Date, institutionId: string): Promise<void> => {
-    const student = await this.studentRepository.getStudentById(studentId, institutionId)
+  /**
+   * Verifica que no exista una asistencia para el estudiante en la fecha dada.
+   * @param Student 
+   * @param Date
+   */
+  private readonly verifyExistingAssistence = async (student: Student, date: string | Date): Promise<void> => {
     const assistence = await this.orm.models.StudentAssistenceModel.find({
       student,
-      // date: {
-      //   $gte: this.dateFormatterAdapter.formatToISOString(date),
-      //   $lte: this.dateFormatterAdapter.formatToISOString(date)
-      // }
+      date: {
+        $gte: this.dateFormatterAdapter.toGteAndLteDate(date).gte,
+        $lte: this.dateFormatterAdapter.toGteAndLteDate(date).lte
+      }
     })
 
-    console.log({
-      $gte: this.dateFormatterAdapter.formatToISOString(date),
-      $lte: this.dateFormatterAdapter.formatToISOString(date)
-    })
-
-    if (assistence) {
-      throw new Error('Assistence already exists')
-    }
+    if (assistence.length > 0) throw new StudentAlreadyAssistedError()
   }
 
   async createAssitence(assistence: StudentAssistenceSchema, institutionId: string): Promise<StudentAssistence> {
     const { studentId, ...assistenceData } = assistence
+    const date = this.dateFormatterAdapter.getCurrentDateUTC()
+    const institution = await this.institutionService.getActiveInstitution(institutionId)
     const student = await this.studentRepository.getActiveStudent(studentId, institutionId)
     const matricule = await this.matriculeRepository.getActiveMatricule(student._id)
 
-    await this.verifyExistingAssistence(student._id, assistenceData.date, institutionId)
+    await this.verifyExistingAssistence(student, date)
 
-
-    return await this.orm.models.StudentAssistenceModel.create({
-      ...assistenceData,
-      student,
-      matricule,
-    })
+    return {
+      ...await this.orm.models.StudentAssistenceModel.create({
+        ...assistenceData,
+        student,
+        matricule,
+        institution,
+        date
+      }),
+      student
+    }
   }
 
   async getAllAssitencesByStudent(studentId: string, institutionId: string): Promise<StudentAssistence[]> {
     const student = await this.studentRepository.getActiveStudent(studentId, institutionId)
     return await this.orm.models.StudentAssistenceModel.find({ student })
+  }
+
+  async getLastAssitences(institutionId: string): Promise<StudentAssistence[]> {
+    return await this.orm.models.StudentAssistenceModel
+      .find({
+        institution: {
+          _id: institutionId
+        },
+        date: {
+          $gte: this.dateFormatterAdapter.toGteAndLteDate().gte,
+          $lte: this.dateFormatterAdapter.toGteAndLteDate().lte
+        }
+      })
+      .populate('student')
+      .sort({ date: -1 })
+      .limit(10)
+  }
+
+  async getAssitencesByDate(institutionId: string, date?: string): Promise<StudentAssistence[]> {
+    return await this.orm.models.StudentAssistenceModel
+      .find({
+        institution: {
+          _id: institutionId
+        },
+        date: {
+          $gte: this.dateFormatterAdapter.toGteAndLteDate(date).gte,
+          $lte: this.dateFormatterAdapter.toGteAndLteDate(date).lte
+        }
+      })
+      .populate('student')
+      .sort({ date: -1 })
   }
 }

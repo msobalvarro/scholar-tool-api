@@ -143,6 +143,6 @@ export class StudentRepository implements IStudentRepository {
     if (!matricule) throw new Error('El estudiante no está asignado a esta institución')
     if (matricule.status !== 'active') throw new Error('El estudiante no está activo')
 
-    return student
+    return student.toJSON()
   }
 }

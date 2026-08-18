@@ -79,4 +79,13 @@ export class InstitutionService implements IInstitutionRepository {
     await this.orm.models.InstitutionModel.updateOne({ _id: institutionId }, { $pull: { users: { _id: user._id } } })
     return institution
   }
+
+  async getActiveInstitution(institutionId: string) {
+    const institution = await this.orm.models.InstitutionModel.findById(institutionId)
+
+    if (!institution) throw 'Institución no encontrada'
+    if (institution.status !== 'active') throw 'Institución inactiva'
+
+    return institution
+  }
 }

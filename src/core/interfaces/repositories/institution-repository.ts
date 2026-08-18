@@ -15,4 +15,6 @@ export interface IInstitutionRepository {
   deleteInstitution(payload: DeleteInstitutionSchema): Promise<Institution | null>
   assignUserToInstitution(payload: AssignUserToInstitutionSchema): Promise<Institution | null>
   removeUserFromInstitution(payload: RemoveUserFromInstitutionSchema): Promise<Institution | null>
+
+  getActiveInstitution(institutionId: string): Promise<Institution>
 }
