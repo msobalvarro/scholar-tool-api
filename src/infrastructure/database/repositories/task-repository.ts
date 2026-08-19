@@ -1,11 +1,15 @@
 import { Task, TaskUpdate } from '@/infrastructure/database/schemas/task-schema'
 import { Inject, Service } from 'typedi'
 import { ORM } from '..'
+import { InstitutionService } from './institution-repository'
 
 @Service()
 export class TaskService {
   @Inject(() => ORM)
   private readonly orm!: ORM
+
+  @Inject(() => InstitutionService)
+  private readonly institutionService!: InstitutionService
 
   async createTask(payload: Task, institutionId: string) {
     const { courseId, asignatureId, ...task } = payload
@@ -16,8 +20,7 @@ export class TaskService {
     const asignature = await this.orm.models.AsignatureModel.findById(asignatureId)
     if (!asignature) throw 'Asignatura no encontrada'
 
-    const institution = await this.orm.models.InstitutionModel.findById(institutionId)
-    if (!institution) throw 'Institución no encontrada'
+    const institution = await this.institutionService.getActiveInstitution(institutionId)
 
     // get the period where the due date is between the start and end date
     const period = await this.orm.models.PeriodModel.findOne({
@@ -46,8 +49,7 @@ export class TaskService {
     const asignature = await this.orm.models.AsignatureModel.findById(asignatureId)
     if (!asignature) throw 'Asignatura no encontrada'
 
-    const institution = await this.orm.models.InstitutionModel.findById(institutionId)
-    if (!institution) throw 'Institución no encontrada'
+    const institution = await this.institutionService.getActiveInstitution(institutionId)
 
     // get the period where the due date is between the start and end date
     const period = await this.orm.models.PeriodModel.findOne({

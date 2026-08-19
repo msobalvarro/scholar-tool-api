@@ -1,15 +1,18 @@
 import { PeriodUpdate, Period } from '@/infrastructure/database/schemas/period-schema'
 import { Inject, Service } from 'typedi'
 import { ORM } from '..'
+import { InstitutionService } from './institution-repository'
 
 @Service()
 export class PeriodService {
   @Inject(() => ORM)
   private readonly orm!: ORM
 
+  @Inject(() => InstitutionService)
+  private readonly institutionService!: InstitutionService
+
   async createPeriod(period: Period, institutionId: string) {
-    const institution = await this.orm.models.InstitutionModel.findById(institutionId)
-    if (!institution) throw 'Institución no encontrada'
+    const institution = await this.institutionService.getActiveInstitution(institutionId)
 
     return await this.orm.models.PeriodModel.create({ ...period, institution })
   }

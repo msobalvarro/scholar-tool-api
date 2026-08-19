@@ -5,11 +5,15 @@ import { CreateCalendarEventDto, UpdateCalendarEventDto } from '../schemas/calen
 import { NotificationRepository } from './notification-repository'
 import { CreateNotificationDto } from '../schemas/notification-schema'
 import { DateFormatterAdapter } from '@/infrastructure/adapters/date-formats'
+import { InstitutionService } from './institution-repository'
 
 @Service()
 export class CalendarEventsRepository implements ICalendarEventsRepository {
   @Inject(() => ORM)
   private readonly ORM!: ORM
+
+  @Inject(() => InstitutionService)
+  private readonly institutionService!: InstitutionService
 
   @Inject(() => NotificationRepository)
   private readonly notificationRepository!: NotificationRepository
@@ -20,14 +24,12 @@ export class CalendarEventsRepository implements ICalendarEventsRepository {
   async createCalendarEvent(calendarEvent: CreateCalendarEventDto, institutionId: string) {
     const { courseId, time, date, ...payload } = calendarEvent
     const course = courseId ? await this.ORM.models.CourseModel.findById(courseId) : null
-    const institution = await this.ORM.models.InstitutionModel.findById(institutionId)
+    const institution = await this.institutionService.getActiveInstitution(institutionId)
     const dateAndTime = this.dateFormatterAdapter.formatToISO8601(date, time)
     const notificationPayload: CreateNotificationDto = {
       title: calendarEvent.title,
       body: calendarEvent.description
     }
-
-    if (!institution) throw new Error('Institution not found')
 
     const calendarEventCreated = await this.ORM.models.CalendarEventModel.create({
       ...payload,
