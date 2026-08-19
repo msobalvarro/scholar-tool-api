@@ -3,9 +3,11 @@ import { ORM } from '..'
 import { InstitutionService } from './institution-repository'
 import { ResponsableRepository } from './responsable-repository'
 import { StudentRepository } from './student-repository'
+import { ITokenRepository } from '@/core/interfaces/repositories/token-repository'
+import { Token } from '@/core/interfaces/dtos'
 
 @Service()
-export class TokenService {
+export class TokenService implements ITokenRepository {
   @Inject(() => ORM)
   private readonly orm!: ORM
 
@@ -47,7 +49,11 @@ export class TokenService {
   }
 
   async removeToken(token: string) {
-    const tokenRemoved = await this.orm.models.TokenModel.deleteOne({ token })
-    return tokenRemoved
+    await this.orm.models.TokenModel.deleteOne({ token })
+  }
+
+  async getTokensByUserId(userId: string): Promise<Token[]> {
+    const tokens = await this.orm.models.TokenModel.find({ user: userId })
+    return tokens
   }
 }
