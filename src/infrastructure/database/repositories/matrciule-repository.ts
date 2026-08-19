@@ -3,16 +3,18 @@ import { MatriculeSchema, MatriculeUpdateSchema } from '@/infrastructure/databas
 import { IMatriculeRepository } from '@/core/interfaces/repositories/matrciule-repository'
 import { Inject, Service } from 'typedi'
 import { Matricule } from '@/core/interfaces/dtos'
+import { InstitutionService } from './institution-repository'
 
 @Service()
 export class MatriculeRepository implements IMatriculeRepository {
   @Inject(() => ORM)
   private readonly ORM!: ORM
 
+  @Inject(() => InstitutionService)
+  private readonly institutionService!: InstitutionService
+
   async createMatricule(matricule: MatriculeSchema, institutionId: string) {
-    const institution = await this.ORM.models.InstitutionModel.findById(institutionId)
-    if (!institution) throw 'Institución no encontrada'
-    if (institution.status !== 'active') throw 'La institución no está activa'
+    const institution = await this.institutionService.getActiveInstitution(institutionId)
 
     const student = await this.ORM.models.StudentModel.findById(matricule.studentId)
     if (!student) throw 'Estudiante no encontrado'

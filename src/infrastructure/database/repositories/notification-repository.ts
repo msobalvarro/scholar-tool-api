@@ -4,11 +4,15 @@ import { Inject, Service } from 'typedi'
 import { Token } from '@/core/interfaces/dtos'
 import { ORM } from '..'
 import { FirebasePushNotificationAdapter } from '@/infrastructure/adapters/firebase-push-notification-adapter'
+import { InstitutionService } from './institution-repository'
 
 @Service()
 export class NotificationRepository implements INotificationRepository {
   @Inject(() => ORM)
   private readonly ORM!: ORM
+
+  @Inject(() => InstitutionService)
+  private readonly institutionService!: InstitutionService
 
   @Inject(() => FirebasePushNotificationAdapter)
   private readonly pushNotificationAdapter!: FirebasePushNotificationAdapter
@@ -17,8 +21,7 @@ export class NotificationRepository implements INotificationRepository {
     const tokens: Token[] = []
 
     if (filters.institutionId) {
-      const institution = await this.ORM.models.InstitutionModel.findById(filters.institutionId)
-      if (!institution) throw 'Institución no encontrada'
+      const institution = await this.institutionService.getActiveInstitution(filters.institutionId)
       const t = await this.ORM.models.TokenModel.find({ institution })
       tokens.push(...t.map(t => t.toObject()))
     }

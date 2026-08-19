@@ -3,15 +3,18 @@ import { ICourseRepository } from '@/core/interfaces/repositories/course-reposit
 import { Inject, Service } from 'typedi'
 import { ORM } from '..'
 import { Course } from '@/core/interfaces/dtos'
+import { InstitutionService } from './institution-repository'
 
 @Service()
 export class CourseService implements ICourseRepository {
   @Inject(() => ORM)
   private readonly ORM!: ORM
 
+  @Inject(() => InstitutionService)
+  private readonly institutionService!: InstitutionService
+
   async createCourse(course: CreateCourseDto, institutionId: string) {
-    const institution = await this.ORM.models.InstitutionModel.findById(institutionId)
-    if (!institution) throw 'Institución no encontrada'
+    const institution = await this.institutionService.getActiveInstitution(institutionId)
 
     const teacherLead = await this.ORM.models.TeacherModel.findById(course.teacherLeadId)
     if (!teacherLead) throw 'Profesor titular no encontrado'

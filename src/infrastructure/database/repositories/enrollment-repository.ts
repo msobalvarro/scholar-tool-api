@@ -3,11 +3,15 @@ import { ORM } from '..'
 import { Inject, Service } from 'typedi'
 import { IEnrollment } from '@/core/interfaces/dtos/enrollment'
 import { EnrollmentInput, EnrollmentUpdateInput } from '@/infrastructure/database/schemas/enrollment-schema'
+import { InstitutionService } from './institution-repository'
 
 @Service()
 export class EnrollmentRepository implements IEnrollmentRepository {
   @Inject(() => ORM)
   private readonly ORM!: ORM
+
+  @Inject(() => InstitutionService)
+  private readonly institutionService!: InstitutionService
 
   async getEnrollments(institutionId: string): Promise<IEnrollment[]> {
     return await this.ORM.models.EnrollmentModel
@@ -43,8 +47,7 @@ export class EnrollmentRepository implements IEnrollmentRepository {
   }
 
   async updateEnrollment(enrollment: EnrollmentUpdateInput, institutionId: string, userId: string): Promise<IEnrollment | null> {
-    const institution = await this.ORM.models.InstitutionModel.findById(institutionId)
-    if (!institution) throw new Error('Institution not found')
+    const institution = await this.institutionService.getActiveInstitution(institutionId)
 
     const courses = await this.ORM.models.CourseModel.find({
       _id: { $in: enrollment.coursesId },
@@ -76,8 +79,7 @@ export class EnrollmentRepository implements IEnrollmentRepository {
   }
 
   async createEnrollment(enrollment: EnrollmentInput, institutionId: string): Promise<IEnrollment> {
-    const institution = await this.ORM.models.InstitutionModel.findById(institutionId)
-    if (!institution) throw new Error('Institution not found')
+    const institution = await this.institutionService.getActiveInstitution(institutionId)
 
     const courses = await this.ORM.models.CourseModel.find({
       _id: { $in: enrollment.coursesId },

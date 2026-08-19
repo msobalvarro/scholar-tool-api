@@ -7,5 +7,6 @@ export interface IResponsableRepository {
   deleteResponsable(id: string): Promise<void>
   getAllResponsables(): Promise<ResponsablePerson[]>
   getResponsableById(id: string): Promise<ResponsablePerson | null>
+  getActiveResponsable(id: string): Promise<ResponsablePerson>
   searchResponsable(search: string): Promise<ResponsablePerson[]>
 }

@@ -31,6 +31,12 @@ export class ResponsableRepository implements IResponsableRepository {
     return await this.ORM.models.ResponsableModel.findById(_id)
   }
 
+  async getActiveResponsable(responsableId: string): Promise<ResponsablePerson> {
+    const responsable = await this.ORM.models.ResponsableModel.findById(responsableId)
+    if (!responsable) throw 'Responsable no encontrado'
+    return responsable
+  }
+
   async searchResponsable(search: string): Promise<ResponsablePerson[]> {
     return await this.ORM.models.ResponsableModel.find({
       $or: [

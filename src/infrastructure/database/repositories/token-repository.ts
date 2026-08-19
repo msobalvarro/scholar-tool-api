@@ -1,17 +1,26 @@
 import { Inject, Service } from 'typedi'
 import { ORM } from '..'
+import { InstitutionService } from './institution-repository'
+import { ResponsableRepository } from './responsable-repository'
+import { StudentRepository } from './student-repository'
 
 @Service()
 export class TokenService {
   @Inject(() => ORM)
   private readonly orm!: ORM
 
-  async createTokenResponsable(token: string, responsableId: string, institutionId: string) {
-    const responsable = await this.orm.models.ResponsableModel.findById(responsableId)
-    if (!responsable) throw 'Responsable no encontrado'
+  @Inject(() => InstitutionService)
+  private readonly institutionService!: InstitutionService
 
-    const institution = await this.orm.models.InstitutionModel.findById(institutionId)
-    if (!institution) throw 'Institución no encontrada'
+  @Inject(() => ResponsableRepository)
+  private readonly responsableRepository!: ResponsableRepository
+
+  @Inject(() => StudentRepository)
+  private readonly studentRepository!: StudentRepository
+
+  async createTokenResponsable(token: string, responsableId: string, institutionId: string) {
+    const responsable = await this.responsableRepository.getActiveResponsable(responsableId)
+    const institution = await this.institutionService.getActiveInstitution(institutionId)
 
     const newToken = await this.orm.models.TokenModel.create({
       token,
@@ -24,11 +33,8 @@ export class TokenService {
   }
 
   async createTokenStudent(token: string, studentId: string, institutionId: string) {
-    const student = await this.orm.models.StudentModel.findById(studentId)
-    if (!student) throw 'Estudiante no encontrado'
-
-    const institution = await this.orm.models.InstitutionModel.findById(institutionId)
-    if (!institution) throw 'Institución no encontrada'
+    const institution = await this.institutionService.getActiveInstitution(institutionId)
+    const student = await this.studentRepository.getActiveStudent(studentId, institutionId)
 
     const newToken = await this.orm.models.TokenModel.create({
       token,

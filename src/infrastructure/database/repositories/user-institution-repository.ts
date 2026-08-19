@@ -6,17 +6,20 @@ import {
 import { createHash } from '@/utils/encrypt'
 import { Inject, Service } from 'typedi'
 import { ORM } from '..'
+import { InstitutionService } from './institution-repository'
 
 @Service()
 export class UserInstitutionService {
   @Inject(() => ORM)
   private readonly orm!: ORM
 
+  @Inject(() => InstitutionService)
+  private readonly institutionService!: InstitutionService
+
   async createUserInstitution(payload: CreateUserInstitutionSchema) {
     const { institutionId, ...rest } = payload
 
-    const institution = await this.orm.models.InstitutionModel.findById(institutionId)
-    if (!institution) throw 'Institucion no encontrada'
+    const institution = await this.institutionService.getActiveInstitution(institutionId)
 
     const userEmailExist = await this.orm.models.UserInstitutionModel.findOne({ email: rest.email })
     if (userEmailExist) throw 'Email ya registrado'

@@ -2,17 +2,20 @@ import { AsignatureSchema, AsignatureUpdateSchema } from '@/infrastructure/datab
 import { IAsignatureRepository } from '@/core/interfaces/repositories/asignature-repository'
 import { Inject, Service } from 'typedi'
 import { ORM } from '..'
+import { InstitutionService } from './institution-repository'
 
 @Service()
 export class AsignatureRepository implements IAsignatureRepository {
   @Inject(() => ORM)
   private readonly orm!: ORM
 
+  @Inject(() => InstitutionService)
+  private readonly institutionService!: InstitutionService
+
   async createAsignature(asignature: AsignatureSchema, institutionId: string) {
     const { name, description, status } = asignature
 
-    const institution = await this.orm.models.InstitutionModel.findById(institutionId)
-    if (!institution) throw 'Institución no encontrada'
+    const institution = await this.institutionService.getActiveInstitution(institutionId)
 
     const asignatureCreated = await this.orm.models.AsignatureModel.create({ name, description, status, institution })
     return asignatureCreated
