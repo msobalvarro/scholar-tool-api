@@ -137,4 +137,13 @@ export class StudentRepository implements IStudentRepository {
 
     return student.toJSON()
   }
+
+  async getStudentResponsable(studentId: string, institutionId: string) {
+    const student = await this.getActiveStudent(studentId, institutionId)
+
+    const responsable = await this.ORM.models.ResponsableModel.findById(student.responsable!._id)
+    if (!responsable) throw new Error('Responsable no encontrado')
+
+    return responsable.toJSON()
+  }
 }

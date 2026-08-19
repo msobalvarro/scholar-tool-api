@@ -9,6 +9,8 @@ import { DateFormatterAdapter } from '@/infrastructure/adapters/date-formats';
 import { Student } from '@/core/interfaces/dtos';
 import { InstitutionService } from './institution-repository';
 import { StudentAlreadyAssistedError } from '@/core/errors/student-assistence-error';
+import { NotificationRepository } from './notification-repository';
+import { TokenService } from './token-repository';
 
 @Service()
 export class StudentAssistenceRepository implements IStudentAssistenceRepository {
@@ -27,6 +29,12 @@ export class StudentAssistenceRepository implements IStudentAssistenceRepository
   @Inject(() => DateFormatterAdapter)
   private readonly dateFormatterAdapter!: DateFormatterAdapter
 
+  @Inject(() => NotificationRepository)
+  private readonly notificationRepository!: NotificationRepository
+
+  @Inject(() => TokenService)
+  private readonly tokenService!: TokenService
+
   /**
    * Verifica que no exista una asistencia para el estudiante en la fecha dada.
    * @param Student 
@@ -44,6 +52,19 @@ export class StudentAssistenceRepository implements IStudentAssistenceRepository
     if (assistence.length > 0) throw new StudentAlreadyAssistedError()
   }
 
+  private readonly sendNotificationToStudentResponsable = async (student: Student, institutionId: string): Promise<void> => {
+    const responsable = await this.studentRepository.getStudentResponsable(student._id, institutionId)
+    const tokens = await this.tokenService.getTokensByUserId(responsable._id)
+
+    await this.notificationRepository.sendNotificationsToTokens(
+      tokens.map(t => t.token),
+      {
+        title: 'Asistencia',
+        body: `El estudiante ${student.firstName} ${student.lastName} ha asistido a clases`,
+      }
+    )
+  }
+
   async createAssitence(assistence: StudentAssistenceSchema, institutionId: string): Promise<StudentAssistence> {
     const { studentId, ...assistenceData } = assistence
     const date = this.dateFormatterAdapter.getCurrentDateUTC()
@@ -52,6 +73,12 @@ export class StudentAssistenceRepository implements IStudentAssistenceRepository
     const matricule = await this.matriculeRepository.getActiveMatricule(student._id)
 
     await this.verifyExistingAssistence(student, date)
+
+    try {
+      await this.sendNotificationToStudentResponsable(student, institutionId)
+    } catch (error) {
+      console.error('Error al enviar notificación de asistencia:', error)
+    }
 
     return {
       ...await this.orm.models.StudentAssistenceModel.create({

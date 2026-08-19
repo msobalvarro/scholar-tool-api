@@ -1,4 +1,5 @@
 export type ResponsablePerson = {
+  _id: string
   fullName: string
   identification: string
   email: string | null
