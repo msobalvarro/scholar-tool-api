@@ -95,8 +95,6 @@ export const LuminaTeacherWelcomeEmail = ({
   );
 };
 
-export default LuminaTeacherWelcomeEmail;
-
 // --- ESTILOS EN LÍNEA PARA CLIENTES DE CORREO ---
 
 const main = {

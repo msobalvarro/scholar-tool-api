@@ -3,7 +3,7 @@ import { MailerError } from '@/core/errors/mailer-error';
 import { environments } from '@/utils/constanst';
 import { Resend } from 'resend';
 import { Service } from 'typedi';
-import { WelcomeTeacher } from './templates/welcome-teacher';
+import { LuminaTeacherWelcomeEmail } from './templates/welcome-teacher';
 import { render } from 'react-email';
 
 @Service()
@@ -15,7 +15,7 @@ export class ResendEmailAdapter implements EmailProvider {
   }
 
   async sendEmail(payload: SendEmailPayload): Promise<void> {
-    const html = await render(WelcomeTeacher({ name: payload.to }))
+    const html = await render(LuminaTeacherWelcomeEmail({ name: payload.to }))
 
     const { data, error } = await this.resend.emails.send({
       from: 'onboarding@resend.dev',
