@@ -2,9 +2,10 @@ import { TeacherSchema } from '@/infrastructure/database/schemas/teacher-schema'
 import { Inject, Service } from 'typedi'
 import { ORM } from '..'
 import { InstitutionService } from './institution-repository'
+import { ITeacherRepository } from '@/core/interfaces/repositories/teacher-repository'
 
 @Service()
-export class TeacherService {
+export class TeacherService implements ITeacherRepository {
   @Inject(() => ORM)
   private readonly orm!: ORM
 
@@ -38,16 +39,13 @@ export class TeacherService {
     const institution = await this.institutionService.getActiveInstitution(institutionId)
     if (!teacher) throw 'Profesor no encontrado'
 
-    // if (institution._id.toString() !== teacher.institution) throw 'Institución no válida'
-
-    await this.orm.models.TeacherModel.updateOne({ _id }, { $set: payload })
+    await this.orm.models.TeacherModel.updateOne({ _id, institution }, { $set: payload })
 
     return teacher
   }
 
   async deleteTeacher(_id: string) {
-    const teacher = await this.orm.models.TeacherModel.findByIdAndDelete(_id)
-    return teacher
+    await this.orm.models.TeacherModel.findByIdAndDelete(_id)
   }
 
   async updatePhoto(teacherId: string, imageName: string) {
