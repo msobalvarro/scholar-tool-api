@@ -15,7 +15,12 @@ export class ResendEmailAdapter implements EmailProvider {
   }
 
   async sendEmail(payload: SendEmailPayload): Promise<void> {
-    const html = await render(LuminaTeacherWelcomeEmail({ name: payload.to }))
+    const html = await render(LuminaTeacherWelcomeEmail({
+      teacherName: payload.to,
+      email: payload.to,
+      temporaryPassword: 'password',
+      loginUrl: 'https://lumina.edu/login'
+    }))
 
     const { data, error } = await this.resend.emails.send({
       from: 'onboarding@resend.dev',
