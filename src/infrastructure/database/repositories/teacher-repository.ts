@@ -3,6 +3,11 @@ import { Inject, Service } from 'typedi'
 import { ORM } from '..'
 import { InstitutionService } from './institution-repository'
 import { ITeacherRepository } from '@/core/interfaces/repositories/teacher-repository'
+import { Teacher } from '@/core/interfaces/dtos'
+import { ResendEmailAdapter } from '@/infrastructure/adapters/email'
+import { LuminaTeacherWelcomeEmail } from '@/infrastructure/adapters/email/templates/welcome-teacher'
+import { generateRandomPassword } from '@/utils/password'
+import { environments } from '@/utils/constanst'
 
 @Service()
 export class TeacherService implements ITeacherRepository {
@@ -12,11 +17,38 @@ export class TeacherService implements ITeacherRepository {
   @Inject(() => InstitutionService)
   private readonly institutionService!: InstitutionService
 
-  async createTeacher(institutionId: string, payload: TeacherSchema) {
-    const institution = await this.institutionService.getActiveInstitution(institutionId)
+  @Inject(() => ResendEmailAdapter)
+  private readonly emailService!: ResendEmailAdapter
 
-    const teacher = await this.orm.models.TeacherModel.create({ ...payload, institution })
-    return teacher
+  private async sendWelcomeEmail(teacher: Teacher) {
+    this.emailService.sendEmail(
+      {
+        to: teacher.email,
+        subject: 'Bienvenido a Lumina',
+      },
+      LuminaTeacherWelcomeEmail({
+        teacherName: teacher.name,
+        email: teacher.email,
+        temporaryPassword: generateRandomPassword(),
+        loginUrl: environments.FRONTEND_URL
+      })
+    )
+  }
+
+  async createTeacher(institutionId: string, payload: TeacherSchema) {
+    const session = await this.orm.startSession()
+
+    try {
+      const institution = await this.institutionService.getActiveInstitution(institutionId)
+      const [teacher] = await this.orm.models.TeacherModel.create([{ ...payload, institution }], { session })
+      await this.sendWelcomeEmail(teacher)
+      return teacher
+    } catch (error) {
+      await session.abortTransaction()
+      throw error
+    } finally {
+      await session.endSession()
+    }
   }
 
   async getTeachers(institutionId: string) {

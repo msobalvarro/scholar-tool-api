@@ -3,8 +3,8 @@ import { MailerError } from '@/core/errors/mailer-error';
 import { environments } from '@/utils/constanst';
 import { Resend } from 'resend';
 import { Service } from 'typedi';
-import { LuminaTeacherWelcomeEmail } from './templates/welcome-teacher';
 import { render } from 'react-email';
+import { ReactNode } from 'react';
 
 @Service()
 export class ResendEmailAdapter implements EmailProvider {
@@ -14,13 +14,8 @@ export class ResendEmailAdapter implements EmailProvider {
     this.resend = new Resend(environments.RESEND_API_KEY);
   }
 
-  async sendEmail(payload: SendEmailPayload): Promise<void> {
-    const html = await render(LuminaTeacherWelcomeEmail({
-      teacherName: payload.to,
-      email: payload.to,
-      temporaryPassword: 'password',
-      loginUrl: 'https://lumina.edu/login'
-    }))
+  async sendEmail(payload: SendEmailPayload, template: ReactNode): Promise<void> {
+    const html = await render(template);
 
     const { data, error } = await this.resend.emails.send({
       from: 'onboarding@resend.dev',
@@ -31,8 +26,8 @@ export class ResendEmailAdapter implements EmailProvider {
 
     if (error) {
       throw new MailerError(`Failed to send email via Resend: ${error.message}`);
+    } else {
+      console.log(`Correo enviado con éxito, ID: ${data?.id}`);
     }
-
-    console.log(`Correo enviado con éxito, ID: ${data?.id}`);
   }
 }

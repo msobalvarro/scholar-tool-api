@@ -1,9 +1,10 @@
+import { ReactNode } from 'react';
+
 export interface SendEmailPayload {
   to: string;
   subject: string;
-  html: string;
 }
 
 export interface EmailProvider {
-  sendEmail(payload: SendEmailPayload): Promise<void>;
+  sendEmail(payload: SendEmailPayload, template: ReactNode): Promise<void>;
 }
