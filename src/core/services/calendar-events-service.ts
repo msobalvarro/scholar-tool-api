@@ -1,11 +1,11 @@
-import { ORM } from '..'
+import { ORM } from '@/infrastructure/database'
 import { Inject, Service } from 'typedi'
-import { ICalendarEventsRepository } from '@/core/interfaces/repositories/calendar-event-repository'
-import { CreateCalendarEventDto, UpdateCalendarEventDto } from '../schemas/calendar-events-schema'
-import { NotificationRepository } from './notification-repository'
-import { CreateNotificationDto } from '../schemas/notification-schema'
+import { ICalendarEventsRepository } from '@/core/interfaces/service/calendar-event-service'
+import { CreateCalendarEventDto, UpdateCalendarEventDto } from '../../infrastructure/database/schemas/calendar-events-schema'
+import { NotificationRepository } from './notification-service'
+import { CreateNotificationDto } from '../../infrastructure/database/schemas/notification-schema'
 import { DateFormatterAdapter } from '@/infrastructure/adapters/date-formats'
-import { InstitutionService } from './institution-repository'
+import { InstitutionService } from './institution-service'
 
 @Service()
 export class CalendarEventsRepository implements ICalendarEventsRepository {

@@ -1,9 +1,9 @@
-import { IEnrollmentRepository } from '@/core/interfaces/repositories/enrollment-repository'
-import { ORM } from '..'
+import { IEnrollmentRepository } from '@/core/interfaces/service/enrollment-service'
+import { ORM } from '@/infrastructure/database'
 import { Inject, Service } from 'typedi'
 import { IEnrollment } from '@/core/interfaces/dtos/enrollment'
 import { EnrollmentInput, EnrollmentUpdateInput } from '@/infrastructure/database/schemas/enrollment-schema'
-import { InstitutionService } from './institution-repository'
+import { InstitutionService } from './institution-service'
 
 @Service()
 export class EnrollmentRepository implements IEnrollmentRepository {

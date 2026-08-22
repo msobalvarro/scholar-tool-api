@@ -2,9 +2,9 @@ import { UserRoles } from '@/core/interfaces/dtos/user'
 import { environments } from '@/utils/constanst'
 import { createHash } from '@/utils/encrypt'
 import { sign } from 'hono/jwt'
-import { IAuthRepository } from '@/core/interfaces/repositories/auth-repository'
+import { IAuthRepository } from '@/core/interfaces/service/auth-service'
 import { Inject, Service } from 'typedi'
-import { ORM } from '..'
+import { ORM } from '@/infrastructure/database'
 
 @Service()
 export class AuthRepository implements IAuthRepository {

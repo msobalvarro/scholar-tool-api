@@ -1,9 +1,9 @@
 import { CreateCourseDto } from '@/infrastructure/database/schemas/course-schema'
-import { ICourseRepository } from '@/core/interfaces/repositories/course-repository'
+import { ICourseRepository } from '@/core/interfaces/service/course-service'
 import { Inject, Service } from 'typedi'
-import { ORM } from '..'
+import { ORM } from '@/infrastructure/database'
 import { Course } from '@/core/interfaces/dtos'
-import { InstitutionService } from './institution-repository'
+import { InstitutionService } from './institution-service'
 
 @Service()
 export class CourseService implements ICourseRepository {

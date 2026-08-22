@@ -1,5 +1,5 @@
 import { ExecutePromptOptions, GeminiModel } from '@/core/interfaces/dtos/google-ai';
-import { IAIService } from '@/core/interfaces/repositories/google-ai';
+import { IAIService } from '@/core/interfaces/service/google-ai';
 import { environments } from '@/utils/constanst';
 import { GoogleGenAI, GenerateContentParameters } from '@google/genai';
 import { Service } from 'typedi';

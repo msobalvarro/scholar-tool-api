@@ -1,5 +1,5 @@
 import { Context } from 'hono'
-import { TaskService } from '@/infrastructure/database/repositories/task-repository'
+import { TaskService } from '@/core/services/task-service'
 import {
   TaskUpdate,
   Task,

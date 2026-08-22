@@ -1,5 +1,5 @@
 import { AssignToCourseSchema, assignToCourseSchema, StudentSchema, studentSchema, StudentUpdateSchema } from '@/infrastructure/database/schemas/student-schema'
-import { StudentRepository } from '@/infrastructure/database/repositories/student-repository'
+import { StudentRepository } from '@/core/services/student-service'
 import { Context } from 'hono'
 import { Inject, Service } from 'typedi'
 

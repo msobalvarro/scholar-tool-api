@@ -4,7 +4,7 @@ import {
   UpdateUserInstitutionSchema,
   updateUserInstitutionSchema
 } from '@/infrastructure/database/schemas/user-institution-schema'
-import { UserInstitutionService } from '@/infrastructure/database/repositories/user-institution-repository'
+import { UserInstitutionService } from '@/core/services/user-institution-service'
 import { Context } from 'hono'
 import { Service } from 'typedi'
 

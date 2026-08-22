@@ -1,5 +1,5 @@
 import { ObservationSchema, observationSchema } from '@/infrastructure/database/schemas/observation-schema'
-import { ObservationService } from '@/infrastructure/database/repositories/observation-repository'
+import { ObservationService } from '@/core/services/observation-service'
 import { Context } from 'hono'
 import { Service } from 'typedi'
 

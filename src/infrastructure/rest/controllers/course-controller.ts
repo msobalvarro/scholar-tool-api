@@ -1,5 +1,5 @@
 import { CreateCourseDto, courseSchema } from '@/infrastructure/database/schemas/course-schema'
-import { CourseService } from '@/infrastructure/database/repositories/course-repository'
+import { CourseService } from '@/core/services/course-service'
 import { Context } from 'hono'
 import { Inject, Service } from 'typedi'
 @Service()

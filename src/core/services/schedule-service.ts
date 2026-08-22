@@ -1,6 +1,6 @@
 import { Schedule, ScheduleUpdate } from '@/infrastructure/database/schemas/schedule-schema'
 import { Inject, Service } from 'typedi'
-import { ORM } from '..'
+import { ORM } from '@/infrastructure/database'
 
 @Service()
 export class ScheduleService {

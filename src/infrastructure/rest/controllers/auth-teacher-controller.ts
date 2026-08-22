@@ -1,5 +1,5 @@
 import { AuthTeacherSchema, authTeacherSchema } from '@/infrastructure/database/schemas/auth-teacher-schema'
-import { AuthTeacherService } from '@/infrastructure/database/repositories/auth-teacher-repository'
+import { AuthTeacherService } from '@/core/services/auth-teacher-service'
 import { Context } from 'hono'
 import { Service } from 'typedi'
 

@@ -4,7 +4,7 @@ import {
   responsableSchema
 } from '@/infrastructure/database/schemas/responsable-schema'
 import { Context } from 'hono'
-import { ResponsableRepository } from '@/infrastructure/database/repositories/responsable-repository'
+import { ResponsableRepository } from '@/core/services/responsable-service'
 import { Inject, Service } from 'typedi'
 
 @Service()

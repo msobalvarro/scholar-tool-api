@@ -2,7 +2,7 @@ import {
   AsignatureSchema,
   asignatureSchema
 } from '@/infrastructure/database/schemas/asignature-schema'
-import { AsignatureRepository } from '@/infrastructure/database/repositories/asignature-repository'
+import { AsignatureRepository } from '@/core/services/asignature-service'
 import { Context } from 'hono'
 import { Service, Inject } from 'typedi'
 

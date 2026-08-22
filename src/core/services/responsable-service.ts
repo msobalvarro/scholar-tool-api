@@ -1,7 +1,7 @@
 import { ResponsablePersonSchema, ResponsablePersonUpdate } from '@/infrastructure/database/schemas/responsable-schema'
-import { IResponsableRepository } from '@/core/interfaces/repositories/responsable-repository'
+import { IResponsableRepository } from '@/core/interfaces/service/responsable-service'
 import { Inject, Service } from 'typedi'
-import { ORM } from '..'
+import { ORM } from '@/infrastructure/database'
 import { ResponsablePerson } from '@/core/interfaces/dtos'
 
 @Service()

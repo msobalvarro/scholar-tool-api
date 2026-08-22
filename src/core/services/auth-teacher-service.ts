@@ -1,8 +1,8 @@
 import { createHash } from '@/utils/encrypt'
 import { Inject, Service } from 'typedi'
-import { IAuthTeacherRepository } from '@/core/interfaces/repositories/auth-teacher-repository'
-import { ORM } from '..'
-import { InstitutionService } from './institution-repository'
+import { IAuthTeacherRepository } from '@/core/interfaces/service/auth-teacher-service'
+import { ORM } from '@/infrastructure/database'
+import { InstitutionService } from './institution-service'
 
 @Service()
 export class AuthTeacherService implements IAuthTeacherRepository {
