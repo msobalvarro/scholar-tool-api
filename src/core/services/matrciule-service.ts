@@ -1,9 +1,9 @@
-import { ORM } from '..'
+import { ORM } from '@/infrastructure/database'
 import { MatriculeSchema, MatriculeUpdateSchema } from '@/infrastructure/database/schemas/matricule-schema'
-import { IMatriculeRepository } from '@/core/interfaces/repositories/matrciule-repository'
+import { IMatriculeRepository } from '@/core/interfaces/service/matrciule-service'
 import { Inject, Service } from 'typedi'
 import { Matricule } from '@/core/interfaces/dtos'
-import { InstitutionService } from './institution-repository'
+import { InstitutionService } from './institution-service'
 
 @Service()
 export class MatriculeRepository implements IMatriculeRepository {

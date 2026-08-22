@@ -1,7 +1,7 @@
 import { AssitanceSchema } from '@/infrastructure/database/schemas/assitance-schema'
-import { IAssistanceRepository } from '@/core/interfaces/repositories/assitance-repository'
+import { IAssistanceRepository } from '@/core/interfaces/service/assitance-service'
 import { Inject, Service } from 'typedi'
-import { ORM } from '..'
+import { ORM } from '@/infrastructure/database'
 
 @Service()
 export class AssitanceRepository implements IAssistanceRepository {

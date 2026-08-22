@@ -1,7 +1,7 @@
 import { UpdateUserRootSchema, UserRootSchema } from '@/infrastructure/database/schemas/user-root-schema'
 import { createHash } from '@/utils/encrypt'
 import { Inject, Service } from 'typedi'
-import { ORM } from '..'
+import { ORM } from '@/infrastructure/database'
 
 @Service()
 export class UserRootService {

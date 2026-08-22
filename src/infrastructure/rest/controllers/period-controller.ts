@@ -1,5 +1,5 @@
 import { Context } from "hono"
-import { PeriodService } from "@/infrastructure/database/repositories/period-repository"
+import { PeriodService } from "@/core/services/period-service"
 import { PeriodUpdateSchema, PeriodSchema } from "@/infrastructure/database/schemas/period-schema"
 import { PeriodUpdate, Period } from "@/infrastructure/database/schemas/period-schema"
 import { Service } from 'typedi'

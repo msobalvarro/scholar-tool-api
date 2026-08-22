@@ -5,8 +5,8 @@ import {
 } from '@/infrastructure/database/schemas/user-institution-schema'
 import { createHash } from '@/utils/encrypt'
 import { Inject, Service } from 'typedi'
-import { ORM } from '..'
-import { InstitutionService } from './institution-repository'
+import { ORM } from '@/infrastructure/database'
+import { InstitutionService } from './institution-service'
 
 @Service()
 export class UserInstitutionService {

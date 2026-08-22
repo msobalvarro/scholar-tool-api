@@ -1,9 +1,9 @@
 import { Inject, Service } from 'typedi'
-import { ORM } from '..'
-import { InstitutionService } from './institution-repository'
-import { ResponsableRepository } from './responsable-repository'
-import { StudentRepository } from './student-repository'
-import { ITokenRepository } from '@/core/interfaces/repositories/token-repository'
+import { ORM } from '@/infrastructure/database'
+import { InstitutionService } from './institution-service'
+import { ResponsableRepository } from './responsable-service'
+import { StudentRepository } from './student-service'
+import { ITokenRepository } from '@/core/interfaces/service/token-service'
 import { Token } from '@/core/interfaces/dtos'
 
 @Service()

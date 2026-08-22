@@ -1,16 +1,16 @@
-import { ORM } from '..';
-import { IStudentAssistenceRepository } from '@/core/interfaces/repositories/student-assistence-repository';
+import { ORM } from '@/infrastructure/database';
+import { IStudentAssistenceRepository } from '@/core/interfaces/service/student-assistence-service';
 import { StudentAssistence } from '@/core/interfaces/dtos/student-assistence';
 import { Inject, Service } from 'typedi';
-import { StudentAssistenceSchema } from '../schemas/student-assistence-schema';
-import { StudentRepository } from './student-repository';
-import { MatriculeRepository } from './matrciule-repository';
+import { StudentAssistenceSchema } from '../../infrastructure/database/schemas/student-assistence-schema';
+import { StudentRepository } from './student-service';
+import { MatriculeRepository } from './matrciule-service';
 import { DateFormatterAdapter } from '@/infrastructure/adapters/date-formats';
 import { Student } from '@/core/interfaces/dtos';
-import { InstitutionService } from './institution-repository';
+import { InstitutionService } from './institution-service';
 import { StudentAlreadyAssistedError } from '@/core/errors/student-assistence-error';
-import { NotificationRepository } from './notification-repository';
-import { TokenService } from './token-repository';
+import { NotificationRepository } from './notification-service';
+import { TokenService } from './token-service';
 
 @Service()
 export class StudentAssistenceRepository implements IStudentAssistenceRepository {

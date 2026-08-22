@@ -4,7 +4,7 @@ import {
   ScheduleUpdate,
   scheduleUpdateSchema
 } from '@/infrastructure/database/schemas/schedule-schema'
-import { ScheduleService } from '@/infrastructure/database/repositories/schedule-repository'
+import { ScheduleService } from '@/core/services/schedule-service'
 import { Context } from 'hono'
 import { Service } from 'typedi'
 

@@ -1,11 +1,11 @@
 import { Course, Institution, Student } from '@/core/interfaces/dtos'
 import { StudentSchema, StudentUpdateSchema, AssignToCourseSchema } from '@/infrastructure/database/schemas/student-schema'
 import { Service, Inject } from 'typedi'
-import { IStudentRepository } from '@/core/interfaces/repositories/student-repository'
-import { ORM } from '..'
+import { IStudentRepository } from '@/core/interfaces/service/student-service'
+import { ORM } from '@/infrastructure/database'
 import { ClientSession } from 'mongoose'
-import { InstitutionService } from './institution-repository'
-import { ResponsableRepository } from './responsable-repository'
+import { InstitutionService } from './institution-service'
+import { ResponsableRepository } from './responsable-service'
 
 @Service()
 export class StudentRepository implements IStudentRepository {

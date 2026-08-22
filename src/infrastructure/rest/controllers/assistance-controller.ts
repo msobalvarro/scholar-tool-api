@@ -1,5 +1,5 @@
 import { assistanceSchema, AssitanceSchema } from '@/infrastructure/database/schemas/assitance-schema'
-import { AssitanceRepository } from '@/infrastructure/database/repositories/assitance-repository'
+import { AssitanceRepository } from '@/core/services/assitance-service'
 import { Context } from 'hono'
 import { Service } from 'typedi'
 

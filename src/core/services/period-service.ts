@@ -1,7 +1,7 @@
 import { PeriodUpdate, Period } from '@/infrastructure/database/schemas/period-schema'
 import { Inject, Service } from 'typedi'
-import { ORM } from '..'
-import { InstitutionService } from './institution-repository'
+import { ORM } from '@/infrastructure/database'
+import { InstitutionService } from './institution-service'
 
 @Service()
 export class PeriodService {

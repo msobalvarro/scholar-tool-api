@@ -1,10 +1,10 @@
 import { CreateNotificationDto } from '@/infrastructure/database/schemas/notification-schema'
-import { ICreateNotificationFilterDto, INotificationRepository } from '@/core/interfaces/repositories/notification-repository'
+import { ICreateNotificationFilterDto, INotificationRepository } from '@/core/interfaces/service/notification-service'
 import { Inject, Service } from 'typedi'
 import { Token } from '@/core/interfaces/dtos'
-import { ORM } from '..'
+import { ORM } from '@/infrastructure/database'
 import { FirebasePushNotificationAdapter } from '@/infrastructure/adapters/firebase-push-notification-adapter'
-import { InstitutionService } from './institution-repository'
+import { InstitutionService } from './institution-service'
 
 @Service()
 export class NotificationRepository implements INotificationRepository {

@@ -1,5 +1,5 @@
 import { AuthSchema, authSchema } from '@/infrastructure/database/schemas/auth-schema'
-import { AuthRepository } from '@/infrastructure/database/repositories/auth-repository'
+import { AuthRepository } from '@/core/services/auth-service'
 import { Context } from 'hono'
 import { Inject, Service } from 'typedi'
 

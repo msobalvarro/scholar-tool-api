@@ -1,5 +1,5 @@
 import { studentAssistenceSchema, StudentAssistenceSchema } from '@/infrastructure/database/schemas/student-assistence-schema'
-import { StudentAssistenceRepository } from '@/infrastructure/database/repositories/student-assitence-repository'
+import { StudentAssistenceRepository } from '@/core/services/student-assitence-service'
 import { Context } from 'hono'
 import { Inject, Service } from 'typedi'
 

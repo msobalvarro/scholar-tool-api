@@ -1,8 +1,8 @@
 import { AsignatureSchema, AsignatureUpdateSchema } from '@/infrastructure/database/schemas/asignature-schema'
-import { IAsignatureRepository } from '@/core/interfaces/repositories/asignature-repository'
+import { IAsignatureRepository } from '@/core/interfaces/service/asignature-service'
 import { Inject, Service } from 'typedi'
-import { ORM } from '..'
-import { InstitutionService } from './institution-repository'
+import { ORM } from '@/infrastructure/database'
+import { InstitutionService } from './institution-service'
 
 @Service()
 export class AsignatureRepository implements IAsignatureRepository {

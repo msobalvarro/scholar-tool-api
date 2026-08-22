@@ -1,7 +1,7 @@
 import { Inject, Service } from 'typedi'
 import { Context } from 'hono'
 import { createCalendarEventSchema, updateCalendarEventSchema } from '@/infrastructure/database/schemas/calendar-events-schema'
-import { CalendarEventsRepository } from '@/infrastructure/database/repositories/calendar-events-repository'
+import { CalendarEventsRepository } from '@/core/services/calendar-events-service'
 
 @Service()
 export class CalendarEventsController {

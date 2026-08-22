@@ -1,7 +1,7 @@
 import { ObservationSchema } from '@/infrastructure/database/schemas/observation-schema'
-import { IObservationRepository } from '@/core/interfaces/repositories/observation-repository'
+import { IObservationRepository } from '@/core/interfaces/service/observation-service'
 import { Inject, Service } from 'typedi'
-import { ORM } from '..'
+import { ORM } from '@/infrastructure/database'
 
 @Service()
 export class ObservationService implements IObservationRepository {
