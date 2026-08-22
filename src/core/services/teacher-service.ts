@@ -8,6 +8,7 @@ import { ResendEmailAdapter } from '@/infrastructure/adapters/email'
 import { LuminaTeacherWelcomeEmail } from '@/infrastructure/adapters/email/templates/welcome-teacher'
 import { generateRandomPassword } from '@/utils/password'
 import { environments } from '@/utils/constanst'
+import { AuthTeacherService } from './auth-teacher-service'
 
 @Service()
 export class TeacherService implements ITeacherRepository {
@@ -17,10 +18,13 @@ export class TeacherService implements ITeacherRepository {
   @Inject(() => InstitutionService)
   private readonly institutionService!: InstitutionService
 
+  @Inject(() => AuthTeacherService)
+  private readonly teacherAuthService!: AuthTeacherService
+
   @Inject(() => ResendEmailAdapter)
   private readonly emailService!: ResendEmailAdapter
 
-  private async sendWelcomeEmail(teacher: Teacher) {
+  private async sendWelcomeEmail(teacher: Teacher, temporaryPassword: string) {
     this.emailService.sendEmail(
       {
         to: teacher.email,
@@ -29,7 +33,7 @@ export class TeacherService implements ITeacherRepository {
       LuminaTeacherWelcomeEmail({
         teacherName: teacher.name,
         email: teacher.email,
-        temporaryPassword: generateRandomPassword(),
+        temporaryPassword,
         loginUrl: environments.FRONTEND_URL
       })
     )
@@ -41,7 +45,12 @@ export class TeacherService implements ITeacherRepository {
     try {
       const institution = await this.institutionService.getActiveInstitution(institutionId)
       const [teacher] = await this.orm.models.TeacherModel.create([{ ...payload, institution }], { session })
-      await this.sendWelcomeEmail(teacher)
+      const temporaryPassword = generateRandomPassword()
+
+      await this.sendWelcomeEmail(teacher, temporaryPassword)
+      await this.teacherAuthService.createTeacherAuth(teacher._id.toString(), temporaryPassword)
+      await session.commitTransaction()
+
       return teacher
     } catch (error) {
       await session.abortTransaction()
