@@ -3,6 +3,7 @@ import { Inject, Service } from 'typedi'
 import { IAuthTeacherRepository } from '@/core/interfaces/service/auth-teacher-service'
 import { ORM } from '@/infrastructure/database'
 import { InstitutionService } from './institution-service'
+import { ClientSession } from 'mongoose'
 
 @Service()
 export class AuthTeacherService implements IAuthTeacherRepository {
@@ -13,16 +14,23 @@ export class AuthTeacherService implements IAuthTeacherRepository {
   @Inject(() => InstitutionService)
   private readonly institutionService!: InstitutionService
 
-  async createTeacherAuth(teacherId: string, password: string) {
+  async createTeacherAuth(teacherId: string, password: string, session?: ClientSession) {
     const teacher = await this.orm.models.TeacherModel.findById(teacherId)
     if (!teacher) throw 'Profesor no encontrado'
 
-    const user = await this.orm.models.TeacherAuthModel.create({
+    if (session) {
+      const [user] = await this.orm.models.TeacherAuthModel.create([{
+        teacher,
+        password: createHash(password)
+      }], { session })
+
+      return user
+    }
+
+    return await this.orm.models.TeacherAuthModel.create({
       teacher,
       password: createHash(password)
     })
-
-    return user
   }
 
   async getAllTeacherAuth(institutionId: string) {
