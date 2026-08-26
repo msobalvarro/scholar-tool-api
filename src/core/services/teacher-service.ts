@@ -93,8 +93,12 @@ export class TeacherService implements ITeacherRepository {
     return teachers
   }
 
-  async getTeacherById(id: string) {
+  async getTeacherById(id: string, institutionId: string) {
     const teacher = await this.orm.models.TeacherModel.findById(id)
+    const institution = await this.institutionService.getActiveInstitution(institutionId)
+    if (!teacher) throw new Error('Profesor no encontrado')
+    if (teacher.institution._id !== institution._id) throw new Error('Profesor no encontrado')
+
     return teacher
   }
 

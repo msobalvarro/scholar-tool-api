@@ -8,6 +8,4 @@ const controller = Container.get(TaskController)
 
 taskRoute.use('/*', jwtUserInstitution)
 taskRoute.post('/create', controller.create)
-taskRoute.put('/update', controller.update)
-taskRoute.delete('/delete', controller.delete)
 taskRoute.get('/getByAsignature/:asignatureId/:courseId', controller.getTasksByAsignature)

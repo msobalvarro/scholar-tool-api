@@ -7,7 +7,7 @@ export interface ICreateNotificationFilterDto {
   studensIds?: string[]
 }
 
-export interface INotificationRepository {
+export interface INotificationService {
   createNotification(notification: NotificationSchema, filters: ICreateNotificationFilterDto): Promise<NotificationDto>
   sendNotificationsToTokens(tokens: string[], notification: NotificationSchema, data?: Record<string, string>): Promise<void>
   markNotificationAsReaded(notificationId: string): Promise<void>

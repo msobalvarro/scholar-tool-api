@@ -1,18 +1,28 @@
-import { Task, TaskUpdate } from '@/infrastructure/database/schemas/task-schema'
+import { ITaskSchema } from '@/infrastructure/database/schemas/task-schema'
 import { Inject, Service } from 'typedi'
 import { ORM } from '@/infrastructure/database'
 import { InstitutionService } from './institution-service'
+import { ITaskService } from '../interfaces/service/task-service'
+import { TeacherService } from './teacher-service'
+import { DateFormatterAdapter } from '@/infrastructure/adapters/date-formats'
 
 @Service()
-export class TaskService {
+export class TaskService implements ITaskService {
   @Inject(() => ORM)
   private readonly orm!: ORM
 
   @Inject(() => InstitutionService)
   private readonly institutionService!: InstitutionService
 
-  async createTask(payload: Task, institutionId: string) {
+  @Inject(() => TeacherService)
+  private readonly teacherService!: TeacherService
+
+  @Inject(() => DateFormatterAdapter)
+  private readonly dateFormatterAdapter!: DateFormatterAdapter
+
+  async createTask(payload: ITaskSchema, institutionId: string, teacherId: string) {
     const { courseId, asignatureId, ...task } = payload
+    const teacher = await this.teacherService.getTeacherById(teacherId, institutionId)
 
     const course = await this.orm.models.CourseModel.findById(courseId)
     if (!course) throw 'Curso no encontrado'
@@ -22,55 +32,22 @@ export class TaskService {
 
     const institution = await this.institutionService.getActiveInstitution(institutionId)
 
-    // get the period where the due date is between the start and end date
-    const period = await this.orm.models.PeriodModel.findOne({
-      startDate: { $lte: task.dueDate },
-      endDate: { $gte: task.dueDate },
-      institution: { _id: institutionId }
-    })
-
-    if (!period) throw 'Periodo no encontrado'
-
     return await this.orm.models.TaskModel.create({
       ...task,
-      period,
+      teacher,
       course,
       asignature,
       institution
     })
   }
 
-  async updateTask(payload: TaskUpdate, institutionId: string) {
-    const { courseId, asignatureId, ...task } = payload
-
-    const course = await this.orm.models.CourseModel.findById(courseId)
-    if (!course) throw 'Curso no encontrado'
-
-    const asignature = await this.orm.models.AsignatureModel.findById(asignatureId)
-    if (!asignature) throw 'Asignatura no encontrada'
-
-    const institution = await this.institutionService.getActiveInstitution(institutionId)
-
-    // get the period where the due date is between the start and end date
-    const period = await this.orm.models.PeriodModel.findOne({
-      startDate: { $lte: task.dueDate },
-      endDate: { $gte: task.dueDate },
-      institution: { _id: institutionId },
-    })
-
-    if (!period) throw 'Periodo no encontrado'
-
-    return await this.orm.models.TaskModel.findByIdAndUpdate(payload._id, payload)
-  }
-
-  async deleteTask(taskId: string) {
-    return await this.orm.models.TaskModel.findByIdAndDelete(taskId)
-  }
-
-  async getTasksByCourse(courseId: string, periodId: string) {
+  async getTasksByCourse(courseId: string, date: string) {
     return await this.orm.models.TaskModel.find({
       course: { _id: courseId },
-      period: { _id: periodId }
+      dueDate: {
+        $gte: this.dateFormatterAdapter.toGteAndLteDate(date).gte,
+        $lte: this.dateFormatterAdapter.toGteAndLteDate(date).lte
+      }
     })
   }
 

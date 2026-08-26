@@ -7,10 +7,6 @@ const TaskSchema = new Schema<Task>(
       type: Schema.Types.ObjectId,
       ref: 'Institution'
     },
-    period: {
-      type: Schema.Types.ObjectId,
-      ref: 'Period'
-    },
     teacher: {
       type: Schema.Types.ObjectId,
       ref: 'Teacher'
@@ -26,12 +22,6 @@ const TaskSchema = new Schema<Task>(
     name: String,
     description: String,
     dueDate: Date,
-    status: {
-      type: String,
-      enum: ['pending', 'completed', 'unfulfilled', 'incomplete'],
-      default: 'pending'
-    },
-    highestScore: Number,
     score: Number
   },
   {

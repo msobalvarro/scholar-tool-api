@@ -9,7 +9,7 @@ import { DateFormatterAdapter } from '@/infrastructure/adapters/date-formats';
 import { Student } from '@/core/interfaces/dtos';
 import { InstitutionService } from './institution-service';
 import { StudentAlreadyAssistedError } from '@/core/errors/student-assistence-error';
-import { NotificationRepository } from './notification-service';
+import { NotificationService } from './notification-service';
 import { TokenService } from './token-service';
 
 @Service()
@@ -29,8 +29,8 @@ export class StudentAssistenceRepository implements IStudentAssistenceRepository
   @Inject(() => DateFormatterAdapter)
   private readonly dateFormatterAdapter!: DateFormatterAdapter
 
-  @Inject(() => NotificationRepository)
-  private readonly notificationRepository!: NotificationRepository
+  @Inject(() => NotificationService)
+  private readonly notificationRepository!: NotificationService
 
   @Inject(() => TokenService)
   private readonly tokenService!: TokenService
@@ -52,6 +52,11 @@ export class StudentAssistenceRepository implements IStudentAssistenceRepository
     if (assistence.length > 0) throw new StudentAlreadyAssistedError()
   }
 
+  /**
+   * Envía una notificación al responsable del estudiante.
+   * @param student 
+   * @param institutionId 
+   */
   private readonly sendNotificationToStudentResponsable = async (student: Student, institutionId: string): Promise<void> => {
     const responsable = await this.studentRepository.getStudentResponsable(student._id, institutionId)
     const tokens = await this.tokenService.getTokensByUserId(responsable._id)
@@ -128,12 +133,16 @@ export class StudentAssistenceRepository implements IStudentAssistenceRepository
       .sort({ date: -1 })
   }
 
-  async getAssitencesByCourse(institutionId: string, courseId: string): Promise<StudentAssistence[]> {
+  async getAssitencesByCourse(institutionId: string, courseId: string, date: string): Promise<StudentAssistence[]> {
     const matricules = await this.matriculeRepository.getMatriculesByCourse(institutionId, courseId)
     const students = matricules.map(matricule => matricule.student)
     return await this.orm.models.StudentAssistenceModel.find({
       student: {
         $in: students
+      },
+      date: {
+        $gte: this.dateFormatterAdapter.toGteAndLteDate(date).gte,
+        $lte: this.dateFormatterAdapter.toGteAndLteDate(date).lte
       }
     }).populate('student')
   }

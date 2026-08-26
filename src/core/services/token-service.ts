@@ -53,7 +53,6 @@ export class TokenService implements ITokenRepository {
   }
 
   async getTokensByUserId(userId: string): Promise<Token[]> {
-    const tokens = await this.orm.models.TokenModel.find({ user: userId })
-    return tokens
+    return await this.orm.models.TokenModel.find({ user: userId })
   }
 }
