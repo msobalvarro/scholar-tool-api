@@ -76,4 +76,12 @@ export class MatriculeRepository implements IMatriculeRepository {
     if (matricule.status !== 'active') throw new Error('La matrícula no está activa')
     return matricule
   }
+
+  async getMatriculesByCourse(institutionId: string, courseId: string): Promise<Matricule[]> {
+    const institution = await this.institutionService.getActiveInstitution(institutionId)
+    const course = await this.ORM.models.CourseModel.findById(courseId)
+    if (!course) throw new Error('Curso no encontrado')
+    const matricules = await this.ORM.models.MatriculeModel.find({ course, institution }).populate('student')
+    return matricules
+  }
 }

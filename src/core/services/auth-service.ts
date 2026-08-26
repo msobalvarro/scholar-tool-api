@@ -5,11 +5,19 @@ import { sign } from 'hono/jwt'
 import { IAuthRepository } from '@/core/interfaces/service/auth-service'
 import { Inject, Service } from 'typedi'
 import { ORM } from '@/infrastructure/database'
+import { InstitutionService } from './institution-service'
+import { TeacherService } from './teacher-service'
 
 @Service()
 export class AuthRepository implements IAuthRepository {
   @Inject(() => ORM)
   private readonly orm!: ORM
+
+  @Inject(() => InstitutionService)
+  private institutionService!: InstitutionService
+
+  @Inject(() => TeacherService)
+  private teacherService!: TeacherService
 
   async loginUserRoot(email: string, password: string) {
     const user = await this.orm.models.UserRootModel
@@ -37,8 +45,7 @@ export class AuthRepository implements IAuthRepository {
 
     if (!user) throw 'Usuario no encontrado'
 
-    const institution = await this.orm.models.InstitutionModel.findOne(user.institution)
-    if (!institution) throw 'Institución no encontrada'
+    const institution = await this.institutionService.getActiveInstitution(user.institution._id!)
 
     const token = await sign(
       {
@@ -53,18 +60,8 @@ export class AuthRepository implements IAuthRepository {
   }
 
   async loginTeacher(email: string, password: string) {
-    const teacher = await this.orm.models.TeacherModel
-      .findOne({ email })
-      .select({
-        createdAt: 0,
-        updatedAt: 0,
-      })
-
-    if (!teacher) throw 'Profesor no encontrado'
-
-    const institution = await this.orm.models.InstitutionModel.findOne(teacher.institution)
-    if (!institution) throw 'Institución no encontrada'
-
+    const teacher = await this.teacherService.getTeacherByEmail(email)
+    const institution = await this.institutionService.getActiveInstitution(teacher.institution._id!)
 
     const user = await this.orm.models.TeacherAuthModel
       .findOneAndUpdate({ teacher, password: createHash(password) }, { lastLogin: new Date() }, { new: true })

@@ -115,4 +115,11 @@ export class TeacherService implements ITeacherRepository {
   async updatePhoto(teacherId: string, imageName: string) {
     return await this.orm.models.TeacherModel.findByIdAndUpdate(teacherId, { photo: imageName }, { new: true })
   }
+
+  async getTeacherByEmail(email: string) {
+    const teacher = await this.orm.models.TeacherModel.findOne({ email })
+    if (!teacher) throw new Error('Profesor no encontrado')
+    if (teacher.status !== 'active') throw new Error('Profesor inactivo')
+    return teacher
+  }
 }

@@ -7,4 +7,5 @@ export interface ITeacherRepository {
   getTeacherById(id: string): Promise<Teacher | null>
   updateTeacher(institutionId: string, payload: TeacherSchema, id: string): Promise<Teacher>
   deleteTeacher(id: string, institutionId: string): Promise<void>
+  getTeacherByEmail(email: string): Promise<Teacher>
 }

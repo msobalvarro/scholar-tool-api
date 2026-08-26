@@ -29,4 +29,12 @@ export interface IStudentAssistenceRepository {
    * @param date 
    */
   getAssitencesByDate(institutionId: string, date?: string): Promise<StudentAssistence[]>
+
+  /**
+   * Obtiene las asistencias por curso
+   * @param institutionId 
+   * @param courseId 
+   * @param date fecha en formato string con el formato yyyy-mm-dd
+   */
+  getAssitencesByCourse(institutionId: string, courseId: string, date: string): Promise<StudentAssistence[]>
 }

@@ -127,4 +127,14 @@ export class StudentAssistenceRepository implements IStudentAssistenceRepository
       .populate('student')
       .sort({ date: -1 })
   }
+
+  async getAssitencesByCourse(institutionId: string, courseId: string): Promise<StudentAssistence[]> {
+    const matricules = await this.matriculeRepository.getMatriculesByCourse(institutionId, courseId)
+    const students = matricules.map(matricule => matricule.student)
+    return await this.orm.models.StudentAssistenceModel.find({
+      student: {
+        $in: students
+      }
+    }).populate('student')
+  }
 }
