@@ -38,4 +38,12 @@ export class StudentAssistenceController {
       await this.studentAssistenceRepository.getAssitencesByDate(user.institutionId, c.req.query('date'))
     )
   }
+
+  getAssitencesByCourse = async (c: Context) => {
+    const user = c.get('jwtPayload')
+    const { courseId } = c.req.param()
+    return c.json(
+      await this.studentAssistenceRepository.getAssitencesByCourse(user.institutionId, courseId)
+    )
+  }
 }

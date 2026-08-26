@@ -8,4 +8,11 @@ export interface IMatriculeRepository {
   getAllMatricules(institutionId: string): Promise<MatriculeDto[]>
   getMatriculeById(_id: string): Promise<MatriculeDto | null>
   getActiveMatricule(studentId: string): Promise<MatriculeDto>
+
+  /**
+   * Obtiene las matriculas por curso
+   * @param institutionId 
+   * @param courseId 
+   */
+  getMatriculesByCourse(institutionId: string, courseId: string): Promise<MatriculeDto[]>
 }

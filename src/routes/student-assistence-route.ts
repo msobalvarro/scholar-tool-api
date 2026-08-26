@@ -1,10 +1,13 @@
 import { StudentAssistenceController } from '@/infrastructure/rest/controllers/student-assistence-controller'
-import { jwtUserInstitution } from '@/infrastructure/rest/middlewares'
+import { jwtUserInstitution, jwtUserTeacher } from '@/infrastructure/rest/middlewares'
 import { Hono } from 'hono'
 import Container from 'typedi'
 
 export const studentAssistenceRoute = new Hono()
 const controller = Container.get(StudentAssistenceController)
+
+studentAssistenceRoute.use('/*', jwtUserTeacher)
+studentAssistenceRoute.get('/course/:courseId', controller.getAssitencesByCourse)
 
 studentAssistenceRoute.use('/*', jwtUserInstitution)
 
