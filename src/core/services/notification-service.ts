@@ -5,6 +5,7 @@ import { Token } from '@/core/interfaces/dtos'
 import { ORM } from '@/infrastructure/database'
 import { FirebasePushNotificationAdapter } from '@/infrastructure/adapters/firebase-push-notification-adapter'
 import { InstitutionService } from './institution-service'
+import { CourseService } from './course-service'
 
 @Service()
 export class NotificationService implements INotificationService {
@@ -17,6 +18,9 @@ export class NotificationService implements INotificationService {
   @Inject(() => FirebasePushNotificationAdapter)
   private readonly pushNotificationAdapter!: FirebasePushNotificationAdapter
 
+  @Inject(() => CourseService)
+  private readonly courseService!: CourseService
+
   private async getTokens(filters: ICreateNotificationFilterDto): Promise<Token[]> {
     const tokens: Token[] = []
 
@@ -27,23 +31,27 @@ export class NotificationService implements INotificationService {
     }
 
     if (filters.courseId) {
-      const course = await this.ORM.models.CourseModel.findById(filters.courseId)
-      if (!course) throw 'Curso no encontrado'
+      const course = await this.courseService.getActiveCourse(filters.courseId)
       const t = await this.ORM.models.TokenModel.find({ course })
       tokens.push(...t.map(t => t.toObject()))
     }
 
     if (filters.studensIds) {
       const students = await this.ORM.models.StudentModel.find({ _id: { $in: filters.studensIds } })
-      if (!students) throw 'Estudiantes no encontrados'
       const t = await this.ORM.models.TokenModel.find({ student: { $in: students } })
+      tokens.push(...t.map(t => t.toObject()))
+    }
+
+    if (filters.responsablesIds) {
+      const responsables = await this.ORM.models.ResponsableModel.find({ _id: { $in: filters.responsablesIds } })
+      const t = await this.ORM.models.TokenModel.find({ responsable: { $in: responsables } })
       tokens.push(...t.map(t => t.toObject()))
     }
 
     return tokens
   }
 
-  async createNotification(notification: CreateNotificationDto, filters: ICreateNotificationFilterDto) {
+  async createLocalAndPushNotification(notification: CreateNotificationDto, filters: ICreateNotificationFilterDto) {
     const tokens: Token[] = await this.getTokens(filters)
 
     // TODO: modificar en un futuro para asignar notificaciones a estudiantes, responsables, cursos

@@ -2,7 +2,7 @@ import { AssignToCourseSchema, StudentSchema, StudentUpdateSchema } from "@/infr
 import { UpdateWriteOpResult } from 'mongoose';
 import { ResponsablePerson, Student } from '../dtos';
 
-export interface IStudentRepository {
+export interface IStudentService {
   createStudent(student: StudentSchema, institutionId: string): Promise<Student>
   updateStudent(student: StudentUpdateSchema, institutionId: string, studentId: string): Promise<UpdateWriteOpResult>
   deleteStudent(studentId: string, institutionId: string): Promise<void>
@@ -15,5 +15,10 @@ export interface IStudentRepository {
   /**
    * Obtiene el responsable de un estudiante
    */
-  getStudentResponsable(studentId: string, institutionId: string): Promise<ResponsablePerson>
+  getStudentRepresentative(studentId: string, institutionId: string): Promise<ResponsablePerson>
+
+  /**
+   * Obtiene un listado de responsables por ids de estudiantes
+   */
+  getStudentsRepresentatives(studentsIds: string[], institutionId: string): Promise<ResponsablePerson[]>
 }

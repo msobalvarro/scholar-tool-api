@@ -3,7 +3,7 @@ import { Task } from '../dtos'
 
 export interface ITaskService {
   /**
-   * Crea una nueva tarea.
+   * Crea una nueva tarea y notifica a todos los estudiantes por aula
    * @param payload Datos de la tarea
    * @param institutionId ID de la institución
    * @param teacherId ID del profesor
