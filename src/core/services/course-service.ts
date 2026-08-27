@@ -2,7 +2,7 @@ import { CreateCourseDto } from '@/infrastructure/database/schemas/course-schema
 import { ICourseRepository } from '@/core/interfaces/service/course-service'
 import { Inject, Service } from 'typedi'
 import { ORM } from '@/infrastructure/database'
-import { Course } from '@/core/interfaces/dtos'
+import { Course, Student } from '@/core/interfaces/dtos'
 import { InstitutionService } from './institution-service'
 
 @Service()
@@ -65,6 +65,13 @@ export class CourseService implements ICourseRepository {
     return await this.ORM.models.CourseModel.findById(courseId)
   }
 
+  async getActiveCourse(courseId: string) {
+    const course = await this.ORM.models.CourseModel.findById(courseId)
+    if (!course) throw 'Curso no encontrado'
+
+    return course
+  }
+
   async getAllCoursesNotInEnrollment(institutionId: string) {
     const enrollments = await this.ORM.models.EnrollmentModel
       .find({
@@ -88,5 +95,17 @@ export class CourseService implements ICourseRepository {
         $nin: allCoursesIdWithEnrollemts
       }
     })
+  }
+
+  async getAllStudentsByCourse(courseId: string) {
+    const matricules = await this.ORM.models.MatriculeModel
+      .find({ courses: { _id: courseId } })
+      .populate({
+        path: 'student',
+        select: '_id name lastName parentName email'
+      })
+      .select('student')
+
+    return matricules.map((matricule) => matricule.student)
   }
 }

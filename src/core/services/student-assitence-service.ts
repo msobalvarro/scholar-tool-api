@@ -3,7 +3,7 @@ import { IStudentAssistenceRepository } from '@/core/interfaces/service/student-
 import { StudentAssistence } from '@/core/interfaces/dtos/student-assistence';
 import { Inject, Service } from 'typedi';
 import { StudentAssistenceSchema } from '../../infrastructure/database/schemas/student-assistence-schema';
-import { StudentRepository } from './student-service';
+import { StudentService } from './student-service';
 import { MatriculeRepository } from './matrciule-service';
 import { DateFormatterAdapter } from '@/infrastructure/adapters/date-formats';
 import { Student } from '@/core/interfaces/dtos';
@@ -20,8 +20,8 @@ export class StudentAssistenceRepository implements IStudentAssistenceRepository
   @Inject(() => InstitutionService)
   private readonly institutionService!: InstitutionService
 
-  @Inject(() => StudentRepository)
-  private studentRepository!: StudentRepository
+  @Inject(() => StudentService)
+  private studentRepository!: StudentService
 
   @Inject(() => MatriculeRepository)
   private matriculeRepository!: MatriculeRepository
@@ -58,7 +58,7 @@ export class StudentAssistenceRepository implements IStudentAssistenceRepository
    * @param institutionId 
    */
   private readonly sendNotificationToStudentResponsable = async (student: Student, institutionId: string): Promise<void> => {
-    const responsable = await this.studentRepository.getStudentResponsable(student._id, institutionId)
+    const responsable = await this.studentRepository.getStudentRepresentative(student._id, institutionId)
     const tokens = await this.tokenService.getTokensByUserId(responsable._id)
 
     await this.notificationRepository.sendNotificationsToTokens(

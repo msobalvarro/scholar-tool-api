@@ -1,5 +1,5 @@
 import { CreateCourseDto as CourseSchema } from '@/infrastructure/database/schemas/course-schema'
-import { Course as CourseDto } from '../dtos'
+import { Course as CourseDto, Student } from '../dtos'
 
 export interface ICourseRepository {
   createCourse(course: CourseSchema, institutionId: string): Promise<CourseDto>
@@ -7,6 +7,7 @@ export interface ICourseRepository {
   deleteCourse(courseId: string): Promise<any>
   getAllCourses(institutionId: string): Promise<any[]>
   getCourseById(courseId: string): Promise<CourseDto | null>
+  getActiveCourse(courseId: string): Promise<CourseDto>
 
   /**
    * Retorna todos los Cursos disponibles que no tengan ningun enrollment
@@ -16,4 +17,12 @@ export interface ICourseRepository {
    * @returns Cursos disponibles
    */
   getAllCoursesNotInEnrollment(institutionId: string): Promise<CourseDto[]>
+
+  /**
+   * Retorna todos los estudiantes de un curso
+   * 
+   * @param courseId Id del curso
+   * @returns Estudiantes del curso
+   */
+  getAllStudentsByCourse(courseId: string): Promise<Student[]>
 }

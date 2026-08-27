@@ -5,10 +5,16 @@ export interface ICreateNotificationFilterDto {
   institutionId?: string
   courseId?: string
   studensIds?: string[]
+  responsablesIds?: string[]
 }
 
 export interface INotificationService {
-  createNotification(notification: NotificationSchema, filters: ICreateNotificationFilterDto): Promise<NotificationDto>
+  /**
+   * Registra una notificacion a la base de datos y envia una notificacione push por aula / cursos / estudiantes
+   * @param notification 
+   * @param filters 
+   */
+  createLocalAndPushNotification(notification: NotificationSchema, filters: ICreateNotificationFilterDto): Promise<NotificationDto>
   sendNotificationsToTokens(tokens: string[], notification: NotificationSchema, data?: Record<string, string>): Promise<void>
   markNotificationAsReaded(notificationId: string): Promise<void>
   markNotificationAsDeleted(notificationId: string): Promise<void>

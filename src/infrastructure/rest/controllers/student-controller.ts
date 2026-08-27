@@ -1,12 +1,12 @@
 import { AssignToCourseSchema, assignToCourseSchema, StudentSchema, studentSchema, StudentUpdateSchema } from '@/infrastructure/database/schemas/student-schema'
-import { StudentRepository } from '@/core/services/student-service'
+import { StudentService } from '@/core/services/student-service'
 import { Context } from 'hono'
 import { Inject, Service } from 'typedi'
 
 @Service()
 export class StudentController {
-  @Inject(() => StudentRepository)
-  studentService!: StudentRepository
+  @Inject(() => StudentService)
+  studentService!: StudentService
 
   create = async (c: Context) => {
     const body = await c.req.json()

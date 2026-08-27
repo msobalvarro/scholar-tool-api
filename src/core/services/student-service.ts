@@ -1,14 +1,14 @@
 import { Course, Institution, Student } from '@/core/interfaces/dtos'
 import { StudentSchema, StudentUpdateSchema, AssignToCourseSchema } from '@/infrastructure/database/schemas/student-schema'
 import { Service, Inject } from 'typedi'
-import { IStudentRepository } from '@/core/interfaces/service/student-service'
+import { IStudentService } from '@/core/interfaces/service/student-service'
 import { ORM } from '@/infrastructure/database'
 import { ClientSession } from 'mongoose'
 import { InstitutionService } from './institution-service'
 import { ResponsableRepository } from './responsable-service'
 
 @Service()
-export class StudentRepository implements IStudentRepository {
+export class StudentService implements IStudentService {
   @Inject(() => ORM)
   private ORM!: ORM
 
@@ -40,7 +40,6 @@ export class StudentRepository implements IStudentRepository {
   }
 
   async createStudent(student: StudentSchema, institutionId: string): Promise<Student> {
-    console.log(student)
     const { responsableId, courseId, ...rest } = student
     const session = await this.ORM.startSession()
     session.startTransaction()
@@ -138,12 +137,23 @@ export class StudentRepository implements IStudentRepository {
     return student.toJSON()
   }
 
-  async getStudentResponsable(studentId: string, institutionId: string) {
+  async getStudentRepresentative(studentId: string, institutionId: string) {
     const student = await this.getActiveStudent(studentId, institutionId)
 
     const responsable = await this.ORM.models.ResponsableModel.findById(student.responsable!._id)
     if (!responsable) throw new Error('Responsable no encontrado')
 
     return responsable.toJSON()
+  }
+
+  async getStudentsRepresentatives(studentsIds: string[], institutionId: string) {
+    const institution = await this.institutionService.getActiveInstitution(institutionId)
+
+    const students = await this.ORM.models.StudentModel.find({ _id: { $in: studentsIds }, institution })
+    if (!students) throw new Error('Estudiantes no encontrados')
+
+    const responsablesIds = students.map(student => student.responsable!.toString())
+
+    return await this.ORM.models.ResponsableModel.find({ _id: { $in: responsablesIds }, institution })
   }
 }

@@ -5,6 +5,8 @@ import { InstitutionService } from './institution-service'
 import { ITaskService } from '../interfaces/service/task-service'
 import { TeacherService } from './teacher-service'
 import { DateFormatterAdapter } from '@/infrastructure/adapters/date-formats'
+import { NotificationService } from './notification-service'
+import { Task } from '../interfaces/dtos'
 
 @Service()
 export class TaskService implements ITaskService {
@@ -20,6 +22,30 @@ export class TaskService implements ITaskService {
   @Inject(() => DateFormatterAdapter)
   private readonly dateFormatterAdapter!: DateFormatterAdapter
 
+  @Inject(() => NotificationService)
+  private readonly notificationService!: NotificationService
+
+  /**
+   * Envia notificaciiones a toda el aula/curso y/o 
+   * @param courseId Id del curso
+   * @param task Tarea a enviar la notificación
+   */
+  private async sendNotificationToStudentsAndRepresentative(courseId: string, task: Task) {
+    const representatives = await this.orm.models.StudentModel.find({ course: { _id: courseId } })
+    const responsablesIds = representatives.map(r => r._id.toString())
+
+    // TODO: ver la manera de enviar la notificacion al estudiante y al representante
+    await this.notificationService.createLocalAndPushNotification(
+      {
+        title: `Nueva tarea: ${task.name}`,
+        body: `Fecha de entrega: ${this.dateFormatterAdapter.formatToISOString(task.dueDate)}`,
+      },
+      { courseId, responsablesIds }
+    )
+  }
+
+
+
   async createTask(payload: ITaskSchema, institutionId: string, teacherId: string) {
     const { courseId, asignatureId, ...task } = payload
     const teacher = await this.teacherService.getTeacherById(teacherId, institutionId)
@@ -31,14 +57,21 @@ export class TaskService implements ITaskService {
     if (!asignature) throw 'Asignatura no encontrada'
 
     const institution = await this.institutionService.getActiveInstitution(institutionId)
-
-    return await this.orm.models.TaskModel.create({
+    const task_created = await this.orm.models.TaskModel.create({
       ...task,
       teacher,
       course,
       asignature,
       institution
     })
+
+    try {
+      await this.sendNotificationToStudentsAndRepresentative(courseId, task_created)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      return task_created
+    }
   }
 
   async getTasksByCourse(courseId: string, date: string) {

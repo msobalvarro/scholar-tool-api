@@ -2,7 +2,7 @@ import { Inject, Service } from 'typedi'
 import { ORM } from '@/infrastructure/database'
 import { InstitutionService } from './institution-service'
 import { ResponsableRepository } from './responsable-service'
-import { StudentRepository } from './student-service'
+import { StudentService } from './student-service'
 import { ITokenRepository } from '@/core/interfaces/service/token-service'
 import { Token } from '@/core/interfaces/dtos'
 
@@ -17,8 +17,8 @@ export class TokenService implements ITokenRepository {
   @Inject(() => ResponsableRepository)
   private readonly responsableRepository!: ResponsableRepository
 
-  @Inject(() => StudentRepository)
-  private readonly studentRepository!: StudentRepository
+  @Inject(() => StudentService)
+  private readonly studentRepository!: StudentService
 
   async createTokenResponsable(token: string, responsableId: string, institutionId: string) {
     const responsable = await this.responsableRepository.getActiveResponsable(responsableId)

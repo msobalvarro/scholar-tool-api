@@ -40,9 +40,9 @@ export class CalendarEventsRepository implements ICalendarEventsRepository {
 
     // si solamente el curso esta indicado, enviar notficacion solamente a ese curso si no a toda la institucion
     if (course) {
-      await this.notificationRepository.createNotification(notificationPayload, { courseId: course._id.toString() })
+      await this.notificationRepository.createLocalAndPushNotification(notificationPayload, { courseId: course._id.toString() })
     } else {
-      await this.notificationRepository.createNotification(notificationPayload, { institutionId })
+      await this.notificationRepository.createLocalAndPushNotification(notificationPayload, { institutionId })
     }
 
     return calendarEventCreated
