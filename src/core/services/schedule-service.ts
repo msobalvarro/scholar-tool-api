@@ -84,8 +84,7 @@ export class ScheduleService {
     return scheduleDeleted
   }
 
-  async getAllSchedules(insititutionId: string) {
-    // const schedules = await this.orm.models.ScheduleModel.find({ ins: insititutionId })
-    // return schedules
+  getAllSchedules(_: string) {
+    return []
   }
 }

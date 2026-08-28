@@ -7,12 +7,19 @@ import { createHash } from '@/utils/encrypt'
 import { environments } from '@/utils/constanst'
 
 async function seedAuth() {
+  const {
+    SEED_ROOT_EMAIL,
+    SEED_ROOT_PASSWORD,
+    SEED_INSTITUTION_NAME,
+    SEED_INSTITUTION_EMAIL,
+    SEED_INSTITUTION_PASSWORD
+  } = environments
   if (
-    !process.env.SEED_ROOT_EMAIL ||
-    !process.env.SEED_ROOT_PASSWORD ||
-    !process.env.SEED_INSTITUTION_NAME ||
-    !process.env.SEED_INSTITUTION_EMAIL ||
-    !process.env.SEED_INSTITUTION_PASSWORD
+    !SEED_ROOT_EMAIL ||
+    !SEED_ROOT_PASSWORD ||
+    !SEED_INSTITUTION_NAME ||
+    !SEED_INSTITUTION_EMAIL ||
+    !SEED_INSTITUTION_PASSWORD
   ) {
     throw new Error('No se han configurado todas las variables de entorno necesarias para el seeding.')
   }
@@ -28,8 +35,8 @@ async function seedAuth() {
     console.log('Conexión exitosa a la base de datos para seeding')
 
     // 1. Seed User Root (Admin General)
-    const rootEmail = process.env.SEED_ROOT_EMAIL
-    const rootPassword = process.env.SEED_ROOT_PASSWORD
+    const rootEmail = SEED_ROOT_EMAIL
+    const rootPassword = SEED_ROOT_PASSWORD
 
     const existingRoot = await UserRootModel.findOne({ email: rootEmail })
     if (existingRoot) {
@@ -45,7 +52,7 @@ async function seedAuth() {
     }
 
     // 2. Seed Institution & User Institution (Admin Institución)
-    const instName = process.env.SEED_INSTITUTION_NAME
+    const instName = SEED_INSTITUTION_NAME
     let institution = await InstitutionModel.findOne({ name: instName })
 
     if (!institution) {
@@ -58,8 +65,8 @@ async function seedAuth() {
       console.log(`La institución "${instName}" ya existe en la base de datos.`)
     }
 
-    const instEmail = process.env.SEED_INSTITUTION_EMAIL
-    const instPassword = process.env.SEED_INSTITUTION_PASSWORD
+    const instEmail = SEED_INSTITUTION_EMAIL
+    const instPassword = SEED_INSTITUTION_PASSWORD
 
     const existingUserInst = await UserInstitutionModel.findOne({ email: instEmail })
     if (existingUserInst) {

@@ -1,7 +1,7 @@
 import { Institution } from './institution'
 
 export type Teacher = {
-  _id?: any
+  _id?: string
   name: string
   birthday: string
   phoneNumber: string

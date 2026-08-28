@@ -1,7 +1,7 @@
 import { Institution } from './institution'
 
 export type Period = {
-  _id?: any
+  _id?: string
   name: string
   startDate: Date
   endDate: Date

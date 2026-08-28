@@ -44,8 +44,6 @@ export class TaskService implements ITaskService {
     )
   }
 
-
-
   async createTask(payload: ITaskSchema, institutionId: string, teacherId: string) {
     const { courseId, asignatureId, ...task } = payload
     const teacher = await this.teacherService.getTeacherById(teacherId, institutionId)
@@ -69,9 +67,9 @@ export class TaskService implements ITaskService {
       await this.sendNotificationToStudentsAndRepresentative(courseId, task_created)
     } catch (error) {
       console.log(error)
-    } finally {
-      return task_created
     }
+
+    return task_created
   }
 
   async getTasksByCourse(courseId: string, date: string) {

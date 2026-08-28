@@ -3,7 +3,7 @@ import { Teacher } from './teacher'
 import { Institution } from './institution'
 
 export type Course = {
-  _id?: any
+  _id?: string
   name: string
   schedules: Schedule[]
   groupName: string
