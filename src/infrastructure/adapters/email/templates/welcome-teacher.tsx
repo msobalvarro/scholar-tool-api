@@ -10,7 +10,6 @@ import {
   Hr,
   Preview,
 } from '@react-email/components';
-import * as React from 'react';
 
 interface LuminaTeacherWelcomeProps {
   teacherName: string;

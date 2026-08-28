@@ -84,7 +84,7 @@ export class ScheduleService {
     return scheduleDeleted
   }
 
-  async getAllSchedules(_: string) {
+  getAllSchedules(_: string) {
     return []
   }
 }
