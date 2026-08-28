@@ -3,6 +3,7 @@ import { Server as Engine, type WebSocketData } from '@socket.io/bun-engine'
 import { Service } from 'typedi'
 import { verify } from 'hono/jwt'
 import { environments } from '@/utils/constanst'
+import { JWTPayload } from 'hono/utils/jwt/types'
 
 @Service()
 export class SocketAdapter {
@@ -16,6 +17,21 @@ export class SocketAdapter {
     this.io.bind(this.engine)
     this.registerMiddlewares()
     this.registerEvents()
+  }
+
+  private async assignPayloadFromToken(token: string, tokens: string[]): Promise<JWTPayload | null> {
+    for (const secret of tokens) {
+      try {
+        const payload = await verify(token, secret)
+        if (payload) {
+          return payload
+        }
+      } catch (error) {
+        console.log(`[registerMiddlewares] Token no valido: ${error}`)
+      }
+    }
+
+    return null
   }
 
   private registerMiddlewares(): void {
@@ -34,22 +50,9 @@ export class SocketAdapter {
           return next(new Error('Authentication error: Token is required'))
         }
 
-        // TODO: Agregar mas secret key si 
-        // es necesario en un futuro
-        const secrets = [
-          environments.JWT_SECRET_USER_STUDENT,
-        ].filter(Boolean) as string[]
-
-        let payload = null
-
-        for (const secret of secrets) {
-          try {
-            payload = await verify(token, secret)
-            if (payload) break
-          } catch (error) {
-            console.log(`[registerMiddlewares] Token no valido: ${error}`)
-          }
-        }
+        // TODO: Agregar mas secret key si es necesario en un futuro
+        const secrets = [environments.JWT_SECRET_USER_STUDENT].filter(Boolean) as string[]
+        const payload = await this.assignPayloadFromToken(token, secrets)
 
         if (!payload) {
           return next(new Error('Authentication error: Invalid or expired token'))

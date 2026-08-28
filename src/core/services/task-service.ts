@@ -44,8 +44,6 @@ export class TaskService implements ITaskService {
     )
   }
 
-
-
   async createTask(payload: ITaskSchema, institutionId: string, teacherId: string) {
     const { courseId, asignatureId, ...task } = payload
     const teacher = await this.teacherService.getTeacherById(teacherId, institutionId)
