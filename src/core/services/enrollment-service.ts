@@ -47,7 +47,7 @@ export class EnrollmentRepository implements IEnrollmentRepository {
   }
 
   async updateEnrollment(enrollment: EnrollmentUpdateInput, institutionId: string, userId: string): Promise<IEnrollment | null> {
-    const institution = await this.institutionService.getActiveInstitution(institutionId)
+    // const institution = await this.institutionService.getActiveInstitution(institutionId)
 
     const courses = await this.ORM.models.CourseModel.find({
       _id: { $in: enrollment.coursesId },

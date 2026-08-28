@@ -1,7 +1,7 @@
 import { model, Schema } from 'mongoose'
-import { RootUser } from '@/core/interfaces/dtos'
+import { UserRoot } from '@/core/interfaces/dtos'
 
-const userRootSchema = new Schema<RootUser>(
+const userRootSchema = new Schema<UserRoot>(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },

@@ -41,14 +41,11 @@ export class MatriculeRepository implements IMatriculeRepository {
 
   async updateMatricule(matricule: MatriculeUpdateSchema) {
     const { _id, ...rest } = matricule
-
-    const updatedMatricule = await this.ORM.models.MatriculeModel.updateOne({ _id }, rest)
-    return updatedMatricule
+    await this.ORM.models.MatriculeModel.updateOne({ _id }, rest)
   }
 
   async deleteMatricule(_id: string) {
-    const deletedMatricule = await this.ORM.models.MatriculeModel.deleteOne({ _id })
-    return deletedMatricule
+    await this.ORM.models.MatriculeModel.deleteOne({ _id })
   }
 
   async getAllMatricules(institutionId: string) {

@@ -69,9 +69,9 @@ export class TaskService implements ITaskService {
       await this.sendNotificationToStudentsAndRepresentative(courseId, task_created)
     } catch (error) {
       console.log(error)
-    } finally {
-      return task_created
     }
+
+    return task_created
   }
 
   async getTasksByCourse(courseId: string, date: string) {

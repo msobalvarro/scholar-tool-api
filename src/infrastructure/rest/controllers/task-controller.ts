@@ -1,9 +1,6 @@
 import { Context } from 'hono'
 import { TaskService } from '@/core/services/task-service'
 import {
-  ITaskUpdate,
-  ITaskSchema,
-  TaskUpdateSchema,
   ITaskSchema,
   ITaskGetByAsignature,
   TaskGetByAsignatureSchema
@@ -20,9 +17,9 @@ export class TaskController {
     const parsedBody = ITaskSchema.parse(body) as ITaskSchema
     const user = c.get('jwtPayload')
 
-    const task = await this.taskService.createTask(parsedBody, user.institutionId)
-
-    return c.json(task)
+    return c.json(
+      await this.taskService.createTask(parsedBody, user.institutionId, user._id)
+    )
   }
 
   getTasksByAsignature = async (c: Context) => {

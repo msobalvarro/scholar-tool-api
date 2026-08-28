@@ -3,9 +3,9 @@ import { Course as CourseDto, Student } from '../dtos'
 
 export interface ICourseRepository {
   createCourse(course: CourseSchema, institutionId: string): Promise<CourseDto>
-  updateCourse(course: CourseSchema, _id: string): Promise<any>
-  deleteCourse(courseId: string): Promise<any>
-  getAllCourses(institutionId: string): Promise<any[]>
+  updateCourse(course: CourseSchema, _id: string): Promise<void>
+  deleteCourse(courseId: string): Promise<void>
+  getAllCourses(institutionId: string): Promise<CourseDto[]>
   getCourseById(courseId: string): Promise<CourseDto | null>
   getActiveCourse(courseId: string): Promise<CourseDto>
 

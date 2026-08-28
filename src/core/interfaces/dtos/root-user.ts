@@ -1,4 +1,4 @@
-export type RootUser = {
+export type UserRoot = {
   name: string
   email: string
   password: string

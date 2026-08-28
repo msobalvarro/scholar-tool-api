@@ -2,7 +2,7 @@ import { CreateCourseDto } from '@/infrastructure/database/schemas/course-schema
 import { ICourseRepository } from '@/core/interfaces/service/course-service'
 import { Inject, Service } from 'typedi'
 import { ORM } from '@/infrastructure/database'
-import { Course, Student } from '@/core/interfaces/dtos'
+import { Course } from '@/core/interfaces/dtos'
 import { InstitutionService } from './institution-service'
 
 @Service()
@@ -27,9 +27,7 @@ export class CourseService implements ICourseRepository {
     const teacherLead = await this.ORM.models.TeacherModel.findById(course.teacherLeadId)
     if (!teacherLead) throw 'Profesor titular no encontrado'
 
-    const updatedCourse = await this.ORM.models.CourseModel.updateOne({ _id }, { ...course, teacherLead })
-
-    return updatedCourse
+    await this.ORM.models.CourseModel.updateOne({ _id }, { ...course, teacherLead })
   }
 
   async deleteCourse(courseId: string) {
@@ -38,7 +36,7 @@ export class CourseService implements ICourseRepository {
     })
     if (enrollmentsByCourse.length > 0) throw 'El curso está asignado a una matrícula'
 
-    return await this.ORM.models.CourseModel.findByIdAndDelete(courseId)
+    await this.ORM.models.CourseModel.findByIdAndDelete(courseId)
   }
 
   async getAllCourses(institutionId: string) {

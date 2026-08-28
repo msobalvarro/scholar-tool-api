@@ -3,8 +3,8 @@ import { Matricule as MatriculeDto } from '../dtos'
 
 export interface IMatriculeRepository {
   createMatricule(matricule: MatriculeSchema, institutionId: string): Promise<MatriculeDto>
-  updateMatricule(matricule: MatriculeUpdateSchema): Promise<any>
-  deleteMatricule(_id: string): Promise<any>
+  updateMatricule(matricule: MatriculeUpdateSchema): Promise<void>
+  deleteMatricule(_id: string): Promise<void>
   getAllMatricules(institutionId: string): Promise<MatriculeDto[]>
   getMatriculeById(_id: string): Promise<MatriculeDto | null>
   getActiveMatricule(studentId: string): Promise<MatriculeDto>

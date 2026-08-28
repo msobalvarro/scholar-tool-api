@@ -46,7 +46,9 @@ export class SocketAdapter {
           try {
             payload = await verify(token, secret)
             if (payload) break
-          } catch (_) { }
+          } catch (error) {
+            console.log(`[registerMiddlewares] Token no valido: ${error}`)
+          }
         }
 
         if (!payload) {

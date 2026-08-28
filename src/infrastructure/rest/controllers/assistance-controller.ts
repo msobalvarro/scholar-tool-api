@@ -15,5 +15,5 @@ export class AssistanceController {
     return c.json(assistance)
   }
 
-  getAssistance = async (c: Context) => { }
+  // getAssistance = async (c: Context) => { }
 }
