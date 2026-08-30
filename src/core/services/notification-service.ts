@@ -3,7 +3,7 @@ import { ICreateNotificationFilterDto, INotificationService } from '@/core/inter
 import { Inject, Service } from 'typedi'
 import { Token } from '@/core/interfaces/dtos'
 import { ORM } from '@/infrastructure/database'
-import { FirebasePushNotificationAdapter } from '@/infrastructure/adapters/firebase-push-notification-adapter'
+import { FirebasePushNotificationAdapter } from '@/infrastructure/adapters/firebase-push-notification'
 import { InstitutionService } from './institution-service'
 import { CourseService } from './course-service'
 
