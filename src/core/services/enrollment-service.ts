@@ -2,7 +2,7 @@ import { IEnrollmentRepository } from '@/core/interfaces/service/enrollment-serv
 import { ORM } from '@/infrastructure/database'
 import { Inject, Service } from 'typedi'
 import { IEnrollment } from '@/core/interfaces/dtos/enrollment'
-import { EnrollmentInput, EnrollmentUpdateInput } from '@/infrastructure/database/schemas/enrollment-schema'
+import { EnrollmentInput, EnrollmentUpdateInput } from '@/infrastructure/schemas/enrollment-schema'
 import { InstitutionService } from './institution-service'
 
 @Service()

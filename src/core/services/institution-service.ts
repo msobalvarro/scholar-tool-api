@@ -4,7 +4,7 @@ import {
   InstitutionSchema,
   RemoveUserFromInstitutionSchema,
   UpdateInstitutionSchema
-} from '@/infrastructure/database/schemas/institution-schema'
+} from '@/infrastructure/schemas/institution-schema'
 import { IInstitutionRepository } from '@/core/interfaces/service/institution-service'
 import { Inject, Service } from 'typedi'
 import { ORM } from '@/infrastructure/database'

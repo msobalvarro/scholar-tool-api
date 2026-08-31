@@ -1,4 +1,4 @@
-import { ITaskSchema } from '@/infrastructure/database/schemas/task-schema'
+import { ITaskSchema } from '@/infrastructure/schemas/task-schema'
 import { Inject, Service } from 'typedi'
 import { ORM } from '@/infrastructure/database'
 import { InstitutionService } from './institution-service'

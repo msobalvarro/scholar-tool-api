@@ -1,4 +1,4 @@
-import { AssitanceSchema } from '@/infrastructure/database/schemas/assitance-schema'
+import { AssitanceSchema } from '@/infrastructure/schemas/assitance-schema'
 import { IAssistanceRepository } from '@/core/interfaces/service/assitance-service'
 import { Inject, Service } from 'typedi'
 import { ORM } from '@/infrastructure/database'

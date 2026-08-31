@@ -1,4 +1,4 @@
-import { ObservationSchema } from '@/infrastructure/database/schemas/observation-schema'
+import { ObservationSchema } from '@/infrastructure/schemas/observation-schema'
 import { Observations } from '../dtos'
 
 export interface IObservationRepository {

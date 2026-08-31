@@ -1,4 +1,4 @@
-import { matriculeSchema, MatriculeSchema, MatriculeUpdateSchema } from '@/infrastructure/database/schemas/matricule-schema'
+import { matriculeSchema, MatriculeSchema, MatriculeUpdateSchema } from '@/infrastructure/schemas/matricule-schema'
 import { MatriculeRepository } from '@/core/services/matrciule-service'
 import { Context } from 'hono'
 import { Service } from 'typedi'

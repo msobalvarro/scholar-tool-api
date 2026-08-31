@@ -1,4 +1,4 @@
-import { TeacherSchema } from '@/infrastructure/database/schemas/teacher-schema'
+import { TeacherSchema } from '@/infrastructure/schemas/teacher-schema'
 import { Teacher } from '../dtos'
 
 export interface ITeacherRepository {

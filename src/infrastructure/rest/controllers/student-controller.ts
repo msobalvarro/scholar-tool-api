@@ -1,4 +1,4 @@
-import { AssignToCourseSchema, assignToCourseSchema, StudentSchema, studentSchema, StudentUpdateSchema } from '@/infrastructure/database/schemas/student-schema'
+import { AssignToCourseSchema, assignToCourseSchema, StudentSchema, studentSchema, StudentUpdateSchema } from '@/infrastructure/schemas/student-schema'
 import { StudentService } from '@/core/services/student-service'
 import { Context } from 'hono'
 import { Inject, Service } from 'typedi'

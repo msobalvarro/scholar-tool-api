@@ -1,4 +1,4 @@
-import { AssitanceSchema } from '@/infrastructure/database/schemas/assitance-schema'
+import { AssitanceSchema } from '@/infrastructure/schemas/assitance-schema'
 import { Assistance } from '../dtos'
 
 /**

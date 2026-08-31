@@ -2,7 +2,7 @@ import { ORM } from '@/infrastructure/database';
 import { IStudentAssistenceRepository } from '@/core/interfaces/service/student-assistence-service';
 import { StudentAssistence } from '@/core/interfaces/dtos/student-assistence';
 import { Inject, Service } from 'typedi';
-import { StudentAssistenceSchema } from '../../infrastructure/database/schemas/student-assistence-schema';
+import { StudentAssistenceSchema } from '../../infrastructure/schemas/student-assistence-schema';
 import { StudentService } from './student-service';
 import { MatriculeRepository } from './matrciule-service';
 import { DateFormatterAdapter } from '@/infrastructure/adapters/date-formats';

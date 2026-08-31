@@ -1,4 +1,4 @@
-import { AuthSchema, authSchema } from '@/infrastructure/database/schemas/auth-schema'
+import { AuthSchema, authSchema } from '@/infrastructure/schemas/auth-schema'
 import { AuthRepository } from '@/core/services/auth-service'
 import { Context } from 'hono'
 import { Inject, Service } from 'typedi'

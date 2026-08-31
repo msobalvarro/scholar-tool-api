@@ -1,4 +1,4 @@
-import { CreateNotificationDto } from '@/infrastructure/database/schemas/notification-schema'
+import { CreateNotificationDto } from '@/infrastructure/schemas/notification-schema'
 import { ICreateNotificationFilterDto, INotificationService } from '@/core/interfaces/service/notification-service'
 import { Inject, Service } from 'typedi'
 import { Token } from '@/core/interfaces/dtos'

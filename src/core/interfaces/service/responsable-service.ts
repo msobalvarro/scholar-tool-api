@@ -1,4 +1,4 @@
-import { ResponsablePersonSchema, ResponsablePersonUpdate } from '@/infrastructure/database/schemas/responsable-schema'
+import { ResponsablePersonSchema, ResponsablePersonUpdate } from '@/infrastructure/schemas/responsable-schema'
 import { ResponsablePerson } from '../dtos'
 
 export interface IResponsableRepository {

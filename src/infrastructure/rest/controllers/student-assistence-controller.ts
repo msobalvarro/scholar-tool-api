@@ -1,4 +1,4 @@
-import { studentAssistenceSchema, StudentAssistenceSchema } from '@/infrastructure/database/schemas/student-assistence-schema'
+import { studentAssistenceSchema, StudentAssistenceSchema } from '@/infrastructure/schemas/student-assistence-schema'
 import { StudentAssistenceRepository } from '@/core/services/student-assitence-service'
 import { Context } from 'hono'
 import { Inject, Service } from 'typedi'

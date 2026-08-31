@@ -1,4 +1,4 @@
-import { ResponsablePersonSchema, ResponsablePersonUpdate } from '@/infrastructure/database/schemas/responsable-schema'
+import { ResponsablePersonSchema, ResponsablePersonUpdate } from '@/infrastructure/schemas/responsable-schema'
 import { IResponsableRepository } from '@/core/interfaces/service/responsable-service'
 import { Inject, Service } from 'typedi'
 import { ORM } from '@/infrastructure/database'

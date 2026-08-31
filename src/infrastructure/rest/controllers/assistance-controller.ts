@@ -1,4 +1,4 @@
-import { assistanceSchema, AssitanceSchema } from '@/infrastructure/database/schemas/assitance-schema'
+import { assistanceSchema, AssitanceSchema } from '@/infrastructure/schemas/assitance-schema'
 import { AssitanceRepository } from '@/core/services/assitance-service'
 import { Context } from 'hono'
 import { Service } from 'typedi'

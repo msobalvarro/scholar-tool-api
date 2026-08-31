@@ -1,4 +1,4 @@
-import { CreateCourseDto } from '@/infrastructure/database/schemas/course-schema'
+import { CreateCourseDto } from '@/infrastructure/schemas/course-schema'
 import { ICourseRepository } from '@/core/interfaces/service/course-service'
 import { Inject, Service } from 'typedi'
 import { ORM } from '@/infrastructure/database'

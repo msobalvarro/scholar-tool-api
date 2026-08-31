@@ -1,4 +1,4 @@
-import { PeriodUpdate, Period } from '@/infrastructure/database/schemas/period-schema'
+import { PeriodUpdate, Period } from '@/infrastructure/schemas/period-schema'
 import { Inject, Service } from 'typedi'
 import { ORM } from '@/infrastructure/database'
 import { InstitutionService } from './institution-service'

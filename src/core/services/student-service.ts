@@ -1,5 +1,5 @@
 import { Course, Institution, Student } from '@/core/interfaces/dtos'
-import { StudentSchema, StudentUpdateSchema, AssignToCourseSchema } from '@/infrastructure/database/schemas/student-schema'
+import { StudentSchema, StudentUpdateSchema, AssignToCourseSchema } from '@/infrastructure/schemas/student-schema'
 import { Service, Inject } from 'typedi'
 import { IStudentService } from '@/core/interfaces/service/student-service'
 import { ORM } from '@/infrastructure/database'

@@ -1,4 +1,4 @@
-import { ITaskSchema } from '@/infrastructure/database/schemas/task-schema'
+import { ITaskSchema } from '@/infrastructure/schemas/task-schema'
 import { Task } from '../dtos'
 
 export interface ITaskService {

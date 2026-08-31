@@ -1,7 +1,7 @@
 import {
   AsignatureSchema,
   asignatureSchema
-} from '@/infrastructure/database/schemas/asignature-schema'
+} from '@/infrastructure/schemas/asignature-schema'
 import { AsignatureRepository } from '@/core/services/asignature-service'
 import { Context } from 'hono'
 import { Service, Inject } from 'typedi'

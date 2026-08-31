@@ -1,4 +1,4 @@
-import { MatriculeSchema as MatriculeSchema, MatriculeUpdateSchema } from '@/infrastructure/database/schemas/matricule-schema'
+import { MatriculeSchema as MatriculeSchema, MatriculeUpdateSchema } from '@/infrastructure/schemas/matricule-schema'
 import { Matricule as MatriculeDto } from '../dtos'
 
 export interface IMatriculeRepository {

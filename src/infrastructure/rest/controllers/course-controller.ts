@@ -1,4 +1,4 @@
-import { CreateCourseDto, courseSchema } from '@/infrastructure/database/schemas/course-schema'
+import { CreateCourseDto, courseSchema } from '@/infrastructure/schemas/course-schema'
 import { CourseService } from '@/core/services/course-service'
 import { Context } from 'hono'
 import { Inject, Service } from 'typedi'

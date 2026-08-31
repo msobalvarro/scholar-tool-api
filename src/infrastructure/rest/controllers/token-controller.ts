@@ -1,4 +1,4 @@
-import { TokenSchema, tokenSchema } from '@/infrastructure/database/schemas/token-schema'
+import { TokenSchema, tokenSchema } from '@/infrastructure/schemas/token-schema'
 import { TokenService } from '@/core/services/token-service'
 import { Context } from 'hono'
 import { Service } from 'typedi'

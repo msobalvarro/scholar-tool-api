@@ -32,7 +32,7 @@ export interface IDailyReportStudentDto {
   description: string
   receipt_number: string
   income_recorded_amount?: number
-  deposited_amount?: number
+  income_recorded_amount_usd?: number
   expense_amount?: number
-  isUSD: boolean
+  expense_amount_usd?: number
 }
