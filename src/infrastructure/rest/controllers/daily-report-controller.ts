@@ -12,9 +12,7 @@ export class DailyReportController {
     const body = await c.req.json()
     const parsedBody = createDailyReportSchema.parse(body) as CreateDailyReportSchema
     const user = c.get('jwtPayload')
-
-    const data = { ...parsedBody, institution: user.institutionId }
-    const report = await this.dailyReportService.create(data)
+    const report = await this.dailyReportService.create(parsedBody, user.institutionId)
 
     return c.json(report)
   }
