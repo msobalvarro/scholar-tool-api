@@ -2,7 +2,7 @@ import {
   CreateUserInstitutionSchema,
   DeleteUserInstitutionSchema,
   UpdateUserInstitutionSchema
-} from '@/infrastructure/database/schemas/user-institution-schema'
+} from '@/infrastructure/schemas/user-institution-schema'
 import { createHash } from '@/utils/encrypt'
 import { Inject, Service } from 'typedi'
 import { ORM } from '@/infrastructure/database'

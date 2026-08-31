@@ -1,4 +1,4 @@
-import { AsignatureSchema } from '@/infrastructure/database/schemas/asignature-schema'
+import { AsignatureSchema } from '@/infrastructure/schemas/asignature-schema'
 import { IAsignatureRepository } from '@/core/interfaces/service/asignature-service'
 import { Inject, Service } from 'typedi'
 import { ORM } from '@/infrastructure/database'

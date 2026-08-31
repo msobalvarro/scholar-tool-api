@@ -1,4 +1,4 @@
-import { AsignatureSchema } from '@/infrastructure/database/schemas/asignature-schema'
+import { AsignatureSchema } from '@/infrastructure/schemas/asignature-schema'
 import { Asignature } from '../dtos'
 
 export interface IAsignatureRepository {

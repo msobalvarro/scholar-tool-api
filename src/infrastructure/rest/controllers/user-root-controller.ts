@@ -4,7 +4,7 @@ import {
   updateUserRootSchema,
   UserRootSchema,
   userRootSchema
-} from '@/infrastructure/database/schemas/user-root-schema'
+} from '@/infrastructure/schemas/user-root-schema'
 import { UserRootService } from '@/core/services/user-root-service'
 import { Service } from 'typedi'
 

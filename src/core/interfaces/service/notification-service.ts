@@ -1,4 +1,4 @@
-import { CreateNotificationDto as NotificationSchema } from '@/infrastructure/database/schemas/notification-schema'
+import { CreateNotificationDto as NotificationSchema } from '@/infrastructure/schemas/notification-schema'
 import { Notifications as NotificationDto } from '../dtos'
 
 export interface ICreateNotificationFilterDto {

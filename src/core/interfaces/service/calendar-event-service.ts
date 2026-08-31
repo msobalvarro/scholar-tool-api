@@ -1,4 +1,4 @@
-import { CreateCalendarEventDto, UpdateCalendarEventDto } from '@/infrastructure/database/schemas/calendar-events-schema'
+import { CreateCalendarEventDto, UpdateCalendarEventDto } from '@/infrastructure/schemas/calendar-events-schema'
 import { CalendarEvents } from '../dtos/calendar-events'
 
 export interface ICalendarEventsRepository {

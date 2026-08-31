@@ -2,7 +2,7 @@ import {
   ResponsablePersonSchema,
   ResponsablePersonUpdate,
   responsableSchema
-} from '@/infrastructure/database/schemas/responsable-schema'
+} from '@/infrastructure/schemas/responsable-schema'
 import { Context } from 'hono'
 import { ResponsableRepository } from '@/core/services/responsable-service'
 import { Inject, Service } from 'typedi'

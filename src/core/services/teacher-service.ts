@@ -1,4 +1,4 @@
-import { TeacherSchema } from '@/infrastructure/database/schemas/teacher-schema'
+import { TeacherSchema } from '@/infrastructure/schemas/teacher-schema'
 import { Inject, Service } from 'typedi'
 import { ORM } from '@/infrastructure/database'
 import { InstitutionService } from './institution-service'

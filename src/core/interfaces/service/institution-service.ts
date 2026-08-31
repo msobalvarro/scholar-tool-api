@@ -4,7 +4,7 @@ import {
   DeleteInstitutionSchema,
   AssignUserToInstitutionSchema,
   RemoveUserFromInstitutionSchema
-} from '@/infrastructure/database/schemas/institution-schema'
+} from '@/infrastructure/schemas/institution-schema'
 import { Institution } from '../dtos'
 
 export interface IInstitutionRepository {

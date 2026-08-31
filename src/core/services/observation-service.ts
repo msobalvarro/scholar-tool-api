@@ -1,4 +1,4 @@
-import { ObservationSchema } from '@/infrastructure/database/schemas/observation-schema'
+import { ObservationSchema } from '@/infrastructure/schemas/observation-schema'
 import { IObservationRepository } from '@/core/interfaces/service/observation-service'
 import { Inject, Service } from 'typedi'
 import { ORM } from '@/infrastructure/database'

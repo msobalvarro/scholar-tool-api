@@ -1,4 +1,4 @@
-import { Period as PeriodSchema, PeriodUpdate } from '@/infrastructure/database/schemas/period-schema'
+import { Period as PeriodSchema, PeriodUpdate } from '@/infrastructure/schemas/period-schema'
 import { Period as PeriodDto } from '../dtos'
 
 export interface IPeriodRepository {

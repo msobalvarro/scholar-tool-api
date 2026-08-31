@@ -19,6 +19,7 @@ import { CalendarEventModel } from './calendar-events-model'
 import { EnrollmentModel } from './enrollment-model'
 import { EnrollmentHistoryChangesModel } from './enrollment-history-changes-model'
 import { StudentAssistenceModel } from './student-assitence-model'
+import { DailyReportModel } from './daily-reports-model'
 
 export {
   AsignatureModel,
@@ -42,6 +43,7 @@ export {
   EnrollmentModel,
   EnrollmentHistoryChangesModel,
   StudentAssistenceModel,
+  DailyReportModel,
 }
 
 export type ModelORM = {
@@ -66,4 +68,5 @@ export type ModelORM = {
   EnrollmentModel: typeof EnrollmentModel,
   EnrollmentHistoryChangesModel: typeof EnrollmentHistoryChangesModel,
   StudentAssistenceModel: typeof StudentAssistenceModel,
+  DailyReportModel: typeof DailyReportModel,
 }

@@ -1,4 +1,4 @@
-import { StudentAssistenceSchema } from '@/infrastructure/database/schemas/student-assistence-schema'
+import { StudentAssistenceSchema } from '@/infrastructure/schemas/student-assistence-schema'
 import { StudentAssistence } from '../dtos/student-assistence'
 
 export interface IStudentAssistenceRepository {

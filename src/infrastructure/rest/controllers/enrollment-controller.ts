@@ -1,4 +1,4 @@
-import { enrollmentSchema, enrollmentUpdateSchema } from '@/infrastructure/database/schemas/enrollment-schema'
+import { enrollmentSchema, enrollmentUpdateSchema } from '@/infrastructure/schemas/enrollment-schema'
 import { EnrollmentRepository } from '@/core/services/enrollment-service'
 import { Context } from 'hono'
 import { Service, Inject } from 'typedi'

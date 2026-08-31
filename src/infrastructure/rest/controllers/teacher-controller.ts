@@ -3,7 +3,7 @@ import {
   TeacherPhotoSchema,
   teacherSchema,
   TeacherSchema
-} from '@/infrastructure/database/schemas/teacher-schema'
+} from '@/infrastructure/schemas/teacher-schema'
 import { TeacherService } from '@/core/services/teacher-service'
 import { Context } from 'hono'
 import { Service } from 'typedi'

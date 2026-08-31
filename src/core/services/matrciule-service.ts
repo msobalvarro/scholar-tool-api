@@ -1,5 +1,5 @@
 import { ORM } from '@/infrastructure/database'
-import { MatriculeSchema, MatriculeUpdateSchema } from '@/infrastructure/database/schemas/matricule-schema'
+import { MatriculeSchema, MatriculeUpdateSchema } from '@/infrastructure/schemas/matricule-schema'
 import { IMatriculeRepository } from '@/core/interfaces/service/matrciule-service'
 import { Inject, Service } from 'typedi'
 import { Matricule } from '@/core/interfaces/dtos'

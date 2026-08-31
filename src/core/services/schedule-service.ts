@@ -1,4 +1,4 @@
-import { Schedule, ScheduleUpdate } from '@/infrastructure/database/schemas/schedule-schema'
+import { Schedule, ScheduleUpdate } from '@/infrastructure/schemas/schedule-schema'
 import { Inject, Service } from 'typedi'
 import { ORM } from '@/infrastructure/database'
 

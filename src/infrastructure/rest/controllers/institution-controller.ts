@@ -9,7 +9,7 @@ import {
   InstitutionSchema,
   institutionSchema,
   UpdateInstitutionSchema
-} from '@/infrastructure/database/schemas/institution-schema'
+} from '@/infrastructure/schemas/institution-schema'
 import { InstitutionService } from '@/core/services/institution-service'
 import { Context } from 'hono'
 import { Service } from 'typedi'

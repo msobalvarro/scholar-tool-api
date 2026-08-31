@@ -4,7 +4,7 @@ import {
   ITaskSchema,
   ITaskGetByAsignature,
   TaskGetByAsignatureSchema
-} from '@/infrastructure/database/schemas/task-schema'
+} from '@/infrastructure/schemas/task-schema'
 import { Inject, Service } from 'typedi'
 
 @Service()

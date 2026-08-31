@@ -1,4 +1,4 @@
-import { AssignToCourseSchema, StudentSchema, StudentUpdateSchema } from "@/infrastructure/database/schemas/student-schema";
+import { AssignToCourseSchema, StudentSchema, StudentUpdateSchema } from "@/infrastructure/schemas/student-schema";
 import { UpdateWriteOpResult } from 'mongoose';
 import { ResponsablePerson, Student } from '../dtos';
 
