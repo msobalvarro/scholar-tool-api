@@ -12,17 +12,18 @@ export class DailyReportController {
     const body = await c.req.json()
     const parsedBody = createDailyReportSchema.parse(body) as CreateDailyReportSchema
     const user = c.get('jwtPayload')
-    const report = await this.dailyReportService.create(parsedBody, user.institutionId)
 
-    return c.json(report)
+    return c.json(
+      await this.dailyReportService.create(parsedBody, user.institutionId)
+    )
   }
 
   getByDate = async (c: Context) => {
     const user = c.get('jwtPayload')
     const { from, to } = c.req.query() as { from: string; to: string }
 
-    const reports = await this.dailyReportService.getDailyReportsByDate(user.institutionId, from, to)
-
-    return c.json(reports)
+    return c.json(
+      await this.dailyReportService.getDailyReportsByDate(user.institutionId, from, to)
+    )
   }
 }

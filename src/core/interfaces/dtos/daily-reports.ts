@@ -10,7 +10,6 @@ export enum ConceptType {
   KIOSK_RENTAL = 'Alquiler de quiosco',
   CANCELLED = 'Cancelado',
   TUTION_FEES = 'Colegiatura',
-  DEPOSITED = 'Depositado',
   ADMINISTRATIVE_EXPENSES = 'Gastos administrativos',
   OFFICE_EXPENSES = 'Gastos de oficina',
   ENROLLMENT_FEE = 'Matrícula',
