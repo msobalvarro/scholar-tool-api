@@ -3,6 +3,7 @@ import { model, Schema } from 'mongoose'
 
 const dailyReportSchema = new Schema<IDailyReportStudentDto>(
   {
+    institution: { type: Schema.Types.ObjectId, ref: 'Institution', required: true },
     date: { type: Date, required: true },
     type_movement: { type: String, enum: TypeMovementType, required: true },
     concept: { type: String, enum: ConceptType, required: true },
