@@ -1,10 +1,11 @@
 import { CreateDailyReportSchema } from '@/infrastructure/schemas/daily-reports-schema'
 import { IDailyReportService } from '@/core/interfaces/service/daily-report-service'
-import { IDailyReportStudentDto } from '@/core/interfaces/dtos'
+import { IDailyReporttDto } from '@/core/interfaces/dtos'
 import { Service, Inject } from 'typedi'
 import { ORM } from '@/infrastructure/database'
 import { InstitutionService } from './institution-service'
 import { DateFormatterAdapter } from '@/infrastructure/adapters/date-formats'
+import { UserInstitutionService } from './user-institution-service'
 
 @Service()
 export class DailyReportService implements IDailyReportService {
@@ -17,12 +18,16 @@ export class DailyReportService implements IDailyReportService {
   @Inject(() => DateFormatterAdapter)
   private readonly dateFormatterAdapter!: DateFormatterAdapter
 
-  async create(data: CreateDailyReportSchema, institutionId: string): Promise<IDailyReportStudentDto> {
+  @Inject(() => UserInstitutionService)
+  private readonly userInstitutionService!: UserInstitutionService
+
+  async create(data: CreateDailyReportSchema, institutionId: string, userId: string): Promise<IDailyReporttDto> {
+    const user_institution = await this.userInstitutionService.getActiveUserInstitution(userId)
     const institution = await this.institutionService.getActiveInstitution(institutionId)
-    return await this.ORM.models.DailyReportModel.create({ ...data, institution })
+    return await this.ORM.models.DailyReportModel.create({ ...data, institution, user_institution })
   }
 
-  async getDailyReportsByDate(institutionId: string, from?: string, to?: string): Promise<IDailyReportStudentDto[]> {
+  async getDailyReportsByDate(institutionId: string, from?: string, to?: string): Promise<IDailyReporttDto[]> {
     await this.institutionService.getActiveInstitution(institutionId)
 
     const fromDate = this.dateFormatterAdapter.toGteAndLteDate(from).gte

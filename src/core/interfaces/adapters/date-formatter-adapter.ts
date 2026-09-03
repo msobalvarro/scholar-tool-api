@@ -4,7 +4,7 @@ export interface IDareFormatterAdapter {
    * @param date Fecha a formatear
    * @returns Fecha en formato 'YYYY-MM-DD'
    */
-  formatToISOString(date: Date | string): string
+  formatToISOString(date?: Date | string): string
 
   /**
    * Formatea una fecha a formato 'dd/mm/YYYY HH:mm'

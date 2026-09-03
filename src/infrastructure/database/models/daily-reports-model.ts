@@ -1,7 +1,7 @@
-import { ConceptType, IDailyReportStudentDto, TypeMovementType } from '@/core/interfaces/dtos/daily-reports'
+import { ConceptType, IDailyReporttDto, TypeMovementType } from '@/core/interfaces/dtos/daily-reports'
 import { model, Schema } from 'mongoose'
 
-const dailyReportSchema = new Schema<IDailyReportStudentDto>(
+const dailyReportSchema = new Schema<IDailyReporttDto>(
   {
     institution: { type: Schema.Types.ObjectId, ref: 'Institution', required: true },
     date: { type: Date, required: true },
@@ -13,6 +13,7 @@ const dailyReportSchema = new Schema<IDailyReportStudentDto>(
     income_recorded_amount_usd: { type: Number, required: false },
     expense_amount: { type: Number, required: false },
     expense_amount_usd: { type: Number, required: false },
+    user_institution: { type: Schema.Types.ObjectId, ref: 'UserInstitution', required: true }
   },
   {
     versionKey: false,
@@ -20,4 +21,4 @@ const dailyReportSchema = new Schema<IDailyReportStudentDto>(
   },
 )
 
-export const DailyReportModel = model<IDailyReportStudentDto>('DailyReport', dailyReportSchema)
+export const DailyReportModel = model<IDailyReporttDto>('DailyReport', dailyReportSchema)

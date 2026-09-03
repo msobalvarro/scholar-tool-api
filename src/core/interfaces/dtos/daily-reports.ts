@@ -1,4 +1,5 @@
 import { Institution } from './institution';
+import { UserInstitution } from './user-institution';
 
 export enum TypeMovementType {
   INCOME = 'Ingreso',
@@ -23,7 +24,7 @@ export enum ConceptType {
   OTHER = 'Otro'
 }
 
-export interface IDailyReportStudentDto {
+export interface IDailyReporttDto {
   institution: Institution
   date: Date
   type_movement: TypeMovementType
@@ -34,4 +35,5 @@ export interface IDailyReportStudentDto {
   income_recorded_amount_usd?: number
   expense_amount?: number
   expense_amount_usd?: number
+  user_institution: UserInstitution
 }
