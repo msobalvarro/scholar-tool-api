@@ -10,3 +10,4 @@ dailyReportRoute.use('/*', jwtUserInstitution)
 
 dailyReportRoute.post('/', controller.create)
 dailyReportRoute.get('/', controller.getByDate)
+dailyReportRoute.post('/close', controller.close)
