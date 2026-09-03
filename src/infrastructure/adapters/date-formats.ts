@@ -9,7 +9,7 @@ dayjs.extend(utc)
 
 @Service()
 export class DateFormatterAdapter implements IDareFormatterAdapter {
-  formatToISOString(date: Date | string): string {
+  formatToISOString(date?: Date | string): string {
     return dayjs(date).format('YYYY-MM-DD')
   }
 

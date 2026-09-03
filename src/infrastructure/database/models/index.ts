@@ -20,6 +20,7 @@ import { EnrollmentModel } from './enrollment-model'
 import { EnrollmentHistoryChangesModel } from './enrollment-history-changes-model'
 import { StudentAssistenceModel } from './student-assitence-model'
 import { DailyReportModel } from './daily-reports-model'
+import { DailyClosureModel } from './daily-closures-model'
 
 export {
   AsignatureModel,
@@ -44,6 +45,7 @@ export {
   EnrollmentHistoryChangesModel,
   StudentAssistenceModel,
   DailyReportModel,
+  DailyClosureModel,
 }
 
 export type ModelORM = {
@@ -69,4 +71,5 @@ export type ModelORM = {
   EnrollmentHistoryChangesModel: typeof EnrollmentHistoryChangesModel,
   StudentAssistenceModel: typeof StudentAssistenceModel,
   DailyReportModel: typeof DailyReportModel,
+  DailyClosureModel: typeof DailyClosureModel,
 }

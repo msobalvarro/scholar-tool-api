@@ -69,4 +69,10 @@ export class UserInstitutionService {
     const userInstitutions = await this.orm.models.UserInstitutionModel.find()
     return userInstitutions
   }
+
+  async getActiveUserInstitution(userId: string) {
+    const user = await this.orm.models.UserInstitutionModel.findById(userId)
+    if (!user) throw 'Usuario no encontrado'
+    return user
+  }
 }
