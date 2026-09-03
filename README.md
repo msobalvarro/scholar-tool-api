@@ -109,14 +109,14 @@ Soporte integral para flujos complejos de centros educativos:
 
 ```bash
 # Instalar dependencias
-npm install
+bun install
 
 # Levantar entorno con Docker Compose
 docker-compose up -d
 
 # Ejecutar en modo desarrollo
-npm run dev
+bun run dev
 
 # Compilar para producción
-npm run build
+bun run build
 ```
