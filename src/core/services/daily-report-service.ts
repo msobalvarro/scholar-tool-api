@@ -28,13 +28,12 @@ export class DailyReportService implements IDailyReportService {
   }
 
   async getDailyReportsByDate(institutionId: string, from?: string, to?: string): Promise<IDailyReporttDto[]> {
-    await this.institutionService.getActiveInstitution(institutionId)
-
+    const institution = await this.institutionService.getActiveInstitution(institutionId)
     const fromDate = this.dateFormatterAdapter.toGteAndLteDate(from).gte
     const toDate = this.dateFormatterAdapter.toGteAndLteDate(to).lte
 
     return await this.ORM.models.DailyReportModel.find({
-      institution: { _id: institutionId },
+      institution,
       date: {
         $gte: fromDate,
         $lte: toDate,

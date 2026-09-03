@@ -48,6 +48,10 @@ export class DailyClosuresService implements IDailyClosuresService {
     const institution = await this.institutionService.getActiveInstitution(institutionId)
     const user_institution = await this.userInstitutionService.getActiveUserInstitution(userId)
     const getTodayDailyReports = await this.dailyReportService.getDailyReportsByDate(institutionId)
+    const getTodayDailyClosures = await this.getDailyClosuresByDate(institutionId)
+
+    if (getTodayDailyClosures.length > 0) throw new Error('El dia ya ha sido cerrado')
+    if (getTodayDailyReports.length === 0) throw new Error('No hay reportes para cerrar el dia')
 
     const {
       income,
@@ -57,7 +61,6 @@ export class DailyClosuresService implements IDailyClosuresService {
       difference_amount,
       difference_amount_usd,
     } = this.count_balance(getTodayDailyReports)
-
 
     return await this.ORM.models.DailyClosureModel.create({
       institution,
@@ -72,7 +75,15 @@ export class DailyClosuresService implements IDailyClosuresService {
     })
   }
 
-  getDailyClosuresByDate(institutionId: string, from?: string, to?: string): Promise<IDailyClosureDto[]> {
-    throw new Error('Method not implemented.')
+  async getDailyClosuresByDate(institutionId: string, from?: string, to?: string): Promise<IDailyClosureDto[]> {
+    const institution = await this.institutionService.getActiveInstitution(institutionId)
+
+    return await this.ORM.models.DailyClosureModel.find({
+      institution,
+      date: {
+        $gte: this.dateFormatterAdapter.toGteAndLteDate(from).gte,
+        $lte: this.dateFormatterAdapter.toGteAndLteDate(to).lte,
+      },
+    }).populate('user_institution')
   }
 }
