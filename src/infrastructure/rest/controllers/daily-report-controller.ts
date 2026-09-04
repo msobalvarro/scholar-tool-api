@@ -18,7 +18,7 @@ export class DailyReportController {
     const user = c.get('jwtPayload')
 
     return c.json(
-      await this.dailyReportService.create(parsedBody, user.institutionId, user.userId)
+      await this.dailyReportService.create(parsedBody, user.institutionId, user._id)
     )
   }
 

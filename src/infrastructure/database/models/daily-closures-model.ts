@@ -13,7 +13,7 @@ const dailyClosureSchema = new Schema<IDailyClosureDto>(
     total_expense_amount_usd: { type: Number, required: true },
     difference: { type: Number, required: true },
     difference_usd: { type: Number, required: true },
-    reciept_number: { type: String, required: true },
+    reciept_number: { type: String, required: true, unique: true },
   },
   {
     versionKey: false,

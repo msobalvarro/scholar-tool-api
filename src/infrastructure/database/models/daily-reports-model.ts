@@ -8,7 +8,7 @@ const dailyReportSchema = new Schema<IDailyReporttDto>(
     type_movement: { type: String, enum: TypeMovementType, required: true },
     concept: { type: String, enum: ConceptType, required: true },
     description: { type: String, required: true },
-    receipt_number: { type: String, required: true },
+    receipt_number: { type: String, required: true, unique: true },
     income_recorded_amount: { type: Number, required: false },
     income_recorded_amount_usd: { type: Number, required: false },
     expense_amount: { type: Number, required: false },
