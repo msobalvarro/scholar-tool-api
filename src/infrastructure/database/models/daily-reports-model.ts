@@ -13,7 +13,8 @@ const dailyReportSchema = new Schema<IDailyReporttDto>(
     income_recorded_amount_usd: { type: Number, required: false },
     expense_amount: { type: Number, required: false },
     expense_amount_usd: { type: Number, required: false },
-    user_institution: { type: Schema.Types.ObjectId, ref: 'UserInstitution', required: true }
+    user_institution: { type: Schema.Types.ObjectId, ref: 'UserInstitution', required: true },
+    student: { type: Schema.Types.ObjectId, ref: 'Student', required: false, nullable: true },
   },
   {
     versionKey: false,

@@ -71,8 +71,6 @@ export class UserInstitutionService {
   }
 
   async getActiveUserInstitution(userId: string) {
-    console.log(userId)
-
     const user = await this.orm.models.UserInstitutionModel.findById(userId)
     if (!user) throw new Error('Usuario no encontrado')
     if (user.status !== 'active') throw new Error('Usuario inactivo')

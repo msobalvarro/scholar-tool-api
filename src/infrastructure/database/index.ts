@@ -24,6 +24,7 @@ import {
   EnrollmentHistoryChangesModel,
   StudentAssistenceModel,
   DailyReportModel,
+  DailyClosureModel,
 } from './models'
 import { environments } from '@/utils/constanst';
 import { DBConnectionError } from '@/core/errors/db-connection-error';
@@ -60,6 +61,7 @@ export class ORM {
       EnrollmentHistoryChangesModel,
       StudentAssistenceModel,
       DailyReportModel,
+      DailyClosureModel,
     }
   }
 

@@ -1,4 +1,5 @@
 import { Institution } from './institution';
+import { Student } from './student';
 import { UserInstitution } from './user-institution';
 
 export enum TypeMovementType {
@@ -36,4 +37,5 @@ export interface IDailyReporttDto {
   expense_amount?: number
   expense_amount_usd?: number
   user_institution: UserInstitution
+  student?: Student | null
 }
