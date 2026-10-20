@@ -20,7 +20,6 @@ const scheduleUnitSchema = z.object({
 export type ScheduleUnitSchema = z.infer<typeof scheduleUnitSchema>
 
 export const taskScheduleSchema = z.object({
-  teacherId: z.string(),
   asignatureId: z.string(),
   month: z.number(),
   year: z.number(),

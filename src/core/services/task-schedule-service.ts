@@ -50,6 +50,7 @@ export class TaskScheduleService implements ITaskScheduleService {
       scheduleUnit: this.mapingScheduleUnits(payload.scheduleUnit),
     })
   }
+
   async approveTaskSchedule(taskScheduleId: string, userId: string): Promise<TaskSchedule | null> {
     const aprovedBy = await this.userInstitutionService.getUserInstitutionById(userId)
     return await this.orm.models.TaskScheduleModel.findByIdAndUpdate(
@@ -58,10 +59,12 @@ export class TaskScheduleService implements ITaskScheduleService {
       { new: true }
     )
   }
+
   async getTaskScheduleByMonthAndYear(month: number, year: number, institutionId: string): Promise<TaskSchedule[]> {
     const institution = await this.institutionService.getActiveInstitution(institutionId)
     return await this.orm.models.TaskScheduleModel.find({ month, year, institution })
   }
+
   async getTaskScheduleByStudentById(_: string): Promise<TaskSchedule> {
     throw new Error('Method not implemented.');
   }
