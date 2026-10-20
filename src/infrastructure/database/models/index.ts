@@ -21,6 +21,7 @@ import { EnrollmentHistoryChangesModel } from './enrollment-history-changes-mode
 import { StudentAssistenceModel } from './student-assitence-model'
 import { DailyReportModel } from './daily-reports-model'
 import { DailyClosureModel } from './daily-closures-model'
+import { TaskScheduleModel } from './task-schedule-model'
 
 export {
   AsignatureModel,
@@ -46,6 +47,7 @@ export {
   StudentAssistenceModel,
   DailyReportModel,
   DailyClosureModel,
+  TaskScheduleModel,
 }
 
 export type ModelORM = {
@@ -72,4 +74,5 @@ export type ModelORM = {
   StudentAssistenceModel: typeof StudentAssistenceModel,
   DailyReportModel: typeof DailyReportModel,
   DailyClosureModel: typeof DailyClosureModel,
+  TaskScheduleModel: typeof TaskScheduleModel,
 }

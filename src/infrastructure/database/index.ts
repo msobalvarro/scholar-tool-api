@@ -25,6 +25,7 @@ import {
   StudentAssistenceModel,
   DailyReportModel,
   DailyClosureModel,
+  TaskScheduleModel,
 } from './models'
 import { environments } from '@/utils/constanst';
 import { DBConnectionError } from '@/core/errors/db-connection-error';
@@ -62,6 +63,7 @@ export class ORM {
       StudentAssistenceModel,
       DailyReportModel,
       DailyClosureModel,
+      TaskScheduleModel,
     }
   }
 

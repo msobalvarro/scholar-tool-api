@@ -1,11 +1,11 @@
 import { AsignatureSchema } from '@/infrastructure/schemas/asignature-schema'
-import { IAsignatureRepository } from '@/core/interfaces/service/asignature-service'
+import { IAsignatureService } from '@/core/interfaces/service/asignature-service'
 import { Inject, Service } from 'typedi'
 import { ORM } from '@/infrastructure/database'
 import { InstitutionService } from './institution-service'
 
 @Service()
-export class AsignatureRepository implements IAsignatureRepository {
+export class AsignatureService implements IAsignatureService {
   @Inject(() => ORM)
   private readonly orm!: ORM
 
@@ -23,6 +23,7 @@ export class AsignatureRepository implements IAsignatureRepository {
 
   async getAsignatureById(id: string) {
     const asignature = await this.orm.models.AsignatureModel.findById(id)
+    if (!asignature) throw new Error('Asignatura no encontrada')
     return asignature
   }
 

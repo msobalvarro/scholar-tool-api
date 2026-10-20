@@ -2,14 +2,14 @@ import {
   AsignatureSchema,
   asignatureSchema
 } from '@/infrastructure/schemas/asignature-schema'
-import { AsignatureRepository } from '@/core/services/asignature-service'
+import { AsignatureService } from '@/core/services/asignature-service'
 import { Context } from 'hono'
 import { Service, Inject } from 'typedi'
 
 @Service()
 export class AsignatureController {
-  @Inject(() => AsignatureRepository)
-  private asignatureService!: AsignatureRepository
+  @Inject(() => AsignatureService)
+  private asignatureService!: AsignatureService
 
   createAsignature = async (c: Context) => {
     const body = await c.req.json()
