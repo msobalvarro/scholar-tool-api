@@ -27,7 +27,8 @@ export class TeacherController {
 
   getTeacherById = async (c: Context) => {
     const { id } = c.req.param()
-    const teacher = await this.teacherService.getTeacherById(id)
+    const user = c.get('jwtPayload')
+    const teacher = await this.teacherService.getTeacherById(id, user.institutionId)
     return c.json(teacher)
   }
 

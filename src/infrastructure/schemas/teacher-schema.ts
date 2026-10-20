@@ -2,9 +2,11 @@ import { z } from 'zod'
 
 export const teacherSchema = z.object({
   name: z.string().min(3).max(128),
-  birthday: z.string(),
+  birthday: z.string().optional(),
   phoneNumber: z.string(),
-  email: z.email()
+  email: z.email(),
+  status: z.enum(['active', 'inactive']).optional(),
+  asignatureIds: z.array(z.string()).default([])
 })
 
 export type TeacherSchema = z.infer<typeof teacherSchema>

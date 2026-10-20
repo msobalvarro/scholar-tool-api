@@ -59,6 +59,7 @@ export class TeacherService implements ITeacherRepository {
    * @param payload datos del profesor
    */
   async createTeacher(institutionId: string, payload: TeacherSchema) {
+    const { asignatureIds, ...dataTeacher } = payload
     const session = await this.orm.startSession()
     session.startTransaction()
 
@@ -66,7 +67,8 @@ export class TeacherService implements ITeacherRepository {
       const institution = await this.institutionService.getActiveInstitution(institutionId)
       await this.verifyExistingEmail(payload.email, institution)
 
-      const [teacher] = await this.orm.models.TeacherModel.create([{ ...payload, institution }], { session })
+      const asignatures = await this.orm.models.AsignatureModel.find({ _id: { $in: asignatureIds } })
+      const [teacher] = await this.orm.models.TeacherModel.create([{ ...dataTeacher, institution, asignatures }], { session })
       const temporaryPassword = generateRandomPassword()
 
       await this.orm.models.TeacherAuthModel.create([{ teacher, password: createHash(temporaryPassword) }], { session })
@@ -84,17 +86,17 @@ export class TeacherService implements ITeacherRepository {
   }
 
   async getTeachers(institutionId: string) {
-    const teachers = await this.orm.models.TeacherModel.find({ institution: { _id: institutionId } })
+    const teachers = await this.orm.models.TeacherModel.find({ institution: { _id: institutionId } }).populate('asignatures')
     return teachers
   }
 
   async getAllTeachers() {
-    const teachers = await this.orm.models.TeacherModel.find()
+    const teachers = await this.orm.models.TeacherModel.find().populate('asignatures')
     return teachers
   }
 
   async getTeacherById(id: string, institutionId: string) {
-    const teacher = await this.orm.models.TeacherModel.findById(id)
+    const teacher = await this.orm.models.TeacherModel.findById(id).populate('asignatures')
     const institution = await this.institutionService.getActiveInstitution(institutionId)
     if (!teacher) throw new Error('Profesor no encontrado')
     if (teacher.institution._id !== institution._id) throw new Error('Profesor no encontrado')
@@ -103,13 +105,10 @@ export class TeacherService implements ITeacherRepository {
   }
 
   async updateTeacher(institutionId: string, payload: TeacherSchema, _id: string) {
-    const teacher = await this.orm.models.TeacherModel.findById(_id)
+    const { asignatureIds = [], ...dataTeacher } = payload
     const institution = await this.institutionService.getActiveInstitution(institutionId)
-    if (!teacher) throw 'Profesor no encontrado'
-
-    await this.orm.models.TeacherModel.updateOne({ _id, institution }, { $set: payload })
-
-    return teacher
+    const asignatures = await this.orm.models.AsignatureModel.find({ _id: { $in: asignatureIds } })
+    return await this.orm.models.TeacherModel.findOneAndUpdate({ _id, institution }, { $set: { ...dataTeacher, asignatures } }, { new: true }).populate('asignatures')
   }
 
   async deleteTeacher(_id: string) {

@@ -10,6 +10,7 @@ const teacherSchema = new Schema<Teacher>(
     phoneNumber: String,
     institution: { type: Schema.Types.ObjectId, ref: 'Institution' },
     photo: { type: String, default: null },
+    asignatures: [{ type: Schema.Types.ObjectId, ref: 'Asignature' }],
   },
   {
     versionKey: false,
