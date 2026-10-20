@@ -6,6 +6,7 @@ import { ORM } from '@/infrastructure/database'
 import { InstitutionService } from './institution-service'
 import { DateFormatterAdapter } from '@/infrastructure/adapters/date-formats'
 import { UserInstitutionService } from './user-institution-service'
+import { StudentService } from './student-service'
 
 @Service()
 export class DailyReportService implements IDailyReportService {
@@ -21,10 +22,18 @@ export class DailyReportService implements IDailyReportService {
   @Inject(() => UserInstitutionService)
   private readonly userInstitutionService!: UserInstitutionService
 
+  @Inject(() => StudentService)
+  private readonly studentService!: StudentService
+
   async create(data: CreateDailyReportSchema, institutionId: string, userId: string): Promise<IDailyReporttDto> {
+    const { student: studentId, ...rest } = data
     const user_institution = await this.userInstitutionService.getActiveUserInstitution(userId)
     const institution = await this.institutionService.getActiveInstitution(institutionId)
-    return await this.ORM.models.DailyReportModel.create({ ...data, institution, user_institution })
+    const student = studentId
+      ? await this.studentService.getStudentById(studentId, institutionId)
+      : null
+
+    return await this.ORM.models.DailyReportModel.create({ ...rest, institution, user_institution, student })
   }
 
   async getDailyReportsByDate(institutionId: string, from?: string, to?: string): Promise<IDailyReporttDto[]> {

@@ -11,6 +11,7 @@ export const createDailyReportSchema = z.object({
   income_recorded_amount_usd: z.number().nonnegative().optional(),
   expense_amount: z.number().nonnegative().optional(),
   expense_amount_usd: z.number().nonnegative().optional(),
+  student: z.string().optional().nullable(),
 })
 
 export type CreateDailyReportSchema = z.infer<typeof createDailyReportSchema>
