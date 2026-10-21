@@ -120,7 +120,7 @@ export class TeacherService implements ITeacherRepository {
   }
 
   async getTeacherByEmail(email: string) {
-    const teacher = await this.orm.models.TeacherModel.findOne({ email })
+    const teacher = await this.orm.models.TeacherModel.findOne({ email }).populate('asignatures')
     if (!teacher) throw new Error('Profesor no encontrado')
     if (teacher.status !== 'active') throw new Error('Profesor inactivo')
     return teacher

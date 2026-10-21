@@ -1,10 +1,13 @@
 import { Hono } from 'hono'
-import { jwtUserInstitution } from '@/infrastructure/rest/middlewares'
+import { jwtUserInstitution, jwtUserTeacher } from '@/infrastructure/rest/middlewares'
 import { AsignatureController } from '@/infrastructure/rest/controllers/asignature-controller'
 import Container from 'typedi'
 
 export const asignatureRoute = new Hono()
 const controller = Container.get(AsignatureController)
+
+asignatureRoute.use('/teacher/all', jwtUserTeacher)
+asignatureRoute.get('/teacher/all', controller.getAllAsignatures)
 
 asignatureRoute.use('/*', jwtUserInstitution)
 
