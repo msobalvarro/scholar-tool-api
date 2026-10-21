@@ -17,7 +17,6 @@ export interface TaskSchedule {
 
 export interface ScheduleUnit {
   unitName: string
-  diciplineName: string
   tasks: TaskDetail[]
 }
 

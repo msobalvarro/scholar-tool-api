@@ -40,4 +40,14 @@ export class TaskScheduleController {
       await this.taskScheduleService.getTaskScheduleByMonthAndYear(month, year, user.institutionId)
     )
   }
+
+  getScheduleByTeacher = async (c: Context) => {
+    const month = Number(c.req.query('month'))
+    const year = Number(c.req.query('year'))
+    const user = c.get('jwtPayload')
+
+    return c.json(
+      await this.taskScheduleService.getScheduleByTeacher({ month, year }, user._id, user.institutionId)
+    )
+  }
 }

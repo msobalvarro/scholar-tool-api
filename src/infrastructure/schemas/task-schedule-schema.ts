@@ -13,7 +13,6 @@ export type TaskDetailSchema = z.infer<typeof taskDetailSchema>
 
 const scheduleUnitSchema = z.object({
   unitName: z.string(),
-  diciplineName: z.string(),
   tasks: z.array(taskDetailSchema),
 })
 

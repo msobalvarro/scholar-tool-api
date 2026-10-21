@@ -1,5 +1,5 @@
 import { Inject, Service } from 'typedi';
-import { ITaskScheduleService } from '../interfaces/service/task-schedule-service';
+import { ITaskScheduleService, ScheduleByTeacherQuery } from '../interfaces/service/task-schedule-service';
 import { TaskSchedule } from '../interfaces/dtos/task-schedule';
 import { ScheduleUnitSchema, TaskScheduleSchema } from '@/infrastructure/schemas/task-schedule-schema';
 import { ORM } from '@/infrastructure/database';
@@ -67,5 +67,23 @@ export class TaskScheduleService implements ITaskScheduleService {
 
   async getTaskScheduleByStudentById(_: string): Promise<TaskSchedule> {
     throw new Error('Method not implemented.');
+  }
+
+  async getScheduleByTeacher(params: ScheduleByTeacherQuery, teacherId: string, institutionId: string): Promise<TaskSchedule[]> {
+    const teacher = await this.teacherService.getTeacherById(teacherId, institutionId)
+    const asignatures = await this.asignatureService.getAsignaturesByTeacher(teacherId, institutionId)
+    const institution = await this.institutionService.getActiveInstitution(institutionId)
+
+    return await this.orm.models.TaskScheduleModel
+      .find({
+        month: params.month,
+        year: params.year,
+        asignature: { $in: asignatures },
+        teacher,
+        institution,
+      })
+      .populate('teacher', '_id name')
+      .populate('asignature')
+
   }
 }
