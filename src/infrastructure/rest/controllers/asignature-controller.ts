@@ -15,33 +15,34 @@ export class AsignatureController {
     const body = await c.req.json()
     const parsedBody = await asignatureSchema.parse(body) as AsignatureSchema
     const user = c.get('jwtPayload')
-    const asignatureCreated = await this.asignatureService.createAsignature(parsedBody, user.institutionId)
-    return c.json(asignatureCreated)
+    return c.json(await this.asignatureService.createAsignature(parsedBody, user.institutionId))
   }
 
   getAsignatureById = async (c: Context) => {
     const id = c.req.param('id')
-    const asignature = await this.asignatureService.getAsignatureById(id)
-    return c.json(asignature)
+    return c.json(await this.asignatureService.getAsignatureById(id))
   }
 
   updateAsignature = async (c: Context) => {
     const body = await c.req.json()
     const id = c.req.param('id')
     const parsedBody = await asignatureSchema.parse(body) as AsignatureSchema
-    const asignatureUpdated = await this.asignatureService.updateAsignature(parsedBody, id)
-    return c.json(asignatureUpdated)
+    return c.json(await this.asignatureService.updateAsignature(parsedBody, id))
   }
 
   deleteAsignature = async (c: Context) => {
     const id = c.req.param('id')
-    const asignatureDeleted = await this.asignatureService.deleteAsignature(id)
-    return c.json(asignatureDeleted)
+    return c.json(await this.asignatureService.deleteAsignature(id))
   }
 
   getAllAsignatures = async (c: Context) => {
     const user = c.get('jwtPayload')
-    const asignatures = await this.asignatureService.getAllAsignatures(user.institutionId)
-    return c.json(asignatures)
+    return c.json(await this.asignatureService.getAllAsignatures(user.institutionId))
+  }
+
+  getAsignaturesByTeacher = async (c: Context) => {
+    const user = c.get('jwtPayload')
+    console.log(user)
+    return c.json(await this.asignatureService.getAsignaturesByTeacher(user._id, user.institutionId))
   }
 }

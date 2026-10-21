@@ -99,7 +99,7 @@ export class TeacherService implements ITeacherRepository {
     const teacher = await this.orm.models.TeacherModel.findById(id).populate('asignatures')
     const institution = await this.institutionService.getActiveInstitution(institutionId)
     if (!teacher) throw new Error('Profesor no encontrado')
-    if (teacher.institution._id !== institution._id) throw new Error('Profesor no encontrado')
+    if (teacher.institution._id?.toString() !== institution._id.toString()) throw new Error('Profesor no encontrado')
 
     return teacher
   }
@@ -123,6 +123,12 @@ export class TeacherService implements ITeacherRepository {
     const teacher = await this.orm.models.TeacherModel.findOne({ email }).populate('asignatures')
     if (!teacher) throw new Error('Profesor no encontrado')
     if (teacher.status !== 'active') throw new Error('Profesor inactivo')
+    return teacher
+  }
+
+  async getTeacherMinimalByEmail(email: string) {
+    const teacher = await this.orm.models.TeacherModel.findOne({ email }).select('_id name email institution')
+    if (!teacher) throw new Error('Profesor no encontrado')
     return teacher
   }
 }

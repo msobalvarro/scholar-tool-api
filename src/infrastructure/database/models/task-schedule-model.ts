@@ -16,7 +16,6 @@ const TaskDetailSchema = new Schema<TaskDetail>(
 const ScheduleUnitSchema = new Schema<ScheduleUnit>(
   {
     unitName: { type: String, required: true },
-    diciplineName: { type: String, required: true },
     tasks: { type: [TaskDetailSchema], default: [] },
   },
   { _id: false }

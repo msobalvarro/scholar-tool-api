@@ -7,7 +7,7 @@ export const asignatureRoute = new Hono()
 const controller = Container.get(AsignatureController)
 
 asignatureRoute.use('/teacher/all', jwtUserTeacher)
-asignatureRoute.get('/teacher/all', controller.getAllAsignatures)
+asignatureRoute.get('/teacher/all', controller.getAsignaturesByTeacher)
 
 asignatureRoute.use('/*', jwtUserInstitution)
 

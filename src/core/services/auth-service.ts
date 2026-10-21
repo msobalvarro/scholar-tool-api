@@ -62,7 +62,7 @@ export class AuthRepository implements IAuthRepository {
   }
 
   async loginTeacher(email: string, password: string) {
-    const teacher = await this.teacherService.getTeacherByEmail(email)
+    const teacher = await this.teacherService.getTeacherMinimalByEmail(email)
     const institution = await this.institutionService.getActiveInstitution(teacher.institution._id!)
 
     const user = await this.orm.models.TeacherAuthModel

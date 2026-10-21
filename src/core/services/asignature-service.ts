@@ -3,6 +3,7 @@ import { IAsignatureService } from '@/core/interfaces/service/asignature-service
 import { Inject, Service } from 'typedi'
 import { ORM } from '@/infrastructure/database'
 import { InstitutionService } from './institution-service'
+import { TeacherService } from './teacher-service'
 
 @Service()
 export class AsignatureService implements IAsignatureService {
@@ -11,6 +12,9 @@ export class AsignatureService implements IAsignatureService {
 
   @Inject(() => InstitutionService)
   private readonly institutionService!: InstitutionService
+
+  @Inject(() => TeacherService)
+  private readonly teacherService!: TeacherService
 
   async createAsignature(asignature: AsignatureSchema, institutionId: string) {
     const { name, description, status } = asignature
@@ -45,4 +49,7 @@ export class AsignatureService implements IAsignatureService {
     return asignatures
   }
 
+  async getAsignaturesByTeacher(teacherId: string, institutionId: string) {
+    return (await this.teacherService.getTeacherById(teacherId, institutionId)).asignatures
+  }
 }

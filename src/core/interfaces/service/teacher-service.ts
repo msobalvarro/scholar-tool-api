@@ -8,4 +8,5 @@ export interface ITeacherRepository {
   updateTeacher(institutionId: string, payload: TeacherSchema, id: string): Promise<Teacher | null>
   deleteTeacher(id: string, institutionId: string): Promise<void>
   getTeacherByEmail(email: string): Promise<Teacher>
+  getTeacherMinimalByEmail(email: string): Promise<Partial<Teacher>>
 }
