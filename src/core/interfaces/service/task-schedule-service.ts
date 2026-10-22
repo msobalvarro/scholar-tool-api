@@ -12,4 +12,5 @@ export interface ITaskScheduleService {
   getTaskScheduleByMonthAndYear(month: number, year: number, institutionId: string): Promise<TaskSchedule[]>
   getScheduleByTeacher(params: ScheduleByTeacherQuery, teacherId: string, institutionId: string): Promise<TaskSchedule[]>
   getTaskScheduleByStudentById(id: string): Promise<TaskSchedule>
+  updateTaskSchedule(taskSchedule: TaskScheduleSchema, institutionId: string, teacherId: string, taskId: string): Promise<TaskSchedule | null>
 }
