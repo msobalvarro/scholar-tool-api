@@ -39,13 +39,13 @@ export class TaskScheduleController {
     const user = c.get('jwtPayload')
 
     return c.json(
-      await this.taskScheduleService.approveTaskSchedule(taskScheduleId, user._id)
+      await this.taskScheduleService.approveTaskSchedule(taskScheduleId, user._id, user.institutionId)
     )
   }
 
   getByMonthAndYear = async (c: Context) => {
-    const month = Number(c.req.param('month'))
-    const year = Number(c.req.param('year'))
+    const month = Number(c.req.query('month'))
+    const year = Number(c.req.query('year'))
     const user = c.get('jwtPayload')
 
     return c.json(

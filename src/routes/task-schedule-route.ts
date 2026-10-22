@@ -11,8 +11,8 @@ const controller = Container.get(TaskScheduleController)
 taskScheduleRoute.use('/approve/:id', jwtUserInstitution)
 taskScheduleRoute.patch('/approve/:id', controller.approve)
 
-// taskScheduleRoute.use('/date/', jwtUserTeacher)
-// taskScheduleRoute.get('/date/', controller.getByMonthAndYear)
+taskScheduleRoute.use('/date', jwtUserInstitution)
+taskScheduleRoute.get('/date', controller.getByMonthAndYear)
 
 taskScheduleRoute.use('/*', jwtUserTeacher)
 // Teacher routes — create a task schedule
