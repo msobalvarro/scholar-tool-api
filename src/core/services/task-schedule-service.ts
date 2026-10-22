@@ -7,6 +7,7 @@ import { InstitutionService } from './institution-service';
 import { TeacherService } from './teacher-service';
 import { UserInstitutionService } from './user-institution-service';
 import { AsignatureService } from './asignature-service';
+import { SearhTaskScheduleByUserInstitutionQuery } from '../interfaces/input/task-schedule';
 
 @Service()
 export class TaskScheduleService implements ITaskScheduleService {
@@ -91,10 +92,20 @@ export class TaskScheduleService implements ITaskScheduleService {
     )
   }
 
-  async getTaskScheduleByMonthAndYear(month: number, year: number, institutionId: string): Promise<TaskSchedule[]> {
+  async getTaskScheduleByMonthAndYear(query: SearhTaskScheduleByUserInstitutionQuery, institutionId: string): Promise<TaskSchedule[]> {
     const institution = await this.institutionService.getActiveInstitution(institutionId)
+    const teacher = query.teacherId ? await this.teacherService.getTeacherById(query.teacherId, institutionId) : undefined
+    const asignature = query.asignatureId ? await this.asignatureService.getAsignatureById(query.asignatureId) : undefined
+
     return await this.orm.models.TaskScheduleModel
-      .find({ month, year, institution })
+      .find({
+        month: query.month,
+        year: query.year,
+        aproved: query.aproved,
+        teacher,
+        asignature,
+        institution
+      })
       .populate('teacher', '-_id name email')
       .populate('asignature', '-_id name description')
       .populate('aprovedBy', '-_id name email')

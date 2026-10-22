@@ -11,42 +11,45 @@ export class CourseController {
     const body = await c.req.json()
     const parsedBody = courseSchema.parse(body) as CreateCourseDto
     const user = c.get('jwtPayload')
-
-    const course = await this.courseService.createCourse(parsedBody, user.institutionId)
-
-    return c.json(course)
+    return c.json(
+      await this.courseService.createCourse(parsedBody, user.institutionId)
+    )
   }
 
   update = async (c: Context) => {
     const { id } = await c.req.param() as { id: string }
     const body = await c.req.json()
     const parsedBody = courseSchema.parse(body) as CreateCourseDto
-    const course = await this.courseService.updateCourse(parsedBody, id)
-
-    return c.json(course)
+    return c.json(
+      await this.courseService.updateCourse(parsedBody, id)
+    )
   }
 
   delete = async (c: Context) => {
     const { id } = await c.req.param() as { id: string }
-    const course = await this.courseService.deleteCourse(id)
-    return c.json(course)
+    return c.json(
+      await this.courseService.deleteCourse(id)
+    )
   }
 
   getAll = async (c: Context) => {
     const user = c.get('jwtPayload')
-    const courses = await this.courseService.getAllCourses(user.institutionId)
-    return c.json(courses)
+    return c.json(
+      await this.courseService.getAllCourses(user.institutionId)
+    )
   }
 
   getById = async (c: Context) => {
     const { id } = await c.req.param() as { id: string }
-    const course = await this.courseService.getCourseById(id)
-    return c.json(course)
+    return c.json(
+      await this.courseService.getCourseById(id)
+    )
   }
 
   getAllNotInEnrollment = async (c: Context) => {
     const user = c.get('jwtPayload')
-    const courses = await this.courseService.getAllCoursesNotInEnrollment(user.institutionId)
-    return c.json(courses)
+    return c.json(
+      await this.courseService.getAllCoursesNotInEnrollment(user.institutionId)
+    )
   }
 }

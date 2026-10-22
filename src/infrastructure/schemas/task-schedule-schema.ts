@@ -27,4 +27,11 @@ export const taskScheduleSchema = z.object({
 
 export type TaskScheduleSchema = z.infer<typeof taskScheduleSchema>
 
-// export const taskScheduleJsonSchema = zodToJsonSchema(taskScheduleSchema, 'TaskSchedule')
+
+export const searchTaskScheduleByUserInstitutionQuerySchema = z.object({
+  aproved: z.boolean().optional(),
+  asignatureId: z.string().optional(),
+  teacherId: z.string().optional(),
+  month: z.number(),
+  year: z.number(),
+})

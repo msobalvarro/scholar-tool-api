@@ -11,21 +11,24 @@ export class AuthController {
   authUserInstitution = async (c: Context) => {
     const body = await c.req.json()
     const parsedBody = authSchema.parse(body) as AuthSchema
-    const user = await this.authService.loginUserInstitution(parsedBody.email, parsedBody.password)
-    return c.json(user)
+    return c.json(
+      await this.authService.loginUserInstitution(parsedBody.email, parsedBody.password)
+    )
   }
 
   authUserRoot = async (c: Context) => {
     const body = await c.req.json()
     const parsedBody = authSchema.parse(body) as AuthSchema
-    const user = await this.authService.loginUserRoot(parsedBody.email, parsedBody.password)
-    return c.json(user)
+    return c.json(
+      await this.authService.loginUserRoot(parsedBody.email, parsedBody.password)
+    )
   }
 
   authTeacher = async (c: Context) => {
     const body = await c.req.json()
     const parsedBody = authSchema.parse(body) as AuthSchema
-    const user = await this.authService.loginTeacher(parsedBody.email, parsedBody.password)
-    return c.json(user)
+    return c.json(
+      await this.authService.loginTeacher(parsedBody.email, parsedBody.password)
+    )
   }
 }

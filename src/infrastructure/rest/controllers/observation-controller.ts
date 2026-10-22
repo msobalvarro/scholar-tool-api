@@ -10,9 +10,8 @@ export class ObservationController {
     const body = await c.req.json()
     const payload = observationSchema.parse(body) as ObservationSchema
     const teacher = c.get('jwtPayload')
-
-    const observationCreated = await this.observationService.createObservation(payload, teacher._id)
-
-    return c.json(observationCreated)
+    return c.json(
+      await this.observationService.createObservation(payload, teacher._id)
+    )
   }
 }

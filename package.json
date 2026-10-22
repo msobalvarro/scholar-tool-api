@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@google/genai": "^2.17.0",
+    "@hono/zod-validator": "^0.9.1",
     "@react-email/components": "^1.0.12",
     "@socket.io/bun-engine": "^0.1.1",
     "dayjs": "^1.11.19",

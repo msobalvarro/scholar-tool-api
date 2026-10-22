@@ -10,36 +10,37 @@ export class MatriculeController {
     const body = await c.req.json()
     const parsedBody = matriculeSchema.parse(body) as MatriculeSchema
     const user = c.get('jwtPayload')
-
-    const matricule = await this.matriculeService.createMatricule(parsedBody, user.institutionId)
-
-    return c.json(matricule)
+    return c.json(
+      await this.matriculeService.createMatricule(parsedBody, user.institutionId)
+    )
   }
 
   update = async (c: Context) => {
     const body = await c.req.json()
     const parsedBody = matriculeSchema.parse(body) as MatriculeUpdateSchema
-
-    const matricule = await this.matriculeService.updateMatricule(parsedBody)
-
-    return c.json(matricule)
+    return c.json(
+      await this.matriculeService.updateMatricule(parsedBody)
+    )
   }
 
   delete = async (c: Context) => {
     const { _id } = await c.req.json()
-    const matricule = await this.matriculeService.deleteMatricule(_id)
-    return c.json(matricule)
+    return c.json(
+      await this.matriculeService.deleteMatricule(_id)
+    )
   }
 
   getAll = async (c: Context) => {
     const user = c.get('jwtPayload')
-    const matricules = await this.matriculeService.getAllMatricules(user.institutionId)
-    return c.json(matricules)
+    return c.json(
+      await this.matriculeService.getAllMatricules(user.institutionId)
+    )
   }
 
   getById = async (c: Context) => {
     const { _id } = await c.req.json()
-    const matricule = await this.matriculeService.getMatriculeById(_id)
-    return c.json(matricule)
+    return c.json(
+      await this.matriculeService.getMatriculeById(_id)
+    )
   }
 }

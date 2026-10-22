@@ -15,45 +15,52 @@ export class ScheduleController {
   createSchedule = async (c: Context) => {
     const body = await c.req.json()
     const parsedBody = await scheduleSchema.parse(body) as Schedule
-    const scheduleCreated = await this.scheduleService.createSchedule(parsedBody)
 
-    return c.json(scheduleCreated)
+    return c.json(
+      await this.scheduleService.createSchedule(parsedBody)
+    )
   }
 
   getScheduleById = async (c: Context) => {
     const id = c.req.param('id')
-    const schedule = await this.scheduleService.getScheduleById(id)
-    return c.json(schedule)
+    return c.json(
+      await this.scheduleService.getScheduleById(id)
+    )
   }
 
   getScheduleByCourseId = async (c: Context) => {
     const courseId = c.req.param('courseId')
-    const schedule = await this.scheduleService.getScheduleByCourseId(courseId)
-    return c.json(schedule)
+    return c.json(
+      await this.scheduleService.getScheduleByCourseId(courseId)
+    )
   }
 
   getScheduleByTeacherId = async (c: Context) => {
     const teacherId = c.req.param('teacherId')
-    const schedule = await this.scheduleService.getScheduleByTeacherId(teacherId)
-    return c.json(schedule)
+    return c.json(
+      await this.scheduleService.getScheduleByTeacherId(teacherId)
+    )
   }
 
   getScheduleByAsignatureId = async (c: Context) => {
     const asignatureId = c.req.param('asignatureId')
-    const schedule = await this.scheduleService.getScheduleByAsignatureId(asignatureId)
-    return c.json(schedule)
+    return c.json(
+      await this.scheduleService.getScheduleByAsignatureId(asignatureId)
+    )
   }
 
   updateSchedule = async (c: Context) => {
     const body = await c.req.json()
     const parsedBody = await scheduleUpdateSchema.parse(body) as ScheduleUpdate
-    const scheduleUpdated = await this.scheduleService.updateSchedule(parsedBody)
-    return c.json(scheduleUpdated)
+    return c.json(
+      await this.scheduleService.updateSchedule(parsedBody)
+    )
   }
 
   deleteSchedule = async (c: Context) => {
     const id = c.req.param('id')
-    const scheduleDeleted = await this.scheduleService.deleteSchedule(id)
-    return c.json(scheduleDeleted)
+    return c.json(
+      await this.scheduleService.deleteSchedule(id)
+    )
   }
 }

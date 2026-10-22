@@ -1,4 +1,4 @@
-import { TaskScheduleSchema } from '@/infrastructure/schemas/task-schedule-schema';
+import { SearhTaskScheduleByUserInstitutionQuery, TaskScheduleSchema } from '@/infrastructure/schemas/task-schedule-schema';
 import { TaskSchedule } from '../dtos/task-schedule';
 
 export type ScheduleByTeacherQuery = {
@@ -30,7 +30,7 @@ export interface ITaskScheduleService {
    * @param year Año del cronograma de tareas.
    * @param institutionId ID de la institución.
    */
-  getTaskScheduleByMonthAndYear(month: number, year: number, institutionId: string): Promise<TaskSchedule[]>
+  getTaskScheduleByMonthAndYear(query: SearhTaskScheduleByUserInstitutionQuery, institutionId: string): Promise<TaskSchedule[]>
 
   /**
    * Obtiene todos los cronogramas de tareas por profesor, este servicio es ejecutado por un usuario de teacher.

@@ -11,38 +11,38 @@ export class PeriodController {
     const body = await c.req.json()
     const parsedBody = PeriodSchema.parse(body) as Period
     const user = c.get('jwtPayload')
-
-    const period = await this.periodService.createPeriod(parsedBody, user.institutionId)
-
-    return c.json(period)
+    return c.json(
+      await this.periodService.createPeriod(parsedBody, user.institutionId)
+    )
   }
 
   update = async (c: Context) => {
     const body = await c.req.json()
     const parsedBody = PeriodUpdateSchema.parse(body) as PeriodUpdate
-    const period = await this.periodService.updatePeriod(parsedBody)
-
-    return c.json(period)
+    return c.json(
+      await this.periodService.updatePeriod(parsedBody)
+    )
   }
 
   delete = async (c: Context) => {
     const { _id } = await c.req.json()
-    const period = await this.periodService.deletePeriod(_id)
-    return c.json(period)
+    return c.json(
+      await this.periodService.deletePeriod(_id)
+    )
   }
 
   getById = async (c: Context) => {
     const { id } = await c.req.param() as { id: string }
-
     if (!id) throw 'Periodo no encontrado'
-
-    const period = await this.periodService.getPeriodById(id)
-    return c.json(period)
+    return c.json(
+      await this.periodService.getPeriodById(id)
+    )
   }
 
   getPeriodsByInstitution = async (c: Context) => {
     const user = c.get('jwtPayload')
-    const periods = await this.periodService.getPeriodsByInstitution(user.institutionId)
-    return c.json(periods)
+    return c.json(
+      await this.periodService.getPeriodsByInstitution(user.institutionId)
+    )
   }
 }
