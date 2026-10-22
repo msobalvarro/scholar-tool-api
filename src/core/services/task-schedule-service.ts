@@ -51,6 +51,27 @@ export class TaskScheduleService implements ITaskScheduleService {
     })
   }
 
+  async updateTaskSchedule(payload: TaskScheduleSchema, institutionId: string, teacherId: string, taskId: string): Promise<TaskSchedule | null> {
+    const institution = await this.institutionService.getActiveInstitution(institutionId)
+    const teacher = await this.teacherService.getTeacherById(teacherId, institutionId)
+    const asignature = await this.asignatureService.getAsignatureById(payload.asignatureId)
+
+    return await this.orm.models.TaskScheduleModel.findOneAndUpdate(
+      {
+        _id: taskId,
+        teacher,
+        institution,
+        asignature,
+      },
+      {
+        month: payload.month,
+        year: payload.year,
+        scheduleUnit: this.mapingScheduleUnits(payload.scheduleUnit),
+      },
+      { new: true }
+    )
+  }
+
   async approveTaskSchedule(taskScheduleId: string, userId: string): Promise<TaskSchedule | null> {
     const aprovedBy = await this.userInstitutionService.getUserInstitutionById(userId)
     return await this.orm.models.TaskScheduleModel.findByIdAndUpdate(

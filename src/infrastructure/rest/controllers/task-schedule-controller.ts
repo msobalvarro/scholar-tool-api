@@ -22,6 +22,18 @@ export class TaskScheduleController {
     )
   }
 
+  update = async (c: Context) => {
+    const body = await c.req.json()
+    const parsedBody = taskScheduleSchema.parse(body) as TaskScheduleSchema
+    const user = c.get('jwtPayload')
+    const teacherId = user._id
+    const taskId = c.req.param('id')
+
+    return c.json(
+      await this.taskScheduleService.updateTaskSchedule(parsedBody, user.institutionId, teacherId, taskId)
+    )
+  }
+
   approve = async (c: Context) => {
     const taskScheduleId = c.req.param('id')
     const user = c.get('jwtPayload')

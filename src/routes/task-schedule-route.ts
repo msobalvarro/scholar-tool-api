@@ -17,5 +17,7 @@ taskScheduleRoute.patch('/approve/:id', controller.approve)
 taskScheduleRoute.use('/*', jwtUserTeacher)
 // Teacher routes — create a task schedule
 taskScheduleRoute.post('/create', controller.create)
+taskScheduleRoute.put('/update/:id', controller.update)
+
 taskScheduleRoute.get('/teacher', controller.getScheduleByTeacher)
 

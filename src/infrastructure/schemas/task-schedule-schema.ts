@@ -3,7 +3,7 @@ import { z } from 'zod'
 const taskDetailSchema = z.object({
   content: z.string(),
   evaluationMethod: z.string(),
-  page: z.string().optional(),
+  page: z.string().optional().nullable(),
   inNotebook: z.boolean(),
   date: z.string(),
   points: z.number(),
