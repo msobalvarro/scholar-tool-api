@@ -25,8 +25,8 @@ export class TaskController {
   getTasksByAsignature = async (c: Context) => {
     const params = await c.req.param()
     const parsedParams = TaskGetByAsignatureSchema.parse(params) as ITaskGetByAsignature
-
-    const tasks = await this.taskService.getTasksByAsignature(parsedParams.asignatureId, parsedParams.courseId)
-    return c.json(tasks)
+    return c.json(
+      await this.taskService.getTasksByAsignature(parsedParams.asignatureId, parsedParams.courseId)
+    )
   }
 }

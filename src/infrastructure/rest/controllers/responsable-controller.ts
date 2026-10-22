@@ -15,42 +15,42 @@ export class ResponsableController {
   create = async (c: Context) => {
     const body = await c.req.json()
     const parsedBody = responsableSchema.parse(body) as ResponsablePersonSchema
-
-    const responsable = await this.responsableRepository.createResponsable(parsedBody)
-
-    return c.json(responsable)
+    return c.json(
+      await this.responsableRepository.createResponsable(parsedBody)
+    )
   }
 
   update = async (c: Context) => {
     const body = await c.req.json()
     const parsedBody = responsableSchema.parse(body) as ResponsablePersonUpdate
-
-    const responsable = await this.responsableRepository.updateResponsable(parsedBody)
-
-    return c.json(responsable)
+    return c.json(
+      await this.responsableRepository.updateResponsable(parsedBody)
+    )
   }
 
   delete = async (c: Context) => {
     const { _id } = await c.req.json()
-    const responsable = await this.responsableRepository.deleteResponsable(_id)
-    return c.json(responsable)
+    return c.json(await this.responsableRepository.deleteResponsable(_id))
   }
 
   getAll = async (c: Context) => {
-    const responsables = await this.responsableRepository.getAllResponsables()
-    return c.json(responsables)
+    return c.json(
+      await this.responsableRepository.getAllResponsables()
+    )
   }
 
   search = async (c: Context) => {
     const { q } = await c.req.query()
     if (!q) throw new Error('Query is required')
-    const responsable = await this.responsableRepository.searchResponsable(q)
-    return c.json(responsable)
+    return c.json(
+      await this.responsableRepository.searchResponsable(q)
+    )
   }
 
   getById = async (c: Context) => {
     const { id } = await c.req.param() as { id: string }
-    const responsable = await this.responsableRepository.getResponsableById(id)
-    return c.json(responsable)
+    return c.json(
+      await this.responsableRepository.getResponsableById(id)
+    )
   }
 }

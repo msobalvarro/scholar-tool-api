@@ -7,6 +7,7 @@ import { InstitutionService } from './institution-service';
 import { TeacherService } from './teacher-service';
 import { UserInstitutionService } from './user-institution-service';
 import { AsignatureService } from './asignature-service';
+import { SearhTaskScheduleByUserInstitutionQuery } from '../interfaces/input/task-schedule';
 
 @Service()
 export class TaskScheduleService implements ITaskScheduleService {
@@ -72,8 +73,18 @@ export class TaskScheduleService implements ITaskScheduleService {
     )
   }
 
-  async approveTaskSchedule(taskScheduleId: string, userId: string): Promise<TaskSchedule | null> {
+  async approveTaskSchedule(taskScheduleId: string, userId: string, institutionId: string): Promise<TaskSchedule | null> {
     const aprovedBy = await this.userInstitutionService.getUserInstitutionById(userId)
+    const institution = await this.institutionService.getActiveInstitution(institutionId)
+    const taskSchedule = await this.orm.models.TaskScheduleModel
+      .findOne({
+        _id: taskScheduleId,
+        institution,
+      })
+      .populate('aprovedBy')
+
+    if (taskSchedule?.aproved) throw new Error(`El cronograma ya ha sido aprobado por ${taskSchedule.aprovedBy?.name}`)
+
     return await this.orm.models.TaskScheduleModel.findByIdAndUpdate(
       taskScheduleId,
       { aproved: true, aprovedBy },
@@ -81,9 +92,24 @@ export class TaskScheduleService implements ITaskScheduleService {
     )
   }
 
-  async getTaskScheduleByMonthAndYear(month: number, year: number, institutionId: string): Promise<TaskSchedule[]> {
+  async getTaskScheduleByMonthAndYear(query: SearhTaskScheduleByUserInstitutionQuery, institutionId: string): Promise<TaskSchedule[]> {
     const institution = await this.institutionService.getActiveInstitution(institutionId)
-    return await this.orm.models.TaskScheduleModel.find({ month, year, institution })
+    const teacher = query.teacherId ? await this.teacherService.getTeacherById(query.teacherId, institutionId) : undefined
+    const asignature = query.asignatureId ? await this.asignatureService.getAsignatureById(query.asignatureId) : undefined
+
+    return await this.orm.models.TaskScheduleModel
+      .find({
+        month: query.month,
+        year: query.year,
+        aproved: query.aproved,
+        teacher,
+        asignature,
+        institution
+      })
+      .populate('teacher', '-_id name email')
+      .populate('asignature', '-_id name description')
+      .populate('aprovedBy', '-_id name email')
+      .select('-institution')
   }
 
   async getTaskScheduleByStudentById(_: string): Promise<TaskSchedule> {

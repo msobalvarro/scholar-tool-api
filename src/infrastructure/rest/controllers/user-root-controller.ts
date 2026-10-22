@@ -15,25 +15,29 @@ export class UserRootController {
   createUserRoot = async (c: Context) => {
     const body = await c.req.json()
     const parsedBody = userRootSchema.parse(body) as UserRootSchema
-    const user = await this.userRootService.createUserRoot(parsedBody)
-    return c.json(user)
+    return c.json(
+      await this.userRootService.createUserRoot(parsedBody)
+    )
   }
 
   updateUserRoot = async (c: Context) => {
     const body = await c.req.json()
     const parsedBody = updateUserRootSchema.parse(body) as UpdateUserRootSchema
-    const user = await this.userRootService.updateUserRoot(parsedBody)
-    return c.json(user)
+    return c.json(
+      await this.userRootService.updateUserRoot(parsedBody)
+    )
   }
 
   getUserRootById = async (c: Context) => {
     const id = c.req.param('id')
-    const user = await this.userRootService.getUserRootById(id)
-    return c.json(user)
+    return c.json(
+      await this.userRootService.getUserRootById(id)
+    )
   }
 
   getAllUserRoots = async (c: Context) => {
-    const users = await this.userRootService.getAllUserRoots()
-    return c.json(users)
+    return c.json(
+      await this.userRootService.getAllUserRoots()
+    )
   }
 }

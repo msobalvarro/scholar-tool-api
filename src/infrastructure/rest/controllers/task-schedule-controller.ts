@@ -5,6 +5,7 @@ import {
   taskScheduleSchema,
   TaskScheduleSchema
 } from '@/infrastructure/schemas/task-schedule-schema'
+import { SearhTaskScheduleByUserInstitutionQuery } from '@/core/interfaces/input/task-schedule'
 
 @Service()
 export class TaskScheduleController {
@@ -39,17 +40,16 @@ export class TaskScheduleController {
     const user = c.get('jwtPayload')
 
     return c.json(
-      await this.taskScheduleService.approveTaskSchedule(taskScheduleId, user._id)
+      await this.taskScheduleService.approveTaskSchedule(taskScheduleId, user._id, user.institutionId)
     )
   }
 
   getByMonthAndYear = async (c: Context) => {
-    const month = Number(c.req.param('month'))
-    const year = Number(c.req.param('year'))
+    const query = c.req.valid('query' as never) as SearhTaskScheduleByUserInstitutionQuery
     const user = c.get('jwtPayload')
 
     return c.json(
-      await this.taskScheduleService.getTaskScheduleByMonthAndYear(month, year, user.institutionId)
+      await this.taskScheduleService.getTaskScheduleByMonthAndYear(query, user.institutionId)
     )
   }
 

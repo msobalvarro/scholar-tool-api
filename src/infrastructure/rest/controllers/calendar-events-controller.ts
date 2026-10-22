@@ -12,27 +12,31 @@ export class CalendarEventsController {
     const body = await c.req.json()
     const { institutionId } = c.get('jwtPayload')
     const parsedBody = createCalendarEventSchema.parse(body)
-    const calendarEvent = await this.calendarEventsService.createCalendarEvent(parsedBody, institutionId)
-    return c.json(calendarEvent)
+    return c.json(
+      await this.calendarEventsService.createCalendarEvent(parsedBody, institutionId)
+    )
   }
 
   get = async (c: Context) => {
     const { institutionId } = c.get('jwtPayload')
     const { startDate, endDate } = c.req.query()
-    const calendarEvent = await this.calendarEventsService.getCalendarEvents(institutionId, startDate, endDate)
-    return c.json(calendarEvent)
+    return c.json(
+      await this.calendarEventsService.getCalendarEvents(institutionId, startDate, endDate)
+    )
   }
 
   delete = async (c: Context) => {
     const { id } = c.req.param()
-    const calendarEvent = await this.calendarEventsService.deleteCalendarEvent(id)
-    return c.json(calendarEvent)
+    return c.json(
+      await this.calendarEventsService.deleteCalendarEvent(id)
+    )
   }
 
   update = async (c: Context) => {
     const body = await c.req.json()
     const parsedBody = updateCalendarEventSchema.parse(body)
-    const calendarEvent = await this.calendarEventsService.updateCalendarEvent(parsedBody)
-    return c.json(calendarEvent)
+    return c.json(
+      await this.calendarEventsService.updateCalendarEvent(parsedBody)
+    )
   }
 }

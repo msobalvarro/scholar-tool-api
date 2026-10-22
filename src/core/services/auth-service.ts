@@ -43,8 +43,6 @@ export class AuthRepository implements IAuthRepository {
         updatedAt: 0,
       })
 
-    console.log(user)
-
     if (!user) throw new Error('Usuario no encontrado')
 
     const institution = await this.institutionService.getActiveInstitution(user.institution._id!)
