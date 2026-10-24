@@ -1,4 +1,5 @@
 import { Asignature } from './asignature'
+import { Course } from './course'
 import { Institution } from './institution'
 
 export type Teacher = {
@@ -11,4 +12,5 @@ export type Teacher = {
   institution: Institution
   photo?: string
   asignatures: Asignature[]
+  courses: Course[]
 }

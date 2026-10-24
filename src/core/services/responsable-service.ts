@@ -46,4 +46,21 @@ export class ResponsableRepository implements IResponsableRepository {
       ]
     })
   }
+
+  async getResponsablesByCourse(courseId: string): Promise<ResponsablePerson[]> {
+    const matricule = await this.ORM.models.MatriculeModel.find({
+      course: {
+        _id: courseId
+      },
+      year: new Date().getFullYear()
+    })
+
+    const students = await this.ORM.models.StudentModel
+      .find({ _id: { $in: matricule.map(m => m.student._id) } })
+      .populate('responsable')
+
+    return await this.ORM.models.ResponsableModel.find({
+      _id: { $in: students.map(s => s.responsable?._id!) }
+    })
+  }
 }
