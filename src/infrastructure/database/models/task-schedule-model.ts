@@ -25,6 +25,7 @@ const TaskScheduleSchema = new Schema<TaskSchedule>(
   {
     teacher: { type: Schema.Types.ObjectId, ref: 'Teacher', required: true },
     asignature: { type: Schema.Types.ObjectId, ref: 'Asignature', required: true },
+    course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     month: { type: Number, required: true },
     year: { type: Number, required: true },
     aproved: { type: Boolean, default: false },

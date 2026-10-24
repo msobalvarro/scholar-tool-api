@@ -22,16 +22,18 @@ export const taskScheduleSchema = z.object({
   asignatureId: z.string(),
   month: z.number(),
   year: z.number(),
-  scheduleUnit: z.array(scheduleUnitSchema)
+  scheduleUnit: z.array(scheduleUnitSchema),
+  courseId: z.string(),
 })
 
 export type TaskScheduleSchema = z.infer<typeof taskScheduleSchema>
 
 
 export const searchTaskScheduleByUserInstitutionQuerySchema = z.object({
-  aproved: z.boolean().optional(),
+  aproved: z.string().optional(),
   asignatureId: z.string().optional(),
   teacherId: z.string().optional(),
-  month: z.number(),
-  year: z.number(),
+  courseId: z.string().optional(),
+  month: z.string(),
+  year: z.string(),
 })

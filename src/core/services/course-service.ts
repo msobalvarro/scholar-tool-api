@@ -80,8 +80,8 @@ export class CourseService implements ICourseRepository {
 
     const allCoursesIdWithEnrollemts = enrollments.reduce((acc: string[] = [], enrollment) => {
       enrollment.courses?.forEach((course: Course) => {
-        if (!acc.includes(course._id)) {
-          acc.push(course._id)
+        if (!acc.includes(course._id!)) {
+          acc.push(course._id!)
         }
       })
 
