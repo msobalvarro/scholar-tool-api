@@ -8,6 +8,7 @@ import { TeacherService } from './teacher-service';
 import { UserInstitutionService } from './user-institution-service';
 import { AsignatureService } from './asignature-service';
 import { SearhTaskScheduleByUserInstitutionQuery } from '../interfaces/input/task-schedule';
+import { CourseService } from './course-service';
 
 @Service()
 export class TaskScheduleService implements ITaskScheduleService {
@@ -26,6 +27,9 @@ export class TaskScheduleService implements ITaskScheduleService {
   @Inject(() => AsignatureService)
   private readonly asignatureService!: AsignatureService
 
+  @Inject(() => CourseService)
+  private readonly courseService!: CourseService
+
   private mapingScheduleUnits(scheduleUnit: ScheduleUnitSchema[]) {
     return scheduleUnit.map((unit) => ({
       ...unit,
@@ -41,6 +45,7 @@ export class TaskScheduleService implements ITaskScheduleService {
     const institution = await this.institutionService.getActiveInstitution(institutionId)
     const teacher = await this.teacherService.getTeacherById(teacherId, institutionId)
     const asignature = await this.asignatureService.getAsignatureById(payload.asignatureId)
+    const course = await this.courseService.getActiveCourse(payload.courseId)
 
     return await this.orm.models.TaskScheduleModel.create({
       teacher,
@@ -49,6 +54,7 @@ export class TaskScheduleService implements ITaskScheduleService {
       month: payload.month,
       year: payload.year,
       scheduleUnit: this.mapingScheduleUnits(payload.scheduleUnit),
+      course,
     })
   }
 
@@ -96,19 +102,22 @@ export class TaskScheduleService implements ITaskScheduleService {
     const institution = await this.institutionService.getActiveInstitution(institutionId)
     const teacher = query.teacherId ? await this.teacherService.getTeacherById(query.teacherId, institutionId) : undefined
     const asignature = query.asignatureId ? await this.asignatureService.getAsignatureById(query.asignatureId) : undefined
+    const course = query.courseId ? await this.courseService.getActiveCourse(query.courseId) : undefined
 
     return await this.orm.models.TaskScheduleModel
       .find({
-        month: query.month,
-        year: query.year,
-        aproved: query.aproved,
-        teacher,
-        asignature,
+        month: +query.month,
+        year: +query.year,
+        ...(teacher && { teacher }),
+        ...(asignature && { asignature }),
+        ...(query.aproved && { aproved: query.aproved === 'true' ? true : false }),
+        ...(course && { course }),
         institution
       })
       .populate('teacher', '-_id name email')
       .populate('asignature', '-_id name description')
       .populate('aprovedBy', '-_id name email')
+      .populate('course')
       .select('-institution')
   }
 
@@ -129,8 +138,10 @@ export class TaskScheduleService implements ITaskScheduleService {
         teacher,
         institution,
       })
+      .select({ institution: 0 })
       .populate('teacher', '_id name')
       .populate('asignature')
+      .populate('course')
 
   }
 }

@@ -1,4 +1,5 @@
 import { Asignature } from './asignature';
+import { Course } from './course';
 import { Institution } from './institution';
 import { Teacher } from './teacher';
 import { UserInstitution } from './user-institution';
@@ -12,6 +13,7 @@ export interface TaskSchedule {
   aproved?: boolean
   aprovedBy?: UserInstitution | null
   scheduleUnit: ScheduleUnit[]
+  course: Course
   institution: Institution
 }
 

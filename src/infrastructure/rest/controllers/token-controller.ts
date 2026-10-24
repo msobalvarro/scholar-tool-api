@@ -11,30 +11,33 @@ export class TokenController {
     const body = await c.req.json()
     const parsedBody = await tokenSchema.parse(body)
     const user = c.get('jwtPayload')
-    const tokenCreated = await this.tokenService.createTokenStudent(
-      user._id,
-      parsedBody.token,
-      user.institutionId
+    return c.json(
+      await this.tokenService.createTokenStudent(
+        user._id,
+        parsedBody.token,
+        user.institutionId
+      )
     )
-    return c.json(tokenCreated)
   }
 
   createTokenResponsable = async (c: Context) => {
     const body = await c.req.json()
     const parsedBody = await tokenSchema.parse(body) as TokenSchema
     const user = c.get('jwtPayload')
-    const tokenCreated = await this.tokenService.createTokenResponsable(
-      user._id,
-      parsedBody.token,
-      user.institutionId
+    return c.json(
+      await this.tokenService.createTokenResponsable(
+        user._id,
+        parsedBody.token,
+        user.institutionId
+      )
     )
-    return c.json(tokenCreated)
   }
 
   removeToken = async (c: Context) => {
     const body = await c.req.json()
     const parsedBody = await tokenSchema.parse(body) as TokenSchema
-    const tokenRemoved = await this.tokenService.removeToken(parsedBody.token)
-    return c.json(tokenRemoved)
+    return c.json(
+      await this.tokenService.removeToken(parsedBody.token)
+    )
   }
 }

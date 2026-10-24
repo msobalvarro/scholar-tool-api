@@ -9,17 +9,15 @@ import { searchTaskScheduleByUserInstitutionQuerySchema } from '@/infrastructure
 export const taskScheduleRoute = new Hono()
 const controller = Container.get(TaskScheduleController)
 
-// Institution (admin) routes — approve and query
-taskScheduleRoute.use('/approve/:id', jwtUserInstitution)
-taskScheduleRoute.patch('/approve/:id', controller.approve)
+taskScheduleRoute.post('/approve/:id', jwtUserInstitution, controller.approve)
 
-taskScheduleRoute.use('/date', jwtUserInstitution)
-taskScheduleRoute.get('/date', zValidator('query', searchTaskScheduleByUserInstitutionQuerySchema), controller.getByMonthAndYear)
-
-taskScheduleRoute.use('/*', jwtUserTeacher)
-// Teacher routes — create a task schedule
-taskScheduleRoute.post('/create', controller.create)
-taskScheduleRoute.put('/update/:id', controller.update)
-
-taskScheduleRoute.get('/teacher', controller.getScheduleByTeacher)
+taskScheduleRoute.get(
+  '/date',
+  jwtUserInstitution,
+  zValidator('query', searchTaskScheduleByUserInstitutionQuerySchema),
+  controller.getByMonthAndYear
+)
+taskScheduleRoute.post('/create', jwtUserTeacher, controller.create)
+taskScheduleRoute.put('/update/:id', jwtUserTeacher, controller.update)
+taskScheduleRoute.get('/teacher', jwtUserTeacher, controller.getScheduleByTeacher)
 
