@@ -6,7 +6,8 @@ export const teacherSchema = z.object({
   phoneNumber: z.string(),
   email: z.email(),
   status: z.enum(['active', 'inactive']).optional(),
-  asignatureIds: z.array(z.string()).default([])
+  asignatureIds: z.array(z.string()).default([]),
+  courseIds: z.array(z.string()).default([]),
 })
 
 export type TeacherSchema = z.infer<typeof teacherSchema>

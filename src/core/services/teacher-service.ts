@@ -59,7 +59,7 @@ export class TeacherService implements ITeacherRepository {
    * @param payload datos del profesor
    */
   async createTeacher(institutionId: string, payload: TeacherSchema) {
-    const { asignatureIds, ...dataTeacher } = payload
+    const { asignatureIds, courseIds, ...dataTeacher } = payload
     const session = await this.orm.startSession()
     session.startTransaction()
 
@@ -68,7 +68,8 @@ export class TeacherService implements ITeacherRepository {
       await this.verifyExistingEmail(payload.email, institution)
 
       const asignatures = await this.orm.models.AsignatureModel.find({ _id: { $in: asignatureIds } })
-      const [teacher] = await this.orm.models.TeacherModel.create([{ ...dataTeacher, institution, asignatures }], { session })
+      const courses = await this.orm.models.CourseModel.find({ _id: { $in: courseIds } })
+      const [teacher] = await this.orm.models.TeacherModel.create([{ ...dataTeacher, institution, asignatures, courses }], { session })
       const temporaryPassword = generateRandomPassword()
 
       await this.orm.models.TeacherAuthModel.create([{ teacher, password: createHash(temporaryPassword) }], { session })
@@ -86,12 +87,18 @@ export class TeacherService implements ITeacherRepository {
   }
 
   async getTeachers(institutionId: string) {
-    const teachers = await this.orm.models.TeacherModel.find({ institution: { _id: institutionId } }).populate('asignatures')
+    const teachers = await this.orm.models.TeacherModel
+      .find({ institution: { _id: institutionId } })
+      .populate('asignatures')
+      .populate('courses')
     return teachers
   }
 
   async getAllTeachers() {
-    const teachers = await this.orm.models.TeacherModel.find().populate('asignatures')
+    const teachers = await this.orm.models.TeacherModel
+      .find()
+      .populate('asignatures')
+      .populate('courses')
     return teachers
   }
 
@@ -105,10 +112,11 @@ export class TeacherService implements ITeacherRepository {
   }
 
   async updateTeacher(institutionId: string, payload: TeacherSchema, _id: string) {
-    const { asignatureIds = [], ...dataTeacher } = payload
+    const { asignatureIds = [], courseIds = [], ...dataTeacher } = payload
     const institution = await this.institutionService.getActiveInstitution(institutionId)
     const asignatures = await this.orm.models.AsignatureModel.find({ _id: { $in: asignatureIds } })
-    return await this.orm.models.TeacherModel.findOneAndUpdate({ _id, institution }, { $set: { ...dataTeacher, asignatures } }, { new: true }).populate('asignatures')
+    const courses = await this.orm.models.CourseModel.find({ _id: { $in: courseIds } })
+    return await this.orm.models.TeacherModel.findOneAndUpdate({ _id, institution }, { $set: { ...dataTeacher, asignatures, courses } }, { new: true }).populate('asignatures').populate('courses')
   }
 
   async deleteTeacher(_id: string) {

@@ -11,6 +11,7 @@ const teacherSchema = new Schema<Teacher>(
     institution: { type: Schema.Types.ObjectId, ref: 'Institution' },
     photo: { type: String, default: null },
     asignatures: [{ type: Schema.Types.ObjectId, ref: 'Asignature' }],
+    courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
   },
   {
     versionKey: false,
