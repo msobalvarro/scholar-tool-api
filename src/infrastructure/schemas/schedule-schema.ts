@@ -8,12 +8,6 @@ export const scheduleSchema = z.object({
   asignatureId: z.string(),
 })
 
-export type Schedule = z.infer<typeof scheduleSchema>
-
 export const scheduleUpdateSchema = scheduleSchema.extend({
   _id: z.string(),
 })
-
-export type ScheduleUpdate = z.infer<typeof scheduleUpdateSchema>
-
-

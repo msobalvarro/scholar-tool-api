@@ -2,7 +2,7 @@ import { Schedule } from './schedule'
 import { Teacher } from './teacher'
 import { Institution } from './institution'
 
-export type Course = {
+export interface Course {
   _id?: string
   name: string
   schedules: Schedule[]
@@ -10,6 +10,5 @@ export type Course = {
   teacherLead: Teacher
   institution: Institution
   order: number
-  breakTime: string
   maxCapacity: number
 }
