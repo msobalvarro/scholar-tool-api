@@ -2,7 +2,9 @@ import { AuthSchema, authSchema } from '@/infrastructure/schemas/auth-schema'
 import { AuthRepository } from '@/core/services/auth-service'
 import { Context } from 'hono'
 import { Inject, Service } from 'typedi'
-import { setCookie, deleteCookie } from 'hono/cookie'
+import { setCookie, deleteCookie, getCookie } from 'hono/cookie'
+import { verify } from 'hono/jwt'
+import { environments } from '@/utils/constanst'
 
 const COOKIE_OPTIONS = {
   httpOnly: true,
@@ -58,9 +60,27 @@ export class AuthController {
   }
 
   me = async (c: Context) => {
-    // El payload JWT ya fue validado por el middleware JWT
-    // y está disponible en c.get('jwtPayload')
-    const payload = c.get('jwtPayload')
-    return c.json({ user: payload })
+    const tokenInstitution = getCookie(c, 'token_institution')
+    const tokenTeacher = getCookie(c, 'token_teacher')
+    const tokenRoot = getCookie(c, 'token_root')
+
+    const tokenCandidates: Array<{ token: string; secret: string }> = [
+      { token: tokenInstitution ?? '', secret: environments.JWT_SECRET_USER_INSTITUTION },
+      { token: tokenTeacher ?? '', secret: environments.JWT_SECRET_USER_TEACHER },
+      { token: tokenRoot ?? '', secret: environments.JWT_SECRET_ADMIN },
+    ]
+
+    for (const { token, secret } of tokenCandidates) {
+      if (!token) continue
+      try {
+        const payload = await verify(token, secret)
+        c.set('jwtPayload', payload)
+        return next()
+      } catch {
+        // token inválido o expirado, intentar siguiente
+      }
+    }
+
+    return c.json({ message: 'No autenticado' }, 401)
   }
 }
