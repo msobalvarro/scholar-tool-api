@@ -13,7 +13,7 @@ export class StudentController {
     const parsedBody = studentSchema.parse(body) as StudentSchema
     const user = c.get('jwtPayload')
     return c.json(
-      await this.studentService.createStudent(parsedBody, user.institutionId)
+      await this.studentService.createStudent(parsedBody, user.institution)
     )
   }
 
@@ -23,7 +23,7 @@ export class StudentController {
     const parsedBody = studentSchema.parse(body) as StudentUpdateSchema
     const user = c.get('jwtPayload')
     return c.json(
-      await this.studentService.updateStudent(parsedBody, user.institutionId, id)
+      await this.studentService.updateStudent(parsedBody, user.institution, id)
     )
   }
 
@@ -31,14 +31,14 @@ export class StudentController {
     const user = c.get('jwtPayload')
     const { id } = await c.req.param() as { id: string }
     return c.json(
-      await this.studentService.deleteStudent(id, user.institutionId)
+      await this.studentService.deleteStudent(id, user.institution)
     )
   }
 
   getAll = async (c: Context) => {
     const user = c.get('jwtPayload')
     return c.json(
-      await this.studentService.getAllStudents(user.institutionId)
+      await this.studentService.getAllStudents(user.institution)
     )
   }
 
@@ -46,7 +46,7 @@ export class StudentController {
     const { id } = await c.req.param() as { id: string }
     const user = c.get('jwtPayload')
     return c.json(
-      await this.studentService.getStudentById(id, user.institutionId)
+      await this.studentService.getStudentById(id, user.institution)
     )
   }
 
@@ -54,7 +54,7 @@ export class StudentController {
     const { courseId } = await c.req.param() as { courseId: string }
     const user = c.get('jwtPayload')
     return c.json(
-      await this.studentService.getAllStudentsByCourse(courseId, user.institutionId)
+      await this.studentService.getAllStudentsByCourse(courseId, user.institution)
     )
   }
 
@@ -63,7 +63,7 @@ export class StudentController {
     const parsedBody = assignToCourseSchema.parse(body) as AssignToCourseSchema
     const user = c.get('jwtPayload')
     return c.json(
-      await this.studentService.assignStudentToCourse(parsedBody, user.institutionId)
+      await this.studentService.assignStudentToCourse(parsedBody, user.institution)
     )
   }
 }

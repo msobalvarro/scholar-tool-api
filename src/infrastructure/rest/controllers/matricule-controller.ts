@@ -11,7 +11,7 @@ export class MatriculeController {
     const parsedBody = matriculeSchema.parse(body) as MatriculeSchema
     const user = c.get('jwtPayload')
     return c.json(
-      await this.matriculeService.createMatricule(parsedBody, user.institutionId)
+      await this.matriculeService.createMatricule(parsedBody, user.institution)
     )
   }
 
@@ -33,7 +33,7 @@ export class MatriculeController {
   getAll = async (c: Context) => {
     const user = c.get('jwtPayload')
     return c.json(
-      await this.matriculeService.getAllMatricules(user.institutionId)
+      await this.matriculeService.getAllMatricules(user.institution)
     )
   }
 

@@ -8,7 +8,7 @@ import { matriculeRoute } from './matricule-route'
 import { responsableRoute } from './responsable-route'
 import { studentRoute } from './student-route'
 import { courseRoute } from './course-route'
-import { scheduleRoute } from './schedule-route'
+import { classScheduleRoute } from './class-schedule-route'
 import { asignatureRoute } from './asignature-route'
 import { authTeacherRoute } from './auth-teacher-route'
 import { observationRoute } from './observation-route'
@@ -31,7 +31,7 @@ router.route('/matricules', matriculeRoute)
 router.route('/responsable', responsableRoute)
 router.route('/students', studentRoute)
 router.route('/courses', courseRoute)
-router.route('/schedules', scheduleRoute)
+router.route('/class-schedules', classScheduleRoute)
 router.route('/asignatures', asignatureRoute)
 router.route('/auth-teacher', authTeacherRoute)
 router.route('/observations', observationRoute)

@@ -18,7 +18,7 @@ export class DailyReportController {
     const user = c.get('jwtPayload')
 
     return c.json(
-      await this.dailyReportService.create(parsedBody, user.institutionId, user._id)
+      await this.dailyReportService.create(parsedBody, user.institution, user._id)
     )
   }
 
@@ -27,7 +27,7 @@ export class DailyReportController {
     const { from, to } = c.req.query() as { from: string; to: string }
 
     return c.json(
-      await this.dailyReportService.getDailyReportsByDate(user.institutionId, from, to)
+      await this.dailyReportService.getDailyReportsByDate(user.institution, from, to)
     )
   }
 
@@ -35,7 +35,7 @@ export class DailyReportController {
     const user = c.get('jwtPayload')
 
     return c.json(
-      await this.dailyClosuresService.create(user.institutionId, user.userId)
+      await this.dailyClosuresService.create(user.institution, user.userId)
     )
   }
 }

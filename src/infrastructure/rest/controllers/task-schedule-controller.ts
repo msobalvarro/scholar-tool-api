@@ -19,7 +19,7 @@ export class TaskScheduleController {
     const teacherId = user._id
 
     return c.json(
-      await this.taskScheduleService.createTaskSchedule(parsedBody, user.institutionId, teacherId)
+      await this.taskScheduleService.createTaskSchedule(parsedBody, user.institution, teacherId)
     )
   }
 
@@ -31,7 +31,7 @@ export class TaskScheduleController {
     const taskId = c.req.param('id')
 
     return c.json(
-      await this.taskScheduleService.updateTaskSchedule(parsedBody, user.institutionId, teacherId, taskId)
+      await this.taskScheduleService.updateTaskSchedule(parsedBody, user.institution, teacherId, taskId)
     )
   }
 
@@ -40,7 +40,7 @@ export class TaskScheduleController {
     const user = c.get('jwtPayload')
 
     return c.json(
-      await this.taskScheduleService.approveTaskSchedule(taskScheduleId, user._id, user.institutionId)
+      await this.taskScheduleService.approveTaskSchedule(taskScheduleId, user._id, user.institution)
     )
   }
 
@@ -49,7 +49,7 @@ export class TaskScheduleController {
     const user = c.get('jwtPayload')
 
     return c.json(
-      await this.taskScheduleService.getTaskScheduleByMonthAndYear(query, user.institutionId)
+      await this.taskScheduleService.getTaskScheduleByMonthAndYear(query, user.institution)
     )
   }
 
@@ -59,7 +59,7 @@ export class TaskScheduleController {
     const user = c.get('jwtPayload')
 
     return c.json(
-      await this.taskScheduleService.getScheduleByTeacher({ month, year }, user._id, user.institutionId)
+      await this.taskScheduleService.getScheduleByTeacher({ month, year }, user._id, user.institution)
     )
   }
 }

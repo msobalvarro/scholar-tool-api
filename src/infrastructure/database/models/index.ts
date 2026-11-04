@@ -22,6 +22,7 @@ import { StudentAssistenceModel } from './student-assitence-model'
 import { DailyReportModel } from './daily-reports-model'
 import { DailyClosureModel } from './daily-closures-model'
 import { TaskScheduleModel } from './task-schedule-model'
+import { ClassScheduleModel } from './class-schedule-model'
 
 export {
   AsignatureModel,
@@ -34,7 +35,6 @@ export {
   PeriodModel,
   ResponsableModel,
   UserRootModel,
-  ScheduleModel,
   StudentModel,
   TaskModel,
   TeacherAuthModel,
@@ -48,6 +48,7 @@ export {
   DailyReportModel,
   DailyClosureModel,
   TaskScheduleModel,
+  ClassScheduleModel,
 }
 
 export type ModelORM = {
@@ -61,7 +62,6 @@ export type ModelORM = {
   PeriodModel: typeof PeriodModel,
   ResponsableModel: typeof ResponsableModel,
   UserRootModel: typeof UserRootModel,
-  ScheduleModel: typeof ScheduleModel,
   StudentModel: typeof StudentModel,
   TaskModel: typeof TaskModel,
   TeacherAuthModel: typeof TeacherAuthModel,
@@ -75,4 +75,5 @@ export type ModelORM = {
   DailyReportModel: typeof DailyReportModel,
   DailyClosureModel: typeof DailyClosureModel,
   TaskScheduleModel: typeof TaskScheduleModel,
+  ClassScheduleModel: typeof ClassScheduleModel,
 }

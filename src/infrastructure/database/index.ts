@@ -12,7 +12,6 @@ import {
   PeriodModel,
   ResponsableModel,
   UserRootModel,
-  ScheduleModel,
   StudentModel,
   TaskModel,
   TeacherAuthModel,
@@ -26,6 +25,7 @@ import {
   DailyReportModel,
   DailyClosureModel,
   TaskScheduleModel,
+  ClassScheduleModel
 } from './models'
 import { environments } from '@/utils/constanst';
 import { DBConnectionError } from '@/core/errors/db-connection-error';
@@ -50,7 +50,6 @@ export class ORM {
       PeriodModel,
       ResponsableModel,
       UserRootModel,
-      ScheduleModel,
       StudentModel,
       TaskModel,
       TeacherAuthModel,
@@ -64,6 +63,7 @@ export class ORM {
       DailyReportModel,
       DailyClosureModel,
       TaskScheduleModel,
+      ClassScheduleModel,
     }
   }
 

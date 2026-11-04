@@ -15,7 +15,7 @@ export class AsignatureController {
     const body = await c.req.json()
     const parsedBody = await asignatureSchema.parse(body) as AsignatureSchema
     const user = c.get('jwtPayload')
-    return c.json(await this.asignatureService.createAsignature(parsedBody, user.institutionId))
+    return c.json(await this.asignatureService.createAsignature(parsedBody, user.institution))
   }
 
   getAsignatureById = async (c: Context) => {
@@ -37,12 +37,12 @@ export class AsignatureController {
 
   getAllAsignatures = async (c: Context) => {
     const user = c.get('jwtPayload')
-    return c.json(await this.asignatureService.getAllAsignatures(user.institutionId))
+    return c.json(await this.asignatureService.getAllAsignatures(user.institution))
   }
 
   getAsignaturesByTeacher = async (c: Context) => {
     const user = c.get('jwtPayload')
     console.log(user)
-    return c.json(await this.asignatureService.getAsignaturesByTeacher(user._id, user.institutionId))
+    return c.json(await this.asignatureService.getAsignaturesByTeacher(user._id, user.institution))
   }
 }
