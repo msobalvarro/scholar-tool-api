@@ -1,9 +1,10 @@
 import { z } from 'zod'
 
 export const timeTableSlotSchema = z.object({
-  startTime: z.string().optional(),
-  endTime: z.string().optional(),
-  isBreak: z.boolean().optional()
+  asignatureId: z.string(),
+  startTime: z.string(),
+  endTime: z.string(),
+  isBreak: z.boolean()
 })
 
 export const createClassScheduleSchema = z.object({
