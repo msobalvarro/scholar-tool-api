@@ -5,7 +5,7 @@ import { Institution } from './institution'
 export type DayOfWeek = 'LUNES' | 'MARTES' | 'MIERCOLES' | 'JUEVES' | 'VIERNES'
 
 export interface TimeTableSlot {
-  asignature: Asignature
+  asignature: Asignature | null
   isBreak: boolean
   startTime: string
   endTime: string

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const timeTableSlotSchema = z.object({
-  asignatureId: z.string(),
+  asignatureId: z.string().nullable(),
   startTime: z.string(),
   endTime: z.string(),
   isBreak: z.boolean()
