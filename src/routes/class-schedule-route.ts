@@ -8,3 +8,5 @@ const controller = Container.get(ClassScheduleController)
 
 classScheduleRoute.use('/*', jwtUserInstitution)
 classScheduleRoute.post('/create', controller.createSchedule)
+classScheduleRoute.get('/course/:courseId/year/:year', controller.getAllSchedulesByCourseAndYear)
+
