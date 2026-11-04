@@ -9,6 +9,6 @@ export const timeTableSlotSchema = z.object({
 export const createClassScheduleSchema = z.object({
   courseId: z.string(),
   dayOfWeek: z.enum(['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES']),
-  institutionId: z.string(),
-  timeSlots: z.array(timeTableSlotSchema).optional()
+  timeSlots: z.array(timeTableSlotSchema),
+  year: z.number()
 })

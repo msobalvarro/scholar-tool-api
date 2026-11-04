@@ -1,63 +1,28 @@
-import {
-  scheduleSchema,
-} from '@/infrastructure/schemas/schedule-schema'
-import { ClassScheduleService } from '@/core/services/schedule-service'
+import { createClassScheduleSchema } from '@/infrastructure/schemas/class-schedule-schema'
+import { ClassScheduleService } from '@/core/services/class-schedule-service'
 import { Context } from 'hono'
-import { Service } from 'typedi'
+import { Inject, Service } from 'typedi'
 
 @Service()
 export class ClassScheduleController {
-  constructor(private scheduleService: ClassScheduleService) { }
+  @Inject(() => ClassScheduleService)
+  private scheduleService!: ClassScheduleService
 
   createSchedule = async (c: Context) => {
     const body = await c.req.json()
-    const parsedBody = await scheduleSchema.parse(body)
+    const parsedBody = await createClassScheduleSchema.parse(body)
+    const user = c.get('jwtPayload')
 
     return c.json(
-      await this.scheduleService.createSchedule(parsedBody)
+      await this.scheduleService.createClassSchedule(parsedBody, user.institution)
     )
   }
 
-  // getScheduleById = async (c: Context) => {
-  //   const id = c.req.param('id')
-  //   return c.json(
-  //     await this.scheduleService.getScheduleById(id)
-  //   )
-  // }
-
-  // getScheduleByCourseId = async (c: Context) => {
-  //   const courseId = c.req.param('courseId')
-  //   return c.json(
-  //     await this.scheduleService.getScheduleByCourseId(courseId)
-  //   )
-  // }
-
-  // getScheduleByTeacherId = async (c: Context) => {
-  //   const teacherId = c.req.param('teacherId')
-  //   return c.json(
-  //     await this.scheduleService.getScheduleByTeacherId(teacherId)
-  //   )
-  // }
-
-  // getScheduleByAsignatureId = async (c: Context) => {
-  //   const asignatureId = c.req.param('asignatureId')
-  //   return c.json(
-  //     await this.scheduleService.getScheduleByAsignatureId(asignatureId)
-  //   )
-  // }
-
-  // updateSchedule = async (c: Context) => {
-  //   const body = await c.req.json()
-  //   const parsedBody = await scheduleUpdateSchema.parse(body) as ScheduleUpdate
-  //   return c.json(
-  //     await this.scheduleService.updateSchedule(parsedBody)
-  //   )
-  // }
-
-  // deleteSchedule = async (c: Context) => {
-  //   const id = c.req.param('id')
-  //   return c.json(
-  //     await this.scheduleService.deleteSchedule(id)
-  //   )
-  // }
+  getAllSchedulesByCourseAndYear = async (c: Context) => {
+    const user = c.get('jwtPayload')
+    const { courseId, year } = c.req.param()
+    return c.json(
+      await this.scheduleService.getClassScheduleByCourseAndYear(courseId, +year, user.institution)
+    )
+  }
 }

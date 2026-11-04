@@ -15,7 +15,7 @@ export class TokenController {
       await this.tokenService.createTokenStudent(
         user._id,
         parsedBody.token,
-        user.institutionId
+        user.institution
       )
     )
   }
@@ -28,7 +28,7 @@ export class TokenController {
       await this.tokenService.createTokenResponsable(
         user._id,
         parsedBody.token,
-        user.institutionId
+        user.institution
       )
     )
   }

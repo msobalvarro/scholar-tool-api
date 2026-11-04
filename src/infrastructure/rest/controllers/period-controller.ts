@@ -12,7 +12,7 @@ export class PeriodController {
     const parsedBody = PeriodSchema.parse(body) as Period
     const user = c.get('jwtPayload')
     return c.json(
-      await this.periodService.createPeriod(parsedBody, user.institutionId)
+      await this.periodService.createPeriod(parsedBody, user.institution)
     )
   }
 
@@ -42,7 +42,7 @@ export class PeriodController {
   getPeriodsByInstitution = async (c: Context) => {
     const user = c.get('jwtPayload')
     return c.json(
-      await this.periodService.getPeriodsByInstitution(user.institutionId)
+      await this.periodService.getPeriodsByInstitution(user.institution)
     )
   }
 }

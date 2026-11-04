@@ -18,7 +18,7 @@ export class TaskController {
     const user = c.get('jwtPayload')
 
     return c.json(
-      await this.taskService.createTask(parsedBody, user.institutionId, user._id)
+      await this.taskService.createTask(parsedBody, user.institution, user._id)
     )
   }
 

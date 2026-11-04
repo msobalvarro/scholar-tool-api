@@ -12,7 +12,7 @@ export class CourseController {
     const parsedBody = courseSchema.parse(body) as CreateCourseDto
     const user = c.get('jwtPayload')
     return c.json(
-      await this.courseService.createCourse(parsedBody, user.institutionId)
+      await this.courseService.createCourse(parsedBody, user.institution)
     )
   }
 
@@ -35,7 +35,7 @@ export class CourseController {
   getAll = async (c: Context) => {
     const user = c.get('jwtPayload')
     return c.json(
-      await this.courseService.getAllCourses(user.institutionId)
+      await this.courseService.getAllCourses(user.institution)
     )
   }
 
@@ -49,7 +49,7 @@ export class CourseController {
   getAllNotInEnrollment = async (c: Context) => {
     const user = c.get('jwtPayload')
     return c.json(
-      await this.courseService.getAllCoursesNotInEnrollment(user.institutionId)
+      await this.courseService.getAllCoursesNotInEnrollment(user.institution)
     )
   }
 }

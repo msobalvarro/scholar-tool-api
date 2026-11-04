@@ -15,5 +15,6 @@ export interface ClassSchedule {
   course: Course
   dayOfWeek: DayOfWeek
   institution: Institution
+  year: number
   timeSlots: TimeTableSlot[]
 }

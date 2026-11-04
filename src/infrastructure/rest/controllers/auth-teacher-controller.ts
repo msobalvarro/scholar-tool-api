@@ -18,7 +18,7 @@ export class AuthTeacherController {
   getAll = async (c: Context) => {
     const user = c.get('jwtPayload')
     return c.json(
-      await this.authTeacherService.getAllTeacherAuth(user.institutionId)
+      await this.authTeacherService.getAllTeacherAuth(user.institution)
     )
   }
 

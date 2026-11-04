@@ -23,7 +23,7 @@ export class TeacherController {
     const payload = teacherSchema.parse(body) as TeacherSchema
     const user = c.get('jwtPayload')
     return c.json(
-      await this.teacherService.createTeacher(user.institutionId, payload)
+      await this.teacherService.createTeacher(user.institution, payload)
     )
   }
 
@@ -31,7 +31,7 @@ export class TeacherController {
     const { id } = c.req.param()
     const user = c.get('jwtPayload')
     return c.json(
-      await this.teacherService.getTeacherById(id, user.institutionId)
+      await this.teacherService.getTeacherById(id, user.institution)
     )
   }
 
@@ -41,7 +41,7 @@ export class TeacherController {
     const payload = teacherSchema.parse(body) as TeacherSchema
     const user = c.get('jwtPayload')
     return c.json(
-      await this.teacherService.updateTeacher(user.institutionId, payload, id)
+      await this.teacherService.updateTeacher(user.institution, payload, id)
     )
   }
 

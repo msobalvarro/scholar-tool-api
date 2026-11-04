@@ -50,7 +50,6 @@ export class AuthRepository implements IAuthRepository {
     const token = await sign(
       {
         ...user.toJSON(),
-        institutionId: institution._id,
         role: UserRoles.INSTITUTION
       },
       environments.JWT_SECRET_USER_INSTITUTION
@@ -75,7 +74,6 @@ export class AuthRepository implements IAuthRepository {
 
     const token = await sign(
       {
-        institutionId: institution._id,
         ...teacher.toJSON(),
         role: UserRoles.TEACHER
       },

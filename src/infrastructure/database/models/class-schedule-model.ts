@@ -16,10 +16,11 @@ const timeTableSlotSchema = new Schema<TimeTableSlot>(
 
 const classScheduleSchema = new Schema<ClassSchedule>(
   {
-    course: { type: Schema.Types.ObjectId, ref: 'course' },
-    dayOfWeek: { type: String, enum: ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES'] },
+    course: { type: Schema.Types.ObjectId, ref: 'course', required: true },
+    dayOfWeek: { type: String, enum: ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES'], required: true },
     timeSlots: { type: [timeTableSlotSchema], default: [] },
-    institution: { type: Schema.Types.ObjectId, ref: 'institution' }
+    institution: { type: Schema.Types.ObjectId, ref: 'institution', required: true },
+    year: { type: Number, required: true }
   },
   {
     timestamps: false,
