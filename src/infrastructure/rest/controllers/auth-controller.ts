@@ -1,6 +1,6 @@
 import { AuthSchema, authSchema } from '@/infrastructure/schemas/auth-schema'
 import { AuthRepository } from '@/core/services/auth-service'
-import { Context } from 'hono'
+import { Context, Next } from 'hono'
 import { Inject, Service } from 'typedi'
 import { setCookie, deleteCookie, getCookie } from 'hono/cookie'
 import { verify } from 'hono/jwt'
@@ -59,7 +59,7 @@ export class AuthController {
     return c.json({ message: 'Sesión cerrada correctamente' })
   }
 
-  me = async (c: Context) => {
+  me = async (c: Context, next: Next) => {
     const tokenInstitution = getCookie(c, 'token_institution')
     const tokenTeacher = getCookie(c, 'token_teacher')
     const tokenRoot = getCookie(c, 'token_root')
