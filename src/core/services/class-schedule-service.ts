@@ -72,19 +72,8 @@ export class ClassScheduleService implements IClassScheduleService {
     const institution = await this.institutionService.getActiveInstitution(institutionId)
     const course = await this.courseService.getActiveCourse(courseId)
     return await this.orm.models.ClassScheduleModel
-      .find({
-        institution,
-        course,
-        year
-      })
-      .select({
-        institution: 0,
-        course: 0,
-        year: 0,
-      })
-      .populate(
-        'timeSlots.asignature',
-        '_id name description'
-      )
+      .find({ institution, course, year })
+      .select({ institution: 0, course: 0, year: 0, })
+      .populate('timeSlots.asignature', '_id name description')
   }
 }
