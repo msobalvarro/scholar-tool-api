@@ -3,7 +3,7 @@ import { model, Schema } from 'mongoose';
 
 const timeTableSlotSchema = new Schema<TimeTableSlot>(
   {
-    asignature: { type: Schema.Types.ObjectId, ref: 'asignature' },
+    asignature: { type: Schema.Types.ObjectId, ref: 'Asignature' },
     startTime: { type: String },
     endTime: { type: String },
     isBreak: { type: Boolean }
@@ -16,10 +16,10 @@ const timeTableSlotSchema = new Schema<TimeTableSlot>(
 
 const classScheduleSchema = new Schema<ClassSchedule>(
   {
-    course: { type: Schema.Types.ObjectId, ref: 'course', required: true },
+    course: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     dayOfWeek: { type: String, enum: ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES'], required: true },
     timeSlots: { type: [timeTableSlotSchema], default: [] },
-    institution: { type: Schema.Types.ObjectId, ref: 'institution', required: true },
+    institution: { type: Schema.Types.ObjectId, ref: 'Institution', required: true },
     year: { type: Number, required: true }
   },
   {

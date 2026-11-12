@@ -14,7 +14,13 @@ export const createApp = (): Hono => {
   app.use(logger())
   app.use(
     cors({
-      origin: environments.FRONTEND_URL,
+      origin: [
+        environments.FRONTEND_URL,
+        environments.FRONTEND_URL_ROOT,
+        environments.FRONTEND_URL_INSTITUTION,
+        environments.FRONTEND_URL_PROFESOR,
+        environments.FRONTEND_URL_PADRE
+      ],
       allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
       allowHeaders: ['Content-Type', 'Authorization'],
       credentials: true,
